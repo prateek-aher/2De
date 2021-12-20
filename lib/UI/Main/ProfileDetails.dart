@@ -34,8 +34,8 @@ class ProfileDetails extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.35,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: NetworkImage(
-                            'https://www.appexpertin.com/wp-content/uploads/2019/07/userImg.jpg',
+                          image: AssetImage(
+                            'assets/dummy_user.png',
                           ),
                           fit: BoxFit.contain)),
                 ),
@@ -88,13 +88,17 @@ class ProfileDetails extends StatelessWidget {
                   horizontal: MediaQuery.of(context).size.width * 0.05),
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage(
-                        'https://www.appexpertin.com/wp-content/uploads/2019/07/userImg.jpg',
+                      image: AssetImage(
+                        'assets/dummy_user.png',
                       ),
                       fit: BoxFit.contain)),
             ),
             title: 'My Profile',
             subTitle: 'Find your personal information here.',
+            // onTap: () {
+            //   Navigator.push(context,
+            //       MaterialPageRoute(builder: (context) => MyProfile()));
+            // },
           ),
           divider(),
           ProfileDetailsTile(
@@ -177,11 +181,11 @@ class ProfileDetails extends StatelessWidget {
                       children: [
                         SizedBox(width: 8),
                         Image.asset(
-                          'assets/call.png',
-                          height: 40,
+                          'assets/call_rounded.png',
+                          height: 25,
                           color: Colors.grey,
                         ),
-                        SizedBox(width: 8),
+                        SizedBox(width: 16),
                         Text(
                           '+91 9457294363',
                           style: TextStyle(

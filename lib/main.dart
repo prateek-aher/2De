@@ -54,6 +54,8 @@ class MyApp extends StatelessWidget {
                   side: BorderSide(color: Primary_Color))),
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(primary: Primary_Color)),
+          textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(primary: Primary_Color)),
         ),
         home: const SplashScree(),
       ),

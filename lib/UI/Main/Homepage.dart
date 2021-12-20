@@ -38,8 +38,7 @@ class _HomepageState extends State<Homepage> {
                     MaterialPageRoute(builder: (context) => ProfileDetails()));
               },
               child: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://www.appexpertin.com/wp-content/uploads/2019/07/userImg.jpg'),
+                backgroundImage: AssetImage('assets/dummy_user.png'),
                 radius: 25,
                 backgroundColor: Colors.white,
               ),
