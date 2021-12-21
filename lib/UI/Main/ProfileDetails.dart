@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/UI/Main/ProfileDetails/bank_account_details.dart';
 import 'package:delivery/UI/Main/ProfileDetails/insurance_details.dart';
+import 'package:delivery/UI/Main/ProfileDetails/my_documents.dart';
 import 'package:delivery/UI/Main/ProfileDetails/my_hub.dart';
 import 'package:delivery/UI/Main/ProfileDetails/power_kit.dart';
 import 'package:flutter/material.dart';
@@ -138,7 +139,11 @@ class ProfileDetails extends StatelessWidget {
           ProfileDetailsTile(
             icon: 'assets/certified.png',
             title: 'My Documents',
-            subTitle: 'Aadhar card, Pan Card and Driving License',
+            subTitle: 'Aadhaar card, Pan Card and Driving License',
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MyDocuments()));
+            },
           ),
           divider(),
           ProfileDetailsTile(
