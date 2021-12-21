@@ -218,6 +218,7 @@ class MyHub extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     GridView.count(
+                      physics: NeverScrollableScrollPhysics(),
                       crossAxisCount: 3,
                       shrinkWrap: true,
                       crossAxisSpacing: 8,

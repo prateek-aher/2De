@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/UI/Main/ProfileDetails/bank_account_details.dart';
 import 'package:delivery/UI/Main/ProfileDetails/my_hub.dart';
+import 'package:delivery/UI/Main/ProfileDetails/power_kit.dart';
 import 'package:flutter/material.dart';
 
 import 'ProfileDetails/my_profile.dart';
@@ -117,6 +118,10 @@ class ProfileDetails extends StatelessWidget {
             icon: 'assets/helmet.png',
             title: 'Power Kit',
             subTitle: 'Request and find status of your delivery kit.',
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => PowerKit()));
+            },
           ),
           divider(),
           ProfileDetailsTile(
