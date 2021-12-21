@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/UI/Main/ProfileDetails/bank_account_details.dart';
+import 'package:delivery/UI/Main/ProfileDetails/insurance_details.dart';
 import 'package:delivery/UI/Main/ProfileDetails/my_hub.dart';
 import 'package:delivery/UI/Main/ProfileDetails/power_kit.dart';
 import 'package:flutter/material.dart';
@@ -128,6 +129,10 @@ class ProfileDetails extends StatelessWidget {
             icon: 'assets/heart_done.png',
             title: 'Insurance Details',
             subTitle: 'Find details of your insurance here.',
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => InsuranceDetails()));
+            },
           ),
           divider(),
           ProfileDetailsTile(
