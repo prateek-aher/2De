@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/UI/Main/ProfileDetails/bank_account_details.dart';
+import 'package:delivery/UI/Main/ProfileDetails/my_hub.dart';
 import 'package:flutter/material.dart';
 
 import 'ProfileDetails/my_profile.dart';
@@ -106,6 +107,10 @@ class ProfileDetails extends StatelessWidget {
             icon: 'assets/hub.png',
             title: 'My Hub',
             subTitle: 'Find information of your hub and its manager.',
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyHub()));
+            },
           ),
           divider(),
           ProfileDetailsTile(
