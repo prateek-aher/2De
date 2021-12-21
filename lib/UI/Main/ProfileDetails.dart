@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 
 import 'ProfileDetails/my_profile.dart';
 import 'ProfileDetails/refer_and_earn.dart';
+import 'ProfileDetails/vehicle_details.dart';
 
 class ProfileDetails extends StatelessWidget {
   const ProfileDetails({Key? key}) : super(key: key);
@@ -150,12 +151,22 @@ class ProfileDetails extends StatelessWidget {
             icon: 'assets/scooter.png',
             title: 'Vehicle Details',
             subTitle: 'Vehicle pictures, vehicle insurance, PUC',
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => VehicleDetails()));
+            },
           ),
           divider(),
           ProfileDetailsTile(
             icon: 'assets/locale.png',
             title: 'Change Language',
             subTitle: 'Select your account language here.',
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('Coming soon...'),
+                backgroundColor: Theme.of(context).primaryColor,
+              ));
+            },
           ),
           divider(),
           ProfileDetailsTile(
