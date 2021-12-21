@@ -4,6 +4,7 @@ import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/UI/Main/ProfileDetails/bank_account_details.dart';
 import 'package:flutter/material.dart';
 
+import 'ProfileDetails/my_profile.dart';
 import 'ProfileDetails/refer_and_earn.dart';
 
 class ProfileDetails extends StatelessWidget {
@@ -95,10 +96,10 @@ class ProfileDetails extends StatelessWidget {
             ),
             title: 'My Profile',
             subTitle: 'Find your personal information here.',
-            // onTap: () {
-            //   Navigator.push(context,
-            //       MaterialPageRoute(builder: (context) => MyProfile()));
-            // },
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MyProfile()));
+            },
           ),
           divider(),
           ProfileDetailsTile(
