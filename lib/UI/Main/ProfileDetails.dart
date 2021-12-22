@@ -8,6 +8,7 @@ import 'package:delivery/UI/Main/ProfileDetails/my_hub.dart';
 import 'package:delivery/UI/Main/ProfileDetails/power_kit.dart';
 import 'package:flutter/material.dart';
 
+import 'ProfileDetails/change_password.dart';
 import 'ProfileDetails/my_profile.dart';
 import 'ProfileDetails/refer_and_earn.dart';
 import 'ProfileDetails/vehicle_details.dart';
@@ -173,6 +174,10 @@ class ProfileDetails extends StatelessWidget {
             icon: 'assets/secure_shield.png',
             title: 'Change Password',
             subTitle: 'Change you account passwords here.',
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ChangePassword()));
+            },
           ),
           divider(),
           ProfileDetailsTile(
