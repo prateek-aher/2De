@@ -1,12 +1,14 @@
 import 'dart:ui';
 
 import 'package:delivery/CommonWidget/CommonWidget.dart';
+import 'package:delivery/UI/Auth/send_otp.dart';
 import 'package:delivery/UI/Main/ProfileDetails/bank_account_details.dart';
 import 'package:delivery/UI/Main/ProfileDetails/insurance_details.dart';
 import 'package:delivery/UI/Main/ProfileDetails/my_documents.dart';
 import 'package:delivery/UI/Main/ProfileDetails/my_hub.dart';
 import 'package:delivery/UI/Main/ProfileDetails/power_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ProfileDetails/change_password.dart';
 import 'ProfileDetails/my_profile.dart';
@@ -184,6 +186,38 @@ class ProfileDetails extends StatelessWidget {
             icon: 'assets/power.png',
             title: 'Logout',
             subTitle: 'Click here to logout of your account.',
+            onTap: () async {
+              await showDialog(
+                  context: context,
+                  barrierColor: const Color(0xffF7F9FB).withOpacity(0.5),
+                  barrierDismissible: false,
+                  builder: (context) => AlertDialog(
+                        backgroundColor: Colors.white,
+                        title: Center(
+                            child: Text('Are you sure you want to logout?')),
+                        actions: [
+                          OutlinedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('NO')),
+                          ElevatedButton(
+                              onPressed: () async {
+                                showLoading();
+                                SharedPreferences _prefs =
+                                    await SharedPreferences.getInstance();
+                                _prefs.remove('token');
+                                hideLoading();
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SendOtp()),
+                                    (route) => false);
+                              },
+                              child: Text('YES')),
+                        ],
+                      ));
+            },
           ),
           SizedBox(height: 24),
 
