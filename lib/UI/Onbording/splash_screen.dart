@@ -16,6 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     String? token = _prefs.getString('token');
     if (token != null) {
+      print('TOKEN: $token');
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Homepage()));
     } else {

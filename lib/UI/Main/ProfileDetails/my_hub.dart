@@ -146,7 +146,7 @@ class MyHub extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
-                    SizedBox(height: 20),
+                    sbh(20),
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(12),

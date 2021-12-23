@@ -1,4 +1,6 @@
+import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Providers/FindTaskProvider.dart';
+import 'package:delivery/Providers/SosProvider.dart';
 import 'package:delivery/UI/Auth/NewAccount/enter_name.dart';
 import 'package:delivery/UI/Auth/NewAccount/successfully_registerd.dart';
 import 'package:delivery/UI/Main/FindingTask.dart';
@@ -9,6 +11,8 @@ import 'package:delivery/Providers/TimeProvider.dart';
 import 'package:delivery/Utils/AppConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'home/help.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -23,13 +27,11 @@ class _HomepageState extends State<Homepage> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<TimeProvider>().updateTimer();
     });
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print('context Build');
     return Scaffold(
         appBar: AppBar(
           flexibleSpace: FlexibleSpaceBar(
@@ -41,7 +43,7 @@ class _HomepageState extends State<Homepage> {
               },
               child: CircleAvatar(
                 backgroundImage: AssetImage('assets/dummy_user.png'),
-                radius: 25,
+                radius: 20,
                 backgroundColor: Colors.white,
               ),
             ),
@@ -64,12 +66,22 @@ class _HomepageState extends State<Homepage> {
           ),
           actions: [
             TextButton(
-                onPressed: () {},
+                style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.symmetric(horizontal: 24))),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChangeNotifierProvider(
+                              create: (BuildContext context) => SosProvider(),
+                              child: Help())));
+                },
                 child: Text(
                   "Help!",
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 )),
-            Text('     ')
+            // Text('     ')
           ],
         ),
         body: Consumer<FindTaskProvider>(
@@ -86,24 +98,18 @@ class _HomepageState extends State<Homepage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Spacer(
-              flex: 4,
-            ),
+            Spacer(flex: 4),
             Text(
               DateFormat.yMMMMd().format(DateTime.now()),
               style: TextStyle(fontSize: 18),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10),
             Consumer<TimeProvider>(
                 builder: (context, timer, child) => Text(
                       timer.currentTime,
                       style: TextStyle(fontSize: 30),
                     )),
-            Spacer(
-              flex: 1,
-            ),
+            Spacer(),
             InkWell(
               onTap: () {
                 context.read<FindTaskProvider>().changeWidget();
@@ -123,13 +129,9 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            sbh(10),
             Text('Click on Start To Get Task'),
-            Spacer(
-              flex: 2,
-            )
+            Spacer(flex: 2)
           ],
         ),
       ),
