@@ -9,9 +9,14 @@ import 'package:flutter/material.dart';
 
 class SendOtpProvider extends ChangeNotifier {
   ApiProvider _apiProvider = ApiProvider();
-  String? phoneNumber;
+  String? _phoneNumber;
+  set phoneNum(String text) {
+    _phoneNumber = text;
+    notifyListeners();
+  }
+
   Future<Null> testCall(requestJson, String number, context) async {
-    phoneNumber = number;
+    _phoneNumber = number;
     notifyListeners();
     try {
       // check login
@@ -43,7 +48,7 @@ class SendOtpProvider extends ChangeNotifier {
             context,
             MaterialPageRoute(
                 builder: (context) => EnterPassword(
-                      number: phoneNumber!,
+                      number: _phoneNumber!,
                     )));
       }
     } catch (e) {
@@ -52,18 +57,18 @@ class SendOtpProvider extends ChangeNotifier {
     return null;
   }
 
-  Future<Null> verifyOtp(requstJson, context) async {
+  Future<Null> verifyOtp(requestJson, context) async {
     try {
       showLoading();
-      final response = await _apiProvider.auth(Verify_Otp, requstJson);
+      final response = await _apiProvider.auth(Verify_Otp, requestJson);
       if (response != null) {
         hideLoading();
         if (response['status'] == "success") {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => Entername(
-                        number: phoneNumber!,
+                  builder: (context) => EnterName(
+                        number: _phoneNumber!,
                       )));
         } else {
           showMessage('Error');

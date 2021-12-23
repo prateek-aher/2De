@@ -1,8 +1,6 @@
-// ignore: file_names
 import 'dart:convert';
 
 import 'package:delivery/Providers/SendOtpProvider.dart';
-import 'package:delivery/UI/Auth/logo_widget.dart';
 import 'package:delivery/Utils/AppConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,20 +18,18 @@ class _SendOtpState extends State<SendOtp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Spacer(),
-            Center(
-                child: Image.asset(
-              'assets/logo.png',
-              height: 100,
-              width: 100,
-            )),
-            Spacer(),
-            SecondPart(_phoneNumberController)
-          ],
-        ),
+      body: Column(
+        children: [
+          Spacer(),
+          Center(
+              child: Image.asset(
+            'assets/logo.png',
+            height: 100,
+            width: 100,
+          )),
+          Spacer(),
+          SecondPart(_phoneNumberController)
+        ],
       ),
     );
   }
@@ -128,19 +124,19 @@ class SecondPart extends StatelessWidget {
                       backgroundColor: MaterialStateProperty.all(App_Color)),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      String requestJson = json.encode(
+                      String requestJson = jsonEncode(
                           {"phone_no": "${_phoneController.text.trim()}"});
                       context.read<SendOtpProvider>().testCall(
                           requestJson, _phoneController.text.trim(), context);
                     }
                   },
                   child: Text(
-                    'Get OTP',
+                    'Proceed',
                     style: TextStyle(
                         fontSize:
                             Theme.of(context).textTheme.subtitle1!.fontSize),
                   ))),
-          const SizedBox(height: 40),
+          const SizedBox(height: 70),
         ],
       ),
     );

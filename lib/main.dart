@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
           textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(primary: Primary_Color)),
         ),
-        home: const SplashScree(),
+        home: const SplashScreen(),
       ),
     );
   }

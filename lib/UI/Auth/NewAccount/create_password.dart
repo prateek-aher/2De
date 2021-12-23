@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Providers/user_Registration_Provider.dart';
 import 'package:delivery/UI/Auth/send_otp.dart';
 import 'package:delivery/Utils/AppConstant.dart';
@@ -19,7 +20,8 @@ class CreatePassword extends StatefulWidget {
 }
 
 class _CreatePasswordState extends State<CreatePassword> {
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  final TextEditingController _confirmPassword = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -28,32 +30,27 @@ class _CreatePasswordState extends State<CreatePassword> {
         body: SafeArea(
           child: Form(
             key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 10),
-                  child: Text('Create a password',
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Create a password',
                       style: TextStyle(
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.bold,
                           fontSize:
                               Theme.of(context).textTheme.headline3!.fontSize)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 10),
-                  child: Text(
+                  sbh(24),
+                  Text(
                     'Enter password',
                     style: TextStyle(
                         fontSize:
-                            Theme.of(context).textTheme.headline6!.fontSize),
+                            Theme.of(context).textTheme.bodyText1!.fontSize,
+                        fontWeight: FontWeight.w500),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 2.0, bottom: 0.0, left: 10.0, right: 25.0),
-                  child: TextFormField(
+                  TextFormField(
                       //focusNode: focusNodePassword,
-                      controller: _passwordController,
+                      controller: _password,
                       //obscureText: _obscureTextPassword,
                       style: const TextStyle(
                           fontFamily: 'WorkSansSemiBold',
@@ -64,8 +61,9 @@ class _CreatePasswordState extends State<CreatePassword> {
                             borderSide: BorderSide(color: Colors.grey)),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: App_Color)),
-                        hintText: 'enter password here ',
-                        hintStyle: TextStyle(fontSize: 17.0),
+                        hintText: 'Create your password here',
+                        hintStyle:
+                            TextStyle(fontSize: 17.0, color: Colors.grey[300]),
                       ),
                       onFieldSubmitted: (_) {
                         //_toggleSignInButton();
@@ -78,20 +76,15 @@ class _CreatePasswordState extends State<CreatePassword> {
                           return "Password Should be Atleast 5 Character";
                         }
                       }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 10),
-                  child: Text(
+                  sbh(24),
+                  Text(
                     'Re-enter password',
                     style: TextStyle(
                         fontSize:
-                            Theme.of(context).textTheme.headline6!.fontSize),
+                            Theme.of(context).textTheme.bodyText1!.fontSize,
+                        fontWeight: FontWeight.w500),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 2.0, bottom: 0.0, left: 10.0, right: 25.0),
-                  child: TextFormField(
+                  TextFormField(
                     //focusNode: focusNodePassword,
                     //controller: loginPasswordController,
                     //obscureText: _obscureTextPassword,
@@ -104,8 +97,9 @@ class _CreatePasswordState extends State<CreatePassword> {
                           borderSide: BorderSide(color: Colors.grey)),
                       focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: App_Color)),
-                      hintText: 'enter password here',
-                      hintStyle: TextStyle(fontSize: 17.0),
+                      hintText: 'Renter password here',
+                      hintStyle:
+                          TextStyle(fontSize: 17.0, color: Colors.grey[300]),
                     ),
                     onFieldSubmitted: (_) {
                       //_toggleSignInButton();
@@ -113,19 +107,18 @@ class _CreatePasswordState extends State<CreatePassword> {
                     obscureText: true,
                     textInputAction: TextInputAction.go,
                     validator: (args) {
-                      if (args!.length == 4 ||
-                          args != _passwordController.text) {
+                      if (args != _password.text) {
                         return "Password should be Same as Above";
                       }
                     },
                     //autovalidate: true,
                   ),
-                ),
-                Row(
-                  children: [
-                    Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20, bottom: 10, left: 10),
+                  sbh(36),
+                  Row(
+                    children: [
+                      Container(
+                        height: 45,
+                        width: 100,
                         child: ElevatedButton(
                             style: ButtonStyle(
                                 backgroundColor:
@@ -139,7 +132,7 @@ class _CreatePasswordState extends State<CreatePassword> {
                                   "name": widget.name,
                                   "email": widget.email,
                                   "role": "boy",
-                                  "password": _passwordController.text,
+                                  "password": _password.text,
                                 });
                                 context
                                     .read<UserRegistrationProvider>()
@@ -159,37 +152,32 @@ class _CreatePasswordState extends State<CreatePassword> {
                                       .textTheme
                                       .subtitle1!
                                       .fontSize),
-                            ))),
-                  ],
-                ),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Text(
-                    'Entered wrong number.?',
+                            )),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  Text(
+                    'Entered wrong Phone Number?',
                     style: TextStyle(
                         fontSize:
                             Theme.of(context).textTheme.bodyText1!.fontSize),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => SendOtp()),
-                        (route) => false);
-                  },
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text(
-                        'Click here to change phone number.',
-                        style: TextStyle(color: App_Color, fontSize: 18),
-                      )),
-                ),
-                const SizedBox(
-                  height: 30,
-                )
-              ],
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => SendOtp()),
+                          (route) => false);
+                    },
+                    child: Text(
+                      'Click here to Change Phone Number!',
+                      style: TextStyle(color: App_Color, fontSize: 16),
+                    ),
+                  ),
+                  sbh(12),
+                ],
+              ),
             ),
           ),
         ));

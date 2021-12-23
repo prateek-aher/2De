@@ -1,19 +1,20 @@
+import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/UI/Auth/NewAccount/create_password.dart';
 import 'package:delivery/UI/Auth/send_otp.dart';
 import 'package:delivery/Utils/AppConstant.dart';
 import 'package:flutter/material.dart';
 
-class Entername extends StatefulWidget {
+class EnterName extends StatefulWidget {
   final String number;
-  const Entername({required this.number, Key? key}) : super(key: key);
+  const EnterName({required this.number, Key? key}) : super(key: key);
 
   @override
-  _EnternameState createState() => _EnternameState();
+  _EnterNameState createState() => _EnterNameState();
 }
 
-class _EnternameState extends State<Entername> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emaiController = TextEditingController();
+class _EnterNameState extends State<EnterName> {
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -22,32 +23,26 @@ class _EnternameState extends State<Entername> {
         body: SafeArea(
           child: Form(
             key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 10),
-                  child: Text('What is your name?',
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('What is your name?',
                       style: TextStyle(
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.bold,
                           fontSize:
                               Theme.of(context).textTheme.headline3!.fontSize)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 10),
-                  child: Text(
+                  sbh(24),
+                  Text(
                     'Full Name',
                     style: TextStyle(
                         fontSize:
-                            Theme.of(context).textTheme.headline6!.fontSize),
+                            Theme.of(context).textTheme.bodyText1!.fontSize,
+                        fontWeight: FontWeight.w500),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 2.0, bottom: 0.0, left: 10.0, right: 25.0),
-                  child: TextFormField(
-                    controller: _nameController,
-                    //obscureText: _obscureTextPassword,
+                  TextFormField(
+                    controller: _fullNameController,
                     style: const TextStyle(
                         fontFamily: 'WorkSansSemiBold',
                         fontSize: 16.0,
@@ -57,8 +52,9 @@ class _EnternameState extends State<Entername> {
                           borderSide: BorderSide(color: Colors.grey)),
                       focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: App_Color)),
-                      hintText: 'Write your Full name here',
-                      hintStyle: TextStyle(fontSize: 17.0),
+                      hintText: 'Write your full name here',
+                      hintStyle:
+                          TextStyle(fontSize: 17.0, color: Colors.grey[300]),
                     ),
                     onFieldSubmitted: (_) {
                       //_toggleSignInButton();
@@ -72,22 +68,16 @@ class _EnternameState extends State<Entername> {
                       }
                     },
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 10),
-                  child: Text(
+                  sbh(24),
+                  Text(
                     'Email Address',
                     style: TextStyle(
                         fontSize:
-                            Theme.of(context).textTheme.headline6!.fontSize),
+                            Theme.of(context).textTheme.bodyText1!.fontSize,
+                        fontWeight: FontWeight.w500),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: 2.0, bottom: 0.0, left: 10.0, right: 25.0),
-                  child: TextFormField(
-                    controller: _emaiController,
-                    //obscureText: _obscureTextPassword,
+                  TextFormField(
+                    controller: _emailController,
                     style: const TextStyle(
                         fontFamily: 'WorkSansSemiBold',
                         fontSize: 16.0,
@@ -97,13 +87,15 @@ class _EnternameState extends State<Entername> {
                           borderSide: BorderSide(color: Colors.grey)),
                       focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: App_Color)),
-                      hintText: 'Write your Full name here',
-                      hintStyle: TextStyle(fontSize: 17.0),
+                      hintText: 'Write your email here',
+                      hintStyle:
+                          TextStyle(fontSize: 17.0, color: Colors.grey[300]),
                     ),
                     onFieldSubmitted: (_) {
                       //_toggleSignInButton();
                     },
                     textInputAction: TextInputAction.go,
+                    keyboardType: TextInputType.emailAddress,
                     validator: (args) {
                       if (args!.length < 1) {
                         return "Please Enter Email";
@@ -114,12 +106,41 @@ class _EnternameState extends State<Entername> {
                         return "Enter Valid mail";
                     },
                   ),
-                ),
-                Row(
-                  children: [
-                    Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20, bottom: 10, left: 10),
+                  // TextFormField(
+                  //   controller: _emailController,
+                  //   //obscureText: _obscureTextPassword,
+                  //   style: const TextStyle(
+                  //       fontFamily: 'WorkSansSemiBold',
+                  //       fontSize: 16.0,
+                  //       color: Colors.black),
+                  //   decoration: InputDecoration(
+                  //     enabledBorder: UnderlineInputBorder(
+                  //         borderSide: BorderSide(color: Colors.grey)),
+                  //     focusedBorder: UnderlineInputBorder(
+                  //         borderSide: BorderSide(color: App_Color)),
+                  //     hintText: 'Write your Full name here',
+                  //     hintStyle: TextStyle(fontSize: 17.0),
+                  //   ),
+                  //   onFieldSubmitted: (_) {
+                  //     //_toggleSignInButton();
+                  //   },
+                  //   textInputAction: TextInputAction.go,
+                  //   validator: (args) {
+                  //     if (args!.length < 1) {
+                  //       return "Please Enter Email";
+                  //     } else if (args.contains(RegExp(
+                  //         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'))) {
+                  //       return null;
+                  //     } else
+                  //       return "Enter Valid mail";
+                  //   },
+                  // ),
+                  sbh(36),
+                  Row(
+                    children: [
+                      Container(
+                        height: 45,
+                        width: 100,
                         child: ElevatedButton(
                             style: ButtonStyle(
                                 backgroundColor:
@@ -132,8 +153,8 @@ class _EnternameState extends State<Entername> {
                                     MaterialPageRoute(
                                         builder: (context) => CreatePassword(
                                               number: widget.number,
-                                              name: _nameController.text,
-                                              email: _emaiController.text,
+                                              name: _fullNameController.text,
+                                              email: _emailController.text,
                                             )));
                               }
                               // else
@@ -146,37 +167,32 @@ class _EnternameState extends State<Entername> {
                                       .textTheme
                                       .subtitle1!
                                       .fontSize),
-                            ))),
-                  ],
-                ),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Text(
-                    'Entered wrong number.?',
+                            )),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  Text(
+                    'Entered wrong Phone Number?',
                     style: TextStyle(
                         fontSize:
                             Theme.of(context).textTheme.bodyText1!.fontSize),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => SendOtp()),
-                        (route) => false);
-                  },
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text(
-                        'Click here to change phone number.',
-                        style: TextStyle(color: App_Color, fontSize: 18),
-                      )),
-                ),
-                const SizedBox(
-                  height: 30,
-                )
-              ],
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => SendOtp()),
+                          (route) => false);
+                    },
+                    child: Text(
+                      'Click here to Change Phone Number!',
+                      style: TextStyle(color: App_Color, fontSize: 16),
+                    ),
+                  ),
+                  sbh(12),
+                ],
+              ),
             ),
           ),
         ));

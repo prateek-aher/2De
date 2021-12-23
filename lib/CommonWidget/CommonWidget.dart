@@ -18,7 +18,9 @@ void showLoading() {
               strokeWidth: 2,
               color: Primary_Color,
             ),
-          )));
+          ))).timeout(Duration(seconds: 30), onTimeout: () {
+    Navigator.pop(navigatorKey.currentContext!);
+  });
 }
 
 void hideLoading() {
@@ -30,3 +32,6 @@ void showMessage(String message) {
 }
 
 Divider divider() => Divider(height: 2, thickness: 1, color: Color(0xffe2e4e6));
+
+SizedBox sbw(double w) => SizedBox(width: w);
+SizedBox sbh(double h) => SizedBox(height: h);

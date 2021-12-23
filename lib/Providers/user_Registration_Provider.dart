@@ -21,7 +21,7 @@ class UserRegistrationProvider extends ChangeNotifier {
           hideLoading();
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => SuccesfullyResgestered()),
+              MaterialPageRoute(builder: (context) => SuccessfullyRegistered()),
               (route) => false);
         }
       }

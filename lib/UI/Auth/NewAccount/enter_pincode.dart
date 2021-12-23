@@ -75,7 +75,7 @@ class _EnterPinState extends State<EnterPin> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const SuccesfullyResgestered()));
+                                        const SuccessfullyRegistered()));
                             // }
                           },
                           child: Text(

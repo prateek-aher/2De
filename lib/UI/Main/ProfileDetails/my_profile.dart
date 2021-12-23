@@ -1,8 +1,22 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
+import 'package:delivery/Models/my_profile_model.dart';
+import 'package:delivery/Network/get_profile.dart';
 import 'package:flutter/material.dart';
 
-class MyProfile extends StatelessWidget {
+class MyProfile extends StatefulWidget {
   const MyProfile({Key? key}) : super(key: key);
+
+  @override
+  State<MyProfile> createState() => _MyProfileState();
+}
+
+class _MyProfileState extends State<MyProfile> {
+  MyProfileModel? _model;
+  @override
+  void initState() {
+    super.initState();
+    getModel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +63,7 @@ class MyProfile extends StatelessWidget {
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      'Ankush',
+                      _model?.data?.result?.name?.split(' ').first ?? '',
                       style: TextStyle(fontSize: 14),
                     )
                   ],
@@ -65,7 +79,12 @@ class MyProfile extends StatelessWidget {
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      'Kumar',
+                      (_model?.data?.result?.name?.trim().split(' ').length ??
+                                  0) >
+                              2
+                          ? (_model?.data?.result?.name?.trim().split(' ')[2] ??
+                              '')
+                          : '',
                       style: TextStyle(fontSize: 14),
                     )
                   ],
@@ -81,7 +100,7 @@ class MyProfile extends StatelessWidget {
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      'Misra',
+                      _model?.data?.result?.name?.trim().split(' ').last ?? '',
                       style: TextStyle(fontSize: 14),
                     )
                   ],
@@ -99,7 +118,7 @@ class MyProfile extends StatelessWidget {
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      '+91 9876543567',
+                      _model?.data?.result?.phoneNo ?? '',
                       style: TextStyle(fontSize: 14),
                     )
                   ],
@@ -115,7 +134,7 @@ class MyProfile extends StatelessWidget {
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      '+91 9876543567',
+                      _model?.data?.result?.alternatePhoneNo ?? '',
                       style: TextStyle(fontSize: 14),
                     )
                   ],
@@ -133,7 +152,7 @@ class MyProfile extends StatelessWidget {
                     SizedBox(
                       width: 200,
                       child: Text(
-                        '234, qwerty, baner, Pune, 411045',
+                        _model?.data?.result?.address ?? '',
                         overflow: TextOverflow.visible,
                         textAlign: TextAlign.right,
                         style: TextStyle(fontSize: 14),
@@ -154,7 +173,7 @@ class MyProfile extends StatelessWidget {
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      '+91 9876543567',
+                      _model?.data?.result?.relativePhoneNo ?? '',
                       style: TextStyle(fontSize: 14),
                     )
                   ],
@@ -170,7 +189,7 @@ class MyProfile extends StatelessWidget {
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      'Brother',
+                      _model?.data?.result?.relationship ?? '',
                       style: TextStyle(fontSize: 14),
                     )
                   ],
@@ -188,7 +207,7 @@ class MyProfile extends StatelessWidget {
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      '12 Jan 2021',
+                      _model?.data?.result?.onboardDate ?? '',
                       style: TextStyle(fontSize: 14),
                     )
                   ],
@@ -199,5 +218,10 @@ class MyProfile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void getModel() async {
+    _model = await ProfileProvider.getProfile();
+    setState(() {});
   }
 }

@@ -4,24 +4,22 @@ import 'package:delivery/UI/Main/TakePhoto.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SplashScree extends StatefulWidget {
-  const SplashScree({Key? key}) : super(key: key);
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  _SplashScreeState createState() => _SplashScreeState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreeState extends State<SplashScree> {
+class _SplashScreenState extends State<SplashScreen> {
   validateUser() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     String? token = _prefs.getString('token');
     if (token != null) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => Homepage()),
-          (route) => false);
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Homepage()));
     } else {
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) =>

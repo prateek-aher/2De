@@ -12,3 +12,5 @@ const String Find_Task = "task/find";
 const String Update_Satus = "schedule/updatedeliverystatus?";
 const String Address_of_document_Verification =
     "Office 2A, 2nd Floor, Muktali Building, Lane 16, Bhandarkar Rd, Erandwane, Pune, Maharashtra 411004";
+const String BANK_ACCOUNT_DETAILS = 'team/bankaccountdetails?';
+const String MY_PROFILE = 'team/myprofile';

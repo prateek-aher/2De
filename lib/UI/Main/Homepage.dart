@@ -1,4 +1,6 @@
 import 'package:delivery/Providers/FindTaskProvider.dart';
+import 'package:delivery/UI/Auth/NewAccount/enter_name.dart';
+import 'package:delivery/UI/Auth/NewAccount/successfully_registerd.dart';
 import 'package:delivery/UI/Main/FindingTask.dart';
 import 'package:delivery/UI/Main/PassBook.dart';
 import 'package:delivery/UI/Main/ProfileDetails.dart';
