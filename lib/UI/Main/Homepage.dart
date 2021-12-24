@@ -92,48 +92,54 @@ class _HomepageState extends State<Homepage> {
   }
 
   Widget firstWidget() {
-    return SafeArea(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Spacer(flex: 4),
-            Text(
-              DateFormat.yMMMMd().format(DateTime.now()),
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 10),
-            Consumer<TimeProvider>(
-                builder: (context, timer, child) => Text(
-                      timer.currentTime,
-                      style: TextStyle(fontSize: 30),
-                    )),
-            Spacer(),
-            InkWell(
-              onTap: () {
-                context.read<FindTaskProvider>().changeWidget();
-              },
-              child: Hero(
-                tag: "findingTask",
-                child: Container(
-                  height: 150,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Primary_Color),
-                  child: Center(
-                    child: Text(
-                      'Start',
-                      style: TextStyle(color: Colors.white, fontSize: 30),
-                    ),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Spacer(flex: 4),
+          Text(
+            DateFormat.yMMMMd().format(DateTime.now()),
+            style: TextStyle(fontSize: 18),
+          ),
+          SizedBox(height: 10),
+          Consumer<TimeProvider>(
+              builder: (context, timer, child) => Text(
+                    timer.currentTime,
+                    style: TextStyle(fontSize: 30),
+                  )),
+          Spacer(),
+          InkWell(
+            onTap: () {
+              context.read<FindTaskProvider>().changeWidget();
+            },
+            child: Hero(
+              tag: "findingTask",
+              child: Container(
+                height: 150,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).primaryColor,
+                    boxShadow: [
+                      BoxShadow(
+                          offset: Offset(0, 4),
+                          color: Colors.black26,
+                          blurRadius: 5,
+                          spreadRadius: 2)
+                    ]),
+                child: Center(
+                  child: Text(
+                    'Start',
+                    style: TextStyle(color: Colors.white, fontSize: 30),
                   ),
                 ),
               ),
             ),
-            sbh(10),
-            Text('Click on Start To Get Task'),
-            Spacer(flex: 2)
-          ],
-        ),
+          ),
+          sbh(10),
+          Text('Click on Start To Get Task'),
+          Spacer(flex: 2)
+        ],
       ),
     );
   }

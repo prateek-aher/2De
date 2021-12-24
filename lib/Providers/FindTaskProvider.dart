@@ -22,9 +22,10 @@ class FindTaskProvider extends ChangeNotifier {
           _findTask = FindTaskModel.fromJson(response);
           postResponse = !postResponse;
           notifyListeners();
-        } else
+        } else {
           reSet();
-        CustomSnackBar(context, Text("No Deliveries For Today!"));
+          CustomSnackBar(context, Text("No Deliveries For Today!"));
+        }
         notifyListeners();
       }
     } on Exception catch (e) {

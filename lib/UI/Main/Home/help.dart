@@ -1,4 +1,4 @@
-import 'package:delivery/Animation/Avtar_glow.dart';
+import 'package:delivery/Animation/avatar_glow.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Providers/SosProvider.dart';
 import 'package:flutter/material.dart';
@@ -202,9 +202,10 @@ class SOSButton extends StatelessWidget {
               color: Colors.red,
               boxShadow: [
                 BoxShadow(
+                    offset: Offset(0, 4),
                     color: Colors.red.withOpacity(0.6),
-                    spreadRadius: 2,
-                    blurRadius: 40)
+                    blurRadius: 5,
+                    spreadRadius: 2)
               ]),
           child: Center(
             child: Text(

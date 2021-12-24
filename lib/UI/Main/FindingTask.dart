@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:delivery/Animation/Avtar_glow.dart';
+import 'package:delivery/Animation/avatar_glow.dart';
+import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Providers/FindTaskProvider.dart';
 import 'package:delivery/Providers/UpdateStatusProvider.dart';
 import 'package:delivery/UI/Main/QRScanSreen.dart';
@@ -57,9 +58,7 @@ class _FindingTaskState extends State<FindingTask> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          sbh(20),
                           OutlinedButton(
                               onPressed: () {
                                 context.read<FindTaskProvider>().changeWidget();
@@ -84,10 +83,10 @@ class _FindingTaskState extends State<FindingTask> {
                           taskData.findTaskData!.message ==
                                   "You have successfully Got Delivery"
                               ? Container(
-                                  margin: EdgeInsets.only(
-                                      top: 30, left: 10, right: 10),
-                                  padding: EdgeInsets.only(
-                                      left: 10, right: 10, bottom: 10),
+                                  margin:
+                                      const EdgeInsets.fromLTRB(10, 30, 10, 0),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 0, 10, 10),
                                   width: MediaQuery.of(context).size.width,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
