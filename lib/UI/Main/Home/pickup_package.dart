@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/Providers/FindTaskProvider.dart';
+import 'package:delivery/UI/Main/Home/arrived_at_pickup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:provider/provider.dart';
@@ -160,6 +161,8 @@ class PickupPackage extends StatelessWidget {
           child: Text(
             "Arrived at pickup location",
             style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
               color: Colors.white,
             ),
           ),
@@ -167,7 +170,10 @@ class PickupPackage extends StatelessWidget {
           activeTrackColor: Colors.green,
           onSwipe: () {
             // TODO: Update delivery status
-
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ArrivedAtPickup(
+                      pickupAddress: pickupAddress!,
+                    )));
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text("Swiped"),
@@ -177,36 +183,6 @@ class PickupPackage extends StatelessWidget {
           },
         ),
       ),
-      // bottomNavigationBar: Container(
-      //     decoration: BoxDecoration(color: Colors.white, boxShadow: [
-      //       BoxShadow(
-      //           color: Colors.black26,
-      //           offset: Offset(0, -8),
-      //           blurRadius: 20,
-      //           spreadRadius: 0)
-      //     ]),
-      //     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-      //     child: SizedBox(
-      //       height: 50,
-      //       child: ElevatedButton(
-      //         child: Row(
-      //           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //           children: [
-      //             Icon(Icons.arrow_forward_rounded),
-      //             Spacer(flex: 2),
-      //             Text(
-      //               'Arrived at pickup location',
-      //               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-      //             ),
-      //             Spacer(flex: 3)
-      //           ],
-      //         ),
-      //         onPressed: () {},
-      //         style: ElevatedButton.styleFrom(
-      //           primary: Colors.green,
-      //         ),
-      //       ),
-      //     )),
     );
   }
 }
