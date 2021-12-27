@@ -1,6 +1,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.delivery">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <queries>
+        <!-- If your app opens https URLs -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <!-- If your app makes calls -->
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+            <data android:scheme="tel" />
+        </intent>
+<!--        &lt;!&ndash; If your sends SMS messages &ndash;&gt;-->
+<!--        <intent>-->
+<!--            <action android:name="android.intent.action.SENDTO" />-->
+<!--            <data android:scheme="smsto" />-->
+<!--        </intent>-->
+<!--        &lt;!&ndash; If your app sends emails &ndash;&gt;-->
+<!--        <intent>-->
+<!--            <action android:name="android.intent.action.SEND" />-->
+<!--            <data android:mimeType="*/*" />-->
+<!--        </intent>-->
+    </queries>
    <application
         android:label="delivery"
         android:icon="@mipmap/ic_launcher">

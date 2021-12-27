@@ -8,7 +8,7 @@ const String Verify_Otp = "team/verifyotp?";
 const String Check_Login = "team/check_login?";
 const String Register_User = "team/register?";
 const String Login = "team/login?";
-const String Find_Task = "task/find";
+const String Find_Task = 'schedule/findingtask'; //"task/find";
 const String Update_Satus = "schedule/updatedeliverystatus?";
 const String Address_of_document_Verification =
     "Office 2A, 2nd Floor, Muktali Building, Lane 16, Bhandarkar Rd, Erandwane, Pune, Maharashtra 411004";

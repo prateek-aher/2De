@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/Network/Api_Provider.dart';
+import 'package:delivery/UI/Main/Home/pickup_package.dart';
 import 'package:delivery/UI/Main/Homepage.dart';
 import 'package:delivery/Utils/AppConstant.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,13 +17,22 @@ class FindTaskProvider extends ChangeNotifier {
   bool postResponse = true;
   Future<dynamic> findTask(context) async {
     try {
-      final response = await _apiProvider.get(Find_Task);
+      final response = await _apiProvider.post(Find_Task, jsonEncode({}));
       print(response);
       if (response != null) {
         print(response);
         if (response["message"] != "No delivery schedule for today") {
           _findTask = FindTaskModel.fromJson(response);
           postResponse = !postResponse;
+
+          if (_findTask?.message == "You have successfully Got Delivery" &&
+              gotResponse) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => PickupPackage(
+                    pickupAddress: _findTask?.data?.result?.pickupAddress)));
+          }
+
+          gotResponse = false;
           notifyListeners();
         } else {
           reSet();

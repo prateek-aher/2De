@@ -14,8 +14,7 @@ class TimeProvider extends ChangeNotifier {
   }
 
   void _getCurrentTime() {
-    _timeString =
-        "${DateFormat("h").format(DateTime.now())} : ${DateTime.now().minute} :${DateTime.now().second}";
+    _timeString = "${DateFormat("Hms").format(DateTime.now())}";
     notifyListeners();
   }
 }

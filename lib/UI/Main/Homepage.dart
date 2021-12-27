@@ -1,18 +1,12 @@
+import 'package:delivery/Animation/avatar_glow.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
+import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Providers/FindTaskProvider.dart';
-import 'package:delivery/Providers/SosProvider.dart';
-import 'package:delivery/UI/Auth/NewAccount/enter_name.dart';
-import 'package:delivery/UI/Auth/NewAccount/successfully_registerd.dart';
-import 'package:delivery/UI/Main/FindingTask.dart';
-import 'package:delivery/UI/Main/PassBook.dart';
-import 'package:delivery/UI/Main/ProfileDetails.dart';
 import 'package:provider/provider.dart';
 import 'package:delivery/Providers/TimeProvider.dart';
 import 'package:delivery/Utils/AppConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import 'home/help.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -32,66 +26,29 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          flexibleSpace: FlexibleSpaceBar(
-            titlePadding: EdgeInsets.only(left: 20, bottom: 4),
-            title: InkWell(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfileDetails()));
-              },
-              child: CircleAvatar(
-                backgroundImage: AssetImage('assets/dummy_user.png'),
-                radius: 20,
-                backgroundColor: Colors.white,
-              ),
-            ),
-          ),
-          backgroundColor: Primary_Color,
-          centerTitle: true,
-          title: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Passbook()));
+    DateTime previousBackPressTime = DateTime.now();
+    return WillPopScope(
+      onWillPop: () async {
+        DateTime now = DateTime.now();
+        if (now.difference(previousBackPressTime) < Duration(seconds: 3)) {
+          return true;
+        } else {
+          previousBackPressTime = now;
+          CustomSnackBar(context, Text('Press again to exit'));
+          return false;
+        }
+      },
+      child: Scaffold(
+          appBar: customAppBar(context),
+          body: Consumer<FindTaskProvider>(
+            builder: (context, findTask, _) {
+              return findTask.gotResponse ? findingTaskWidget() : idleWidget();
             },
-            child: Container(
-              height: 50,
-              width: 150,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-            ),
-          ),
-          actions: [
-            TextButton(
-                style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                        EdgeInsets.symmetric(horizontal: 24))),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ChangeNotifierProvider(
-                              create: (BuildContext context) => SosProvider(),
-                              child: Help())));
-                },
-                child: Text(
-                  "Help!",
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                )),
-            // Text('     ')
-          ],
-        ),
-        body: Consumer<FindTaskProvider>(
-          builder: (context, findTask, _) {
-            return findTask.gotResponse ? FindingTask() : firstWidget();
-          },
-        ));
+          )),
+    );
   }
 
-  Widget firstWidget() {
+  Widget idleWidget() {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -99,8 +56,8 @@ class _HomepageState extends State<Homepage> {
         children: [
           Spacer(flex: 4),
           Text(
-            DateFormat.yMMMMd().format(DateTime.now()),
-            style: TextStyle(fontSize: 18),
+            DateFormat('d MMMM y').format(DateTime.now()),
+            style: TextStyle(fontSize: 16),
           ),
           SizedBox(height: 10),
           Consumer<TimeProvider>(
@@ -109,36 +66,84 @@ class _HomepageState extends State<Homepage> {
                     style: TextStyle(fontSize: 30),
                   )),
           Spacer(),
-          InkWell(
-            onTap: () {
-              context.read<FindTaskProvider>().changeWidget();
-            },
-            child: Hero(
-              tag: "findingTask",
-              child: Container(
-                height: 150,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).primaryColor,
-                    boxShadow: [
-                      BoxShadow(
-                          offset: Offset(0, 4),
-                          color: Colors.black26,
-                          blurRadius: 5,
-                          spreadRadius: 2)
-                    ]),
+          Hero(
+            tag: 'findingTask',
+            child: Container(
+              margin: const EdgeInsets.all(10),
+              height: 150,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Theme.of(context).primaryColor,
+                  boxShadow: [
+                    BoxShadow(
+                        offset: Offset(0, 4),
+                        color: Colors.black26,
+                        blurRadius: 5,
+                        spreadRadius: 4)
+                  ]),
+              child: ElevatedButton(
+                onPressed: () {
+                  context.read<FindTaskProvider>().changeWidget();
+                  context.read<FindTaskProvider>().findTask(context);
+                },
+                style: ElevatedButton.styleFrom(shape: CircleBorder()),
                 child: Center(
                   child: Text(
                     'Start',
-                    style: TextStyle(color: Colors.white, fontSize: 30),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        backgroundColor: Colors.transparent),
                   ),
                 ),
               ),
             ),
           ),
-          sbh(10),
           Text('Click on Start To Get Task'),
           Spacer(flex: 2)
+        ],
+      ),
+    );
+  }
+
+  Widget findingTaskWidget() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Hero(
+            tag: "findingTask",
+            child: AvatarGlow(
+              endRadius: 200,
+              glowColor: Primary_Color,
+              child: Container(
+                height: 180,
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Primary_Color),
+                child: Center(
+                  child: Text(
+                    'Finding Task',
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          sbh(20),
+          OutlinedButton(
+              onPressed: () {
+                context.read<FindTaskProvider>().changeWidget();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Stop Search",
+                  style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.subtitle1!.fontSize),
+                ),
+              ))
         ],
       ),
     );

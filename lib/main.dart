@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
           primaryColor: Primary_Color,
+          scaffoldBackgroundColor: const Color(0xffF7F9FB),
           outlinedButtonTheme: OutlinedButtonThemeData(
               style: OutlinedButton.styleFrom(
                   primary: Primary_Color,

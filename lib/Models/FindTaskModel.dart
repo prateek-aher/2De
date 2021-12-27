@@ -55,169 +55,81 @@ class Data {
 
 class Result {
   Result({
-    this.task,
-    this.packages,
-  });
-
-  Task? task;
-  List<Package>? packages;
-
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
-        task: Task.fromJson(json["task"]),
-        packages: List<Package>.from(
-            json["packages"].map((x) => Package.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "task": task?.toJson(),
-        "packages": List<dynamic>.from(packages!.map((x) => x.toJson())),
-      };
-}
-
-class Package {
-  Package({
     this.deliveryId,
-    this.orderId,
-    this.type,
-    this.weight,
-    this.state,
-    this.isCod,
-    this.codAmount,
+    this.pickupAddress,
+    this.dropAddress,
   });
 
   int? deliveryId;
-  int? orderId;
-  String? type;
-  double? weight;
-  String? state;
-  bool? isCod;
-  int? codAmount;
+  Address? pickupAddress;
+  Address? dropAddress;
 
-  factory Package.fromJson(Map<String, dynamic> json) => Package(
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
         deliveryId: json["delivery_id"],
-        orderId: json["order_id"],
-        type: json["type"],
-        weight: json["weight"].toDouble(),
-        state: json["state"],
-        isCod: json["is_cod"],
-        codAmount: json["cod_amount"],
+        pickupAddress: Address.fromJson(json["pickup_address"]),
+        dropAddress: Address.fromJson(json["drop_address"]),
       );
 
   Map<String, dynamic> toJson() => {
         "delivery_id": deliveryId,
-        "order_id": orderId,
-        "type": type,
-        "weight": weight,
-        "state": state,
-        "is_cod": isCod,
-        "cod_amount": codAmount,
-      };
-}
-
-class Task {
-  Task({
-    this.taskId,
-    this.taskType,
-    this.schedules,
-    this.latitude,
-    this.longitude,
-    this.pincode,
-    this.id,
-    this.address,
-  });
-
-  int? taskId;
-  String? taskType;
-  List<int>? schedules;
-  double? latitude;
-  double? longitude;
-  String? pincode;
-  dynamic id;
-  Address? address;
-
-  factory Task.fromJson(Map<String, dynamic> json) => Task(
-        taskId: json["task_id"],
-        taskType: json["task_type"],
-        schedules: List<int>.from(json["schedules"].map((x) => x)),
-        latitude: json["latitude"].toDouble(),
-        longitude: json["longitude"].toDouble(),
-        pincode: json["pincode"],
-        id: json["id"],
-        address: Address.fromJson(json["address"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "task_id": taskId,
-        "task_type": taskType,
-        "schedules": List<dynamic>.from(schedules!.map((x) => x)),
-        "latitude": latitude,
-        "longitude": longitude,
-        "pincode": pincode,
-        "id": id,
-        "address": address?.toJson(),
+        "pickup_address": pickupAddress?.toJson(),
+        "drop_address": dropAddress?.toJson(),
       };
 }
 
 class Address {
   Address({
-    this.area,
-    this.city,
-    this.country,
-    this.pincode,
-    this.latitude,
-    this.longitude,
-    this.landmark,
-    this.flatNo,
-    this.businessName,
     this.firstname,
     this.lastname,
-    this.phoneNo,
     this.street,
+    this.area,
+    this.city,
+    this.landmark,
+    this.country,
+    this.pinCode,
+    this.phoneNo,
+    this.state,
+    this.businessName,
   });
 
-  String? area;
-  String? city;
-  String? country;
-  int? pincode;
-  double? latitude;
-  double? longitude;
-  String? landmark;
-  String? flatNo;
-  String? businessName;
   String? firstname;
   String? lastname;
-  String? phoneNo;
   String? street;
+  String? area;
+  String? city;
+  String? landmark;
+  String? country;
+  int? pinCode;
+  String? phoneNo;
+  String? state;
+  String? businessName;
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-        area: json["area"],
-        city: json["city"],
-        country: json["country"],
-        pincode: json["pincode"],
-        latitude: json["latitude"].toDouble(),
-        longitude: json["longitude"].toDouble(),
-        landmark: json["landmark"],
-        flatNo: json["flat_no"],
-        businessName: json["business_name"],
         firstname: json["firstname"],
         lastname: json["lastname"],
-        phoneNo: json["phone_no"],
         street: json["street"],
+        area: json["area"],
+        city: json["city"],
+        landmark: json["landmark"],
+        country: json["country"],
+        pinCode: json["pincode"],
+        phoneNo: json["phone_no"],
+        state: json["state"] == null ? null : json["state"],
+        businessName:
+            json["business_name"] == null ? null : json["business_name"],
       );
 
   Map<String, dynamic> toJson() => {
-        "area": area,
-        "city": city,
-        "country": country,
-        "pincode": pincode,
-        "latitude": latitude,
-        "longitude": longitude,
-        "landmark": landmark,
-        "flat_no": flatNo,
-        "business_name": businessName,
         "firstname": firstname,
         "lastname": lastname,
-        "phone_no": phoneNo,
         "street": street,
+        "area": area,
+        "city": city,
+        "landmark": landmark,
+        "country": country,
+        "pincode": pinCode,
+        "phone_no": phoneNo,
+        "state": state == null ? null : state,
+        "business_name": businessName == null ? null : businessName,
       };
 }
