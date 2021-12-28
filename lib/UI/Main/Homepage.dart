@@ -19,7 +19,7 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<TimeProvider>().updateTimer();
+      context.read<TimeProvider>().updateTime();
     });
     super.initState();
   }

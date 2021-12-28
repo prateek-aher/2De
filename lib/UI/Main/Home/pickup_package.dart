@@ -3,15 +3,17 @@ import 'dart:convert';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/Providers/FindTaskProvider.dart';
-import 'package:delivery/UI/Main/Home/arrived_at_pickup.dart';
+import 'package:delivery/UI/Main/Home/arrived_at_location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PickupPackage extends StatelessWidget {
-  const PickupPackage({Key? key, required this.pickupAddress})
+  const PickupPackage(
+      {Key? key, required this.pickupAddress, required this.task})
       : super(key: key);
+  final Task task;
   final Address? pickupAddress;
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class PickupPackage extends StatelessWidget {
       appBar: customAppBar(context),
       body: pickupAddress == null
           ? Center(
-              child: Text('No pickup address available'),
+              child: Text('No address available'),
             )
           : ListView(
               shrinkWrap: true,
@@ -32,7 +34,7 @@ class PickupPackage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Pickup package',
+                        task == Task.pickup ? 'Pickup package' : 'Drop package',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w500),
                       ),
@@ -159,7 +161,9 @@ class PickupPackage extends StatelessWidget {
           ),
           thumbPadding: EdgeInsets.all(2),
           child: Text(
-            "Arrived at pickup location",
+            task == Task.pickup
+                ? "Arrived at pickup location"
+                : 'Arrived at drop location',
             style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 16,
@@ -171,8 +175,9 @@ class PickupPackage extends StatelessWidget {
           onSwipe: () {
             // TODO: Update delivery status
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ArrivedAtPickup(
-                      pickupAddress: pickupAddress!,
+                builder: (context) => ArrivedAtLocation(
+                      address: pickupAddress!,
+                      task: task,
                     )));
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

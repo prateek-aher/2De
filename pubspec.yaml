@@ -17,7 +17,7 @@ dependencies:
   intl: ^0.17.0
   shared_preferences:
   url_launcher:
-  qr_code_scanner: ^0.5.2
+  qr_code_scanner: ^0.5.2 #^0.6.1
   flutter_swipe_button: ^1.1.0
   camera:
   image_picker:

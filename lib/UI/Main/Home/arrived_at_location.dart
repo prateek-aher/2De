@@ -1,11 +1,31 @@
+import 'dart:async';
+
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
+import 'package:delivery/Providers/TimeProvider.dart';
+import 'package:delivery/UI/Main/QRScanScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class ArrivedAtPickup extends StatelessWidget {
-  const ArrivedAtPickup({Key? key, required this.pickupAddress})
+class ArrivedAtLocation extends StatefulWidget {
+  const ArrivedAtLocation({Key? key, required this.address, required this.task})
       : super(key: key);
-  final Address pickupAddress;
+  final Address address;
+  final Task task;
+
+  @override
+  State<ArrivedAtLocation> createState() => _ArrivedAtLocationState();
+}
+
+class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
+  int sec = 10 * 60;
+  @override
+  void initState() {
+    if (widget.task == Task.drop) {
+      context.read<TimeProvider>().start10minuteTimer();
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +41,9 @@ class ArrivedAtPickup extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Pickup package',
+                  widget.task == Task.pickup
+                      ? 'Pickup package'
+                      : 'Drop package',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
                 IconButton(onPressed: () {}, icon: Icon(Icons.close))
@@ -41,7 +63,7 @@ class ArrivedAtPickup extends StatelessWidget {
                 ),
                 sbh(8),
                 Text(
-                  '${pickupAddress.firstname} ${pickupAddress.lastname}',
+                  '${widget.address.firstname} ${widget.address.lastname}',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
                 sbh(6),
@@ -58,7 +80,7 @@ class ArrivedAtPickup extends StatelessWidget {
                 //       fontSize: 16, fontWeight: FontWeight.w500),
                 // ),
                 Text(
-                  pickupAddress.businessName ?? '',
+                  widget.address.businessName ?? '',
                   style: TextStyle(fontSize: 18),
                 ),
                 sbh(12),
@@ -71,7 +93,7 @@ class ArrivedAtPickup extends StatelessWidget {
                 ),
                 sbh(6),
                 Text(
-                  '${pickupAddress.street}, ${pickupAddress.city}, ${pickupAddress.state}, ${pickupAddress.country}, ${pickupAddress.pinCode}',
+                  '${widget.address.street}, ${widget.address.city}, ${widget.address.state}, ${widget.address.country}, ${widget.address.pinCode}',
                   style: TextStyle(fontSize: 16),
                 ),
                 sbh(12),
@@ -84,7 +106,7 @@ class ArrivedAtPickup extends StatelessWidget {
                 ),
                 sbh(6),
                 Text(
-                  '${pickupAddress.landmark}',
+                  '${widget.address.landmark}',
                   style: TextStyle(fontSize: 16),
                 ),
                 sbh(12),
@@ -109,13 +131,55 @@ class ArrivedAtPickup extends StatelessWidget {
         ]),
         height: 100,
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-        child: ElevatedButton(
-          onPressed: () {},
-          child: Text(
-            'Scan and Photo',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          ),
-        ),
+        child: widget.task == Task.pickup
+            ? ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => QRScanScreen()));
+                },
+                child: Text(
+                  'Scan and Photo',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Consumer<TimeProvider>(
+                        builder: (context, timer, child) {
+                      return Text(
+                        'Waiting: ${(timer.seconds / 60).floor()} :${timer.seconds.remainder(60)}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                          color:
+                              timer.seconds < 180 ? Colors.red : Colors.black,
+                        ),
+                      );
+                    }),
+                  ),
+                  sbw(12),
+                  Expanded(
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16)),
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => QRScanScreen()));
+                        },
+                        child: Text(
+                          "Drop Now",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )),
+                  ),
+                ],
+              ),
       ),
     );
   }

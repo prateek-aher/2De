@@ -96,3 +96,5 @@ PreferredSizeWidget customAppBar(BuildContext context) => AppBar(
         // Text('     ')
       ],
     );
+
+enum Task { pickup, drop }
