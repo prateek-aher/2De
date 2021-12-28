@@ -3,11 +3,11 @@ import 'package:delivery/Providers/SosProvider.dart';
 import 'package:delivery/UI/Main/Home/help.dart';
 import 'package:delivery/UI/Main/PassBook.dart';
 import 'package:delivery/UI/Main/ProfileDetails.dart';
-import 'package:delivery/Utils/AppConstant.dart';
+import 'package:delivery/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../main.dart';
+import '../app.dart';
 
 void showLoading() {
   showDialog(
@@ -21,7 +21,7 @@ void showLoading() {
                 BoxDecoration(shape: BoxShape.circle, color: Colors.white),
             child: CircularProgressIndicator(
               strokeWidth: 2,
-              color: Primary_Color,
+              color: PRIMARY_COLOR,
             ),
           ))).timeout(Duration(seconds: 30), onTimeout: () {
     Navigator.pop(navigatorKey.currentContext!);
@@ -37,6 +37,7 @@ void showMessage(String message) {
 }
 
 Divider divider() => Divider(height: 2, thickness: 1, color: Color(0xffe2e4e6));
+Divider greyDivider() => Divider(height: 2, thickness: 1, color: GREY7);
 
 SizedBox sbw(double w) => SizedBox(width: w);
 SizedBox sbh(double h) => SizedBox(height: h);
@@ -60,7 +61,7 @@ PreferredSizeWidget customAppBar(BuildContext context) => AppBar(
           ),
         ),
       ),
-      backgroundColor: Primary_Color,
+      backgroundColor: PRIMARY_COLOR,
       centerTitle: true,
       title: GestureDetector(
         onTap: () {
@@ -98,3 +99,6 @@ PreferredSizeWidget customAppBar(BuildContext context) => AppBar(
     );
 
 enum Task { pickup, drop }
+
+EdgeInsetsGeometry containerPadding() =>
+    const EdgeInsets.symmetric(horizontal: 15, vertical: 20);

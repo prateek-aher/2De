@@ -5,7 +5,7 @@ import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/Network/Api_Provider.dart';
 import 'package:delivery/UI/Main/Home/pickup_package.dart';
-import 'package:delivery/Utils/AppConstant.dart';
+import 'package:delivery/Utils/endpoints.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,7 @@ class FindTaskProvider extends ChangeNotifier {
   bool postResponse = true;
   Future<dynamic> findTask(context) async {
     try {
-      final response = await _apiProvider.post(Find_Task, jsonEncode({}));
+      final response = await _apiProvider.post(FIND_TASK, jsonEncode({}));
       print(response);
       if (response != null) {
         print(response);

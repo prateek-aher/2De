@@ -3,7 +3,7 @@ import 'package:delivery/Network/Api_Provider.dart';
 import 'package:delivery/UI/Auth/NewAccount/enter_name.dart';
 import 'package:delivery/UI/Auth/enter_otp.dart';
 import 'package:delivery/UI/Auth/enter_password.dart';
-import 'package:delivery/Utils/AppConstant.dart';
+import 'package:delivery/Utils/endpoints.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,12 +21,12 @@ class SendOtpProvider extends ChangeNotifier {
     try {
       // check login
       showLoading();
-      final response = await _apiProvider.auth(Check_Login, requestJson);
+      final response = await _apiProvider.auth(CHECK_LOGIN, requestJson);
       print(response);
       if (response['status'] == "failed") {
         // new user
         try {
-          final response = await _apiProvider.auth(Send_Otp, requestJson);
+          final response = await _apiProvider.auth(SEND_OTP, requestJson);
           if (response != null) {
             print(response);
             if (response['status'] == "success") {
@@ -60,7 +60,7 @@ class SendOtpProvider extends ChangeNotifier {
   Future<Null> verifyOtp(requestJson, context) async {
     try {
       showLoading();
-      final response = await _apiProvider.auth(Verify_Otp, requestJson);
+      final response = await _apiProvider.auth(VERIFY_OTP, requestJson);
       if (response != null) {
         hideLoading();
         if (response['status'] == "success") {

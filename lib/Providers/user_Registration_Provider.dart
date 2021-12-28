@@ -1,7 +1,7 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Network/Api_Provider.dart';
 import 'package:delivery/UI/Auth/NewAccount/successfully_registerd.dart';
-import 'package:delivery/Utils/AppConstant.dart';
+import 'package:delivery/Utils/endpoints.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +11,7 @@ class UserRegistrationProvider extends ChangeNotifier {
   Future<Null> registerUser(requestJson, context) async {
     try {
       showLoading();
-      final response = await _apiProvider.auth(Register_User, requestJson);
+      final response = await _apiProvider.auth(REGISTER_USER, requestJson);
       print(response);
       if (response != null) {
         if (response['status'] == "failed") {

@@ -4,6 +4,7 @@ import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/Providers/FindTaskProvider.dart';
 import 'package:delivery/UI/Main/Home/arrived_at_location.dart';
+import 'package:delivery/UI/Main/Home/cannot_accept_package.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +39,12 @@ class PickupPackage extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w500),
                       ),
-                      IconButton(onPressed: () {}, icon: Icon(Icons.close))
+                      IconButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => CannotAcceptPackage()));
+                          },
+                          icon: Icon(Icons.close))
                     ],
                   ),
                 ),

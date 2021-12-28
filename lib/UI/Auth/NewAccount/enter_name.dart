@@ -1,7 +1,6 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/UI/Auth/NewAccount/create_password.dart';
 import 'package:delivery/UI/Auth/send_otp.dart';
-import 'package:delivery/Utils/AppConstant.dart';
 import 'package:flutter/material.dart';
 
 class EnterName extends StatefulWidget {
@@ -51,7 +50,8 @@ class _EnterNameState extends State<EnterName> {
                       enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey)),
                       focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: App_Color)),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor)),
                       hintText: 'Write your full name here',
                       hintStyle:
                           TextStyle(fontSize: 17.0, color: Colors.grey[300]),
@@ -86,7 +86,8 @@ class _EnterNameState extends State<EnterName> {
                       enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey)),
                       focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: App_Color)),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor)),
                       hintText: 'Write your email here',
                       hintStyle:
                           TextStyle(fontSize: 17.0, color: Colors.grey[300]),
@@ -117,7 +118,7 @@ class _EnterNameState extends State<EnterName> {
                   //     enabledBorder: UnderlineInputBorder(
                   //         borderSide: BorderSide(color: Colors.grey)),
                   //     focusedBorder: UnderlineInputBorder(
-                  //         borderSide: BorderSide(color: App_Color)),
+                  //         borderSide: BorderSide(color: Theme.of(context).primaryColor)),
                   //     hintText: 'Write your Full name here',
                   //     hintStyle: TextStyle(fontSize: 17.0),
                   //   ),
@@ -143,8 +144,8 @@ class _EnterNameState extends State<EnterName> {
                         width: 100,
                         child: ElevatedButton(
                             style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(App_Color)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Theme.of(context).primaryColor)),
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 //if (Get.isSnackbarOpen!) Get.back();
@@ -187,7 +188,8 @@ class _EnterNameState extends State<EnterName> {
                     },
                     child: Text(
                       'Click here to Change Phone Number!',
-                      style: TextStyle(color: App_Color, fontSize: 16),
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor, fontSize: 16),
                     ),
                   ),
                   sbh(12),

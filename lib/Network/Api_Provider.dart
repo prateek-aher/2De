@@ -1,5 +1,5 @@
 import 'package:delivery/Exceptions/Custom_Excaption.dart';
-import 'package:delivery/Utils/AppConstant.dart';
+import 'package:delivery/Utils/endpoints.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
@@ -8,7 +8,7 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiProvider {
-  String? _baseUrl = BaseUrl;
+  String? _baseUrl = BASE_URL;
 
   //future get
   Future<dynamic> get(String url) async {

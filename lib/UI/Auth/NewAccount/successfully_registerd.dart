@@ -1,5 +1,5 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
-import 'package:delivery/Utils/AppConstant.dart';
+import 'package:delivery/Utils/endpoints.dart';
 import 'package:flutter/material.dart';
 
 class SuccessfullyRegistered extends StatelessWidget {
@@ -77,7 +77,7 @@ class SuccessfullyRegistered extends StatelessWidget {
                   ),
                   sbh(12),
                   Text(
-                    Address_of_document_Verification,
+                    DOCUMENT_VERIFICATION_ADDRESS,
                     style: TextStyle(fontSize: 14),
                   ),
                   sbh(24),

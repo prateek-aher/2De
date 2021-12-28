@@ -1,5 +1,4 @@
 import 'package:delivery/UI/Auth/NewAccount/successfully_registerd.dart';
-import 'package:delivery/Utils/AppConstant.dart';
 import 'package:flutter/material.dart';
 
 class EnterPin extends StatefulWidget {
@@ -50,7 +49,8 @@ class _EnterPinState extends State<EnterPin> {
                     enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey)),
                     focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: App_Color)),
+                        borderSide:
+                            BorderSide(color: Theme.of(context).primaryColor)),
                     hintText: 'enter pin here ',
                     hintStyle: TextStyle(fontSize: 17.0),
                   ),
@@ -67,8 +67,8 @@ class _EnterPinState extends State<EnterPin> {
                           const EdgeInsets.only(top: 20, bottom: 10, left: 10),
                       child: ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(App_Color)),
+                              backgroundColor: MaterialStateProperty.all(
+                                  Theme.of(context).primaryColor)),
                           onPressed: () {
                             // if (_formKey.currentState!.validate()) {
                             Navigator.push(

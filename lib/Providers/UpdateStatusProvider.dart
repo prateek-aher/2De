@@ -1,6 +1,6 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Network/Api_Provider.dart';
-import 'package:delivery/Utils/AppConstant.dart';
+import 'package:delivery/Utils/endpoints.dart';
 import 'package:flutter/cupertino.dart';
 
 class UpdateStatusProvider extends ChangeNotifier {
@@ -9,7 +9,7 @@ class UpdateStatusProvider extends ChangeNotifier {
   String? get getStatus => _getStatus;
   Future<Null> updateStatus(requestJson) async {
     showLoading();
-    final response = await _apiProvider.post(Update_Satus, requestJson);
+    final response = await _apiProvider.post(UPDATE_STATUS, requestJson);
     print(response);
     if (response != null) {
       hideLoading();

@@ -1,7 +1,7 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Network/Api_Provider.dart';
 import 'package:delivery/UI/Main/Homepage.dart';
-import 'package:delivery/Utils/AppConstant.dart';
+import 'package:delivery/Utils/endpoints.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,7 +11,7 @@ class LoginProvider extends ChangeNotifier {
     showLoading();
     try {
       SharedPreferences _preferences = await SharedPreferences.getInstance();
-      final response = await _apiProvider.auth(Login, requestJson);
+      final response = await _apiProvider.auth(LOGIN, requestJson);
       if (response != null) {
         hideLoading();
         if (response["status"] == "success") {

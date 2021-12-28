@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:delivery/Providers/LoginProvider.dart';
 import 'package:delivery/UI/Auth/forget_password.dart';
-import 'package:delivery/Utils/AppConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -73,7 +72,8 @@ class SecondPart extends StatelessWidget {
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey)),
                   focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: App_Color)),
+                      borderSide:
+                          BorderSide(color: Theme.of(context).primaryColor)),
                   hintText: 'Enter your password here',
                   hintStyle: TextStyle(fontSize: 20, color: Colors.grey[300]),
                 ),
@@ -90,8 +90,8 @@ class SecondPart extends StatelessWidget {
                     width: w * 0.35,
                     child: ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(App_Color)),
+                            backgroundColor: MaterialStateProperty.all(
+                                Theme.of(context).primaryColor)),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             String requestJson = json.encode({
@@ -125,7 +125,7 @@ class SecondPart extends StatelessWidget {
                 child: Text(
                   'Forgot Password',
                   style: TextStyle(
-                      color: App_Color,
+                      color: Theme.of(context).primaryColor,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline),

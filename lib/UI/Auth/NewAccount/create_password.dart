@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Providers/user_Registration_Provider.dart';
 import 'package:delivery/UI/Auth/send_otp.dart';
-import 'package:delivery/Utils/AppConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -60,7 +59,8 @@ class _CreatePasswordState extends State<CreatePassword> {
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey)),
                         focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: App_Color)),
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor)),
                         hintText: 'Create your password here',
                         hintStyle:
                             TextStyle(fontSize: 17.0, color: Colors.grey[300]),
@@ -96,7 +96,8 @@ class _CreatePasswordState extends State<CreatePassword> {
                       enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey)),
                       focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: App_Color)),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor)),
                       hintText: 'Renter password here',
                       hintStyle:
                           TextStyle(fontSize: 17.0, color: Colors.grey[300]),
@@ -121,8 +122,8 @@ class _CreatePasswordState extends State<CreatePassword> {
                         width: 100,
                         child: ElevatedButton(
                             style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(App_Color)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Theme.of(context).primaryColor)),
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 // print(
@@ -172,7 +173,8 @@ class _CreatePasswordState extends State<CreatePassword> {
                     },
                     child: Text(
                       'Click here to Change Phone Number!',
-                      style: TextStyle(color: App_Color, fontSize: 16),
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor, fontSize: 16),
                     ),
                   ),
                   sbh(12),

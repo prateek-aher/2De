@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:delivery/Providers/SendOtpProvider.dart';
-import 'package:delivery/Utils/AppConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -121,7 +120,8 @@ class SecondPart extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(App_Color)),
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).primaryColor)),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       String requestJson = jsonEncode(

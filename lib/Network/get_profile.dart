@@ -1,6 +1,6 @@
 import 'package:delivery/Models/my_profile_model.dart';
 import 'package:delivery/Network/Api_Provider.dart';
-import 'package:delivery/Utils/AppConstant.dart';
+import 'package:delivery/Utils/endpoints.dart';
 
 class ProfileProvider {
   static ApiProvider _apiProvider = ApiProvider();

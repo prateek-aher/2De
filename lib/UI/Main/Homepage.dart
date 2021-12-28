@@ -2,11 +2,10 @@ import 'package:delivery/Animation/avatar_glow.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Providers/FindTaskProvider.dart';
-import 'package:provider/provider.dart';
 import 'package:delivery/Providers/TimeProvider.dart';
-import 'package:delivery/Utils/AppConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -116,11 +115,12 @@ class _HomepageState extends State<Homepage> {
             tag: "findingTask",
             child: AvatarGlow(
               endRadius: 200,
-              glowColor: Primary_Color,
+              glowColor: Theme.of(context).primaryColor,
               child: Container(
                 height: 180,
-                decoration:
-                    BoxDecoration(shape: BoxShape.circle, color: Primary_Color),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).primaryColor),
                 child: Center(
                   child: Text(
                     'Finding Task',
