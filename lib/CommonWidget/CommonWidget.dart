@@ -102,3 +102,17 @@ enum Task { pickup, drop }
 
 EdgeInsetsGeometry containerPadding() =>
     const EdgeInsets.symmetric(horizontal: 15, vertical: 20);
+
+OutlinedButton goBackButton(BuildContext context) => OutlinedButton(
+    onPressed: () {
+      Navigator.pop(context);
+    },
+    child: Text(
+      'Go Back',
+      style: TextStyle(
+        fontSize: 16,
+        fontFamily: 'WorkSans',
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+    style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(16)));
