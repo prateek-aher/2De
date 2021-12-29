@@ -7,7 +7,7 @@ class TimeProvider extends ChangeNotifier {
   String _timeString = "";
   String get currentTime => _timeString;
 
-  int _seconds = 0;
+  int _seconds = 600;
   bool timerRunning = false;
   int get seconds => _seconds;
   Future<Null> updateTime() async {

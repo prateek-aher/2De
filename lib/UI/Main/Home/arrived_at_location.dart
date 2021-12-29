@@ -1,11 +1,12 @@
-import 'dart:async';
-
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/Providers/TimeProvider.dart';
 import 'package:delivery/UI/Main/QRScanScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'cannot_accept_package.dart';
+import 'no_show.dart';
 
 class ArrivedAtLocation extends StatefulWidget {
   const ArrivedAtLocation({Key? key, required this.address, required this.task})
@@ -18,7 +19,6 @@ class ArrivedAtLocation extends StatefulWidget {
 }
 
 class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
-  int sec = 10 * 60;
   @override
   void initState() {
     if (widget.task == Task.drop) {
@@ -46,7 +46,14 @@ class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
                       : 'Drop package',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.close))
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CannotAcceptPackage()));
+                    },
+                    icon: Icon(Icons.close))
               ],
             ),
           ),
@@ -148,16 +155,35 @@ class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
                   Expanded(
                     child: Consumer<TimeProvider>(
                         builder: (context, timer, child) {
-                      return Text(
-                        'Waiting: ${(timer.seconds / 60).floor()} :${timer.seconds.remainder(60)}',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                          color:
-                              timer.seconds < 180 ? Colors.red : Colors.black,
-                        ),
-                      );
+                      return timer.timerRunning
+                          ? Text(
+                              'Waiting: ${(timer.seconds / 60).floor()} :${timer.seconds.remainder(60)}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                                color: timer.seconds < 180
+                                    ? Colors.red
+                                    : Colors.black,
+                              ),
+                            )
+                          : ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.red,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16)),
+                              onPressed: () {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => NoShow()));
+                              },
+                              child: Text(
+                                "No Show",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ));
                     }),
                   ),
                   sbw(12),
