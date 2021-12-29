@@ -1,3 +1,4 @@
+import 'package:delivery/Providers/BagProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<FindTaskProvider>(
             create: (context) => FindTaskProvider()),
         ChangeNotifierProvider<UpdateStatusProvider>(
-            create: (context) => UpdateStatusProvider())
+            create: (context) => UpdateStatusProvider()),
+        ChangeNotifierProvider<BagProvider>(create: (context) => BagProvider()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

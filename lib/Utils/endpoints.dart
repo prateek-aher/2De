@@ -10,3 +10,4 @@ const String DOCUMENT_VERIFICATION_ADDRESS =
     "Office 2A, 2nd Floor, Muktali Building, Lane 16, Bhandarkar Rd, Erandwane, Pune, Maharashtra 411004";
 const String BANK_ACCOUNT_DETAILS = 'team/bankaccountdetails?';
 const String MY_PROFILE = 'team/myprofile';
+const String MY_BAG = 'schedule/mybag';

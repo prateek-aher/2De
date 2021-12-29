@@ -21,7 +21,6 @@ class FindTaskProvider extends ChangeNotifier {
       final response = await _apiProvider.post(FIND_TASK, jsonEncode({}));
       print(response);
       if (response != null) {
-        print(response);
         if (response["message"] != "No delivery schedule for today") {
           _findTask = FindTaskModel.fromJson(response);
           currentTask = Task.pickup;
