@@ -1,8 +1,12 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/UI/Main/passbook/WithdrawMoney.dart';
+import 'package:delivery/UI/Main/passbook/hub_drop_details.dart';
+import 'package:delivery/UI/Main/passbook/hub_pickup_details.dart';
+import 'package:delivery/UI/Main/passbook/pickup_details.dart';
 import 'package:delivery/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
+import 'passbook/drop_details.dart';
 import 'passbook/earning_history_filter.dart';
 
 class Passbook extends StatefulWidget {
@@ -35,16 +39,16 @@ class _PassbookState extends State<Passbook> {
       },
       {
         'imageUrl':
-            'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg',
-        'task': 'Pick-up',
+            'https://us.123rf.com/450wm/kchung/kchung1706/kchung170600676/80865035-black-3d-rendering-blank-square-box-with-separate-lid-isolated-gray-background.jpg?ver=6',
+        'task': 'Drop off',
         'earning': '+15',
         'id': 223212,
         'closing_balance': 370,
       },
       {
         'imageUrl':
-            'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg',
-        'task': 'Pick-up',
+            'https://us.123rf.com/450wm/kchung/kchung1706/kchung170600676/80865035-black-3d-rendering-blank-square-box-with-separate-lid-isolated-gray-background.jpg?ver=6',
+        'task': 'Drop off',
         'earning': '+15',
         'id': 223212,
         'closing_balance': 370,
@@ -169,64 +173,75 @@ class _PassbookState extends State<Passbook> {
               ),
             ),
 
-            ...dailyEarnings['items'].map((x) => Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: GREY7)),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(right: 16),
-                        width: 70,
-                        height: 70,
-                        // width: 100,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: GREY7),
-                            borderRadius: BorderRadius.circular(8),
-                            image: DecorationImage(
-                              image: NetworkImage(x['imageUrl']),
-                              fit: BoxFit.cover,
-                            )),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${x['task']}',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'WorkSans',
-                                fontSize: 16,
-                                color: BLACK1),
-                          ),
-                          sbh(12),
-                          Text(
-                              '${x['earning'].toString().substring(0, 1) + '\u20b9' + x['earning'].toString().substring(1)}',
+            ...dailyEarnings['items'].map((x) => InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => x['task'] == 'Pick-up'
+                                ? PickupDetails()
+                                : DropDetails()));
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: GREY7)),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 16),
+                          width: 70,
+                          height: 70,
+                          // width: 100,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: GREY7),
+                              borderRadius: BorderRadius.circular(8),
+                              image: DecorationImage(
+                                image: NetworkImage(x['imageUrl']),
+                                fit: BoxFit.cover,
+                              )),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${x['task']}',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: Colors.green)),
-                        ],
-                      ),
-                      Spacer(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            '#${x['id']}',
-                            style: TextStyle(fontSize: 16, color: BLACK3),
-                          ),
-                          sbh(12),
-                          Text('Closing balance: \u20b9${x['closing_balance']}',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w500,
                                   fontFamily: 'WorkSans',
-                                  fontSize: 14,
-                                  color: BLACK1)),
-                        ],
-                      ),
-                    ],
+                                  fontSize: 16,
+                                  color: BLACK1),
+                            ),
+                            sbh(12),
+                            Text(
+                                '${x['earning'].toString().substring(0, 1) + '\u20b9' + x['earning'].toString().substring(1)}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: Colors.green)),
+                          ],
+                        ),
+                        Spacer(),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              '#${x['id']}',
+                              style: TextStyle(fontSize: 16, color: BLACK3),
+                            ),
+                            sbh(12),
+                            Text(
+                                'Closing balance: \u20b9${x['closing_balance']}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'WorkSans',
+                                    fontSize: 14,
+                                    color: BLACK1)),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 )),
 
@@ -274,205 +289,223 @@ class _PassbookState extends State<Passbook> {
                   ),
                 ),
                 greyDivider(),
-                Container(
-                  // height: 90,
-                  width: double.infinity,
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: GREY8,
-                    border: Border.all(color: GREY7),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Hub(Drop)',
-                              style: TextStyle(
-                                  color: BLACK1,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold)),
-                          Text('6 items',
-                              style: TextStyle(
-                                  color: BLACK1,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold))
-                        ],
-                      ),
-                      sbh(12),
-                      Row(
-                        children: [
-                          ...List.generate(
-                              3,
-                              (index) => Expanded(
-                                    child: FittedBox(
-                                      fit: BoxFit.fitWidth,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                right: 16),
-                                            width: 70,
-                                            height: 70,
-                                            // width: 100,
-                                            decoration: BoxDecoration(
-                                                border:
-                                                    Border.all(color: GREY7),
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg'),
-                                                  fit: BoxFit.cover,
-                                                )),
-                                          ),
-                                          Text('#223212'),
-                                        ],
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HubDropDetails()));
+                  },
+                  child: Container(
+                    // height: 90,
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: GREY8,
+                      border: Border.all(color: GREY7),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Hub(Drop)',
+                                style: TextStyle(
+                                    color: BLACK1,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)),
+                            Text('6 items',
+                                style: TextStyle(
+                                    color: BLACK1,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold))
+                          ],
+                        ),
+                        sbh(12),
+                        Row(
+                          children: [
+                            ...List.generate(
+                                3,
+                                (index) => Expanded(
+                                      child: FittedBox(
+                                        fit: BoxFit.fitWidth,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  right: 16),
+                                              width: 70,
+                                              height: 70,
+                                              // width: 100,
+                                              decoration: BoxDecoration(
+                                                  border:
+                                                      Border.all(color: GREY7),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg'),
+                                                    fit: BoxFit.cover,
+                                                  )),
+                                            ),
+                                            Text('#223212'),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  )),
-                          Expanded(
-                            child: FittedBox(
-                              fit: BoxFit.fitWidth,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(right: 16),
-                                    width: 70,
-                                    height: 70,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(color: GREY7),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Center(
-                                        child: Text(
-                                      '+3\nview all',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                          fontSize: 14,
-                                          fontFamily: 'WorkSans',
-                                          fontWeight: FontWeight.w500),
                                     )),
-                                  ),
-                                  sbh(16)
-                                ],
+                            Expanded(
+                              child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(right: 16),
+                                      width: 70,
+                                      height: 70,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(color: GREY7),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                        '+3\nview all',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 14,
+                                            fontFamily: 'WorkSans',
+                                            fontWeight: FontWeight.w500),
+                                      )),
+                                    ),
+                                    sbh(16)
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 greyDivider(),
-                Container(
-                  // height: 90,
-                  width: double.infinity,
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: GREY8,
-                    border: Border.all(color: GREY7),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Hub(Pickup)',
-                              style: TextStyle(
-                                  color: BLACK1,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold)),
-                          Text('6 items',
-                              style: TextStyle(
-                                  color: BLACK1,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold))
-                        ],
-                      ),
-                      sbh(12),
-                      Row(
-                        children: [
-                          ...List.generate(
-                              3,
-                              (index) => Expanded(
-                                    child: FittedBox(
-                                      fit: BoxFit.fitWidth,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                right: 16),
-                                            width: 70,
-                                            height: 70,
-                                            // width: 100,
-                                            decoration: BoxDecoration(
-                                                border:
-                                                    Border.all(color: GREY7),
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg'),
-                                                  fit: BoxFit.cover,
-                                                )),
-                                          ),
-                                          Text('#223212'),
-                                        ],
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HubPickupDetails()));
+                  },
+                  child: Container(
+                    // height: 90,
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: GREY8,
+                      border: Border.all(color: GREY7),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Hub(Pickup)',
+                                style: TextStyle(
+                                    color: BLACK1,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)),
+                            Text('6 items',
+                                style: TextStyle(
+                                    color: BLACK1,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold))
+                          ],
+                        ),
+                        sbh(12),
+                        Row(
+                          children: [
+                            ...List.generate(
+                                3,
+                                (index) => Expanded(
+                                      child: FittedBox(
+                                        fit: BoxFit.fitWidth,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  right: 16),
+                                              width: 70,
+                                              height: 70,
+                                              // width: 100,
+                                              decoration: BoxDecoration(
+                                                  border:
+                                                      Border.all(color: GREY7),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        'https://www.tinyredbox.com.au/wp-content/uploads/2021/05/TinyRedBox-scaled-e1620823751100-768x577.jpg'),
+                                                    fit: BoxFit.cover,
+                                                  )),
+                                            ),
+                                            Text('#223212'),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  )),
-                          Expanded(
-                            child: FittedBox(
-                              fit: BoxFit.fitWidth,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(right: 16),
-                                    width: 70,
-                                    height: 70,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(color: GREY7),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Center(
-                                        child: Text(
-                                      '+3\nview all',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                          fontSize: 14,
-                                          fontFamily: 'WorkSans',
-                                          fontWeight: FontWeight.w500),
                                     )),
-                                  ),
-                                  sbh(22)
-                                ],
+                            Expanded(
+                              child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(right: 16),
+                                      width: 70,
+                                      height: 70,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(color: GREY7),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                        '+3\nview all',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 14,
+                                            fontFamily: 'WorkSans',
+                                            fontWeight: FontWeight.w500),
+                                      )),
+                                    ),
+                                    sbh(22)
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 greyDivider(),
