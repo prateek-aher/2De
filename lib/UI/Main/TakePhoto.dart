@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:camera/camera.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Providers/FindTaskProvider.dart';
 import 'package:delivery/UI/Main/Home/pickup_package.dart';

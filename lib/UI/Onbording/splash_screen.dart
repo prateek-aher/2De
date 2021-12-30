@@ -1,6 +1,5 @@
 import 'package:delivery/UI/Auth/send_otp.dart';
 import 'package:delivery/UI/Main/Homepage.dart';
-import 'package:delivery/UI/Main/TakePhoto.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

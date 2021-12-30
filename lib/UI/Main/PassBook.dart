@@ -1,7 +1,9 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
-import 'package:delivery/UI/Main/WithdrawMoney.dart';
+import 'package:delivery/UI/Main/passbook/WithdrawMoney.dart';
 import 'package:delivery/Utils/colors.dart';
 import 'package:flutter/material.dart';
+
+import 'passbook/earning_history_filter.dart';
 
 class Passbook extends StatefulWidget {
   const Passbook({Key? key}) : super(key: key);
@@ -130,7 +132,12 @@ class _PassbookState extends State<Passbook> {
               child: Row(
                 children: [
                   TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EarningHistoryFilter()));
+                      },
                       icon: Image.asset(
                         'assets/filter.png',
                         scale: 2,

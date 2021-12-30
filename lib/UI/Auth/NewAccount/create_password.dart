@@ -52,7 +52,8 @@ class _CreatePasswordState extends State<CreatePassword> {
                       controller: _password,
                       //obscureText: _obscureTextPassword,
                       style: const TextStyle(
-                          fontFamily: 'WorkSansSemiBold',
+                          fontFamily: 'WorkSans',
+                          fontWeight: FontWeight.w500,
                           fontSize: 16.0,
                           color: Colors.black),
                       decoration: InputDecoration(
@@ -86,7 +87,7 @@ class _CreatePasswordState extends State<CreatePassword> {
                   ),
                   TextFormField(
                     //focusNode: focusNodePassword,
-                    //controller: loginPasswordController,
+                    controller: _confirmPassword,
                     //obscureText: _obscureTextPassword,
                     style: const TextStyle(
                         fontFamily: 'WorkSansSemiBold',
@@ -108,8 +109,9 @@ class _CreatePasswordState extends State<CreatePassword> {
                     obscureText: true,
                     textInputAction: TextInputAction.go,
                     validator: (args) {
-                      if (args != _password.text) {
-                        return "Password should be Same as Above";
+                      if (_confirmPassword.text.trim() !=
+                          _password.text.trim()) {
+                        return "Passwords don't match";
                       }
                     },
                     //autovalidate: true,
