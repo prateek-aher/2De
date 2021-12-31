@@ -7,3 +7,4 @@ const Color GREY7 = const Color(0xffC4C9CD);
 const Color GREY8 = const Color(0xffe2e4e6);
 const Color BLACK1 = const Color(0xff232629);
 const Color BLACK3 = const Color(0xff555c64);
+const Color BLACK4 = const Color(0xff6E7781);
