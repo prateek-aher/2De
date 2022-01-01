@@ -221,7 +221,7 @@ class _MyProfileState extends State<MyProfile> {
   }
 
   void getModel() async {
-    _model = await ProfileProvider.getProfile();
+    _model = await ProfileService.getProfile();
     setState(() {});
   }
 }

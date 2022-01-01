@@ -2,6 +2,7 @@ import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/Providers/TimeProvider.dart';
 import 'package:delivery/UI/Main/QRScanScreen.dart';
+import 'package:delivery/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -131,9 +132,9 @@ class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(color: Colors.white, boxShadow: [
           BoxShadow(
-              color: Colors.black26,
-              offset: Offset(0, -8),
-              blurRadius: 20,
+              color: GREY7,
+              offset: Offset(0, -4),
+              blurRadius: 10,
               spreadRadius: 0)
         ]),
         height: 100,

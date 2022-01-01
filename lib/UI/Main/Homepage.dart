@@ -35,7 +35,7 @@ class _HomepageState extends State<Homepage> {
           return true;
         } else {
           previousBackPressTime = now;
-          CustomSnackBar(context, Text('Press again to exit'));
+          showCustomSnackBar(context, Text('Press again to exit'));
           return false;
         }
       },

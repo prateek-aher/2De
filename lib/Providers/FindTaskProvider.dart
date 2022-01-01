@@ -39,7 +39,7 @@ class FindTaskProvider extends ChangeNotifier {
           notifyListeners();
         } else {
           reSet();
-          CustomSnackBar(context, Text("No Deliveries For Today!"));
+          showCustomSnackBar(context, Text("No Deliveries For Today!"));
         }
         notifyListeners();
       }

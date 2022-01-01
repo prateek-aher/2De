@@ -5,6 +5,7 @@ import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/Providers/FindTaskProvider.dart';
 import 'package:delivery/UI/Main/Home/arrived_at_location.dart';
 import 'package:delivery/UI/Main/Home/cannot_accept_package.dart';
+import 'package:delivery/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:provider/provider.dart';
@@ -154,18 +155,17 @@ class PickupPackage extends StatelessWidget {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(color: Colors.white, boxShadow: [
           BoxShadow(
-              color: Colors.black26,
-              offset: Offset(0, -8),
-              blurRadius: 20,
+              color: GREY7,
+              offset: Offset(0, -4),
+              blurRadius: 10,
               spreadRadius: 0)
         ]),
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: SwipeButton.expand(
-          thumb: Icon(
-            Icons.double_arrow_rounded,
-            color: Colors.green,
-          ),
-          thumbPadding: EdgeInsets.all(2),
+          height: 68,
+          thumb:
+              Icon(Icons.double_arrow_rounded, color: Colors.green, size: 28),
+          thumbPadding: EdgeInsets.all(5),
           child: Text(
             task == Task.pickup
                 ? "Arrived at pickup location"
@@ -181,16 +181,8 @@ class PickupPackage extends StatelessWidget {
           onSwipe: () {
             // TODO: Update delivery status
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ArrivedAtLocation(
-                      address: pickupAddress!,
-                      task: task,
-                    )));
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Swiped"),
-                backgroundColor: Colors.green,
-              ),
-            );
+                builder: (context) =>
+                    ArrivedAtLocation(address: pickupAddress!, task: task)));
           },
         ),
       ),

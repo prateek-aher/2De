@@ -11,3 +11,4 @@ const String DOCUMENT_VERIFICATION_ADDRESS =
 const String BANK_ACCOUNT_DETAILS = 'team/bankaccountdetails?';
 const String MY_PROFILE = 'team/myprofile';
 const String MY_BAG = 'schedule/mybag';
+const String CHANGE_PASSWORD = 'team/changepassword?';

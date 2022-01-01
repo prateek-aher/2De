@@ -64,7 +64,7 @@ class BagProvider extends ChangeNotifier {
           notifyListeners();
         } else {
           // reSet();
-          CustomSnackBar(
+          showCustomSnackBar(
               context, Text("Your bag is empty. Find task to fill it."));
         }
         notifyListeners();

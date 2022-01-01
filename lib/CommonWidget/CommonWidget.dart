@@ -33,7 +33,7 @@ void hideLoading() {
 }
 
 void showMessage(String message) {
-  CustomSnackBar(navigatorKey.currentContext!, Text(message));
+  showCustomSnackBar(navigatorKey.currentContext!, Text(message));
 }
 
 Divider divider() => Divider(height: 2, thickness: 1, color: Color(0xffe2e4e6));

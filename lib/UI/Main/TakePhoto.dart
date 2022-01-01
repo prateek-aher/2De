@@ -19,24 +19,15 @@ class TakePhotoScreen extends StatefulWidget {
 
 class _TakePhotoScreenState extends State<TakePhotoScreen> {
   File? xImage;
-  // late CameraController _controller;
-  // late Future<void> _initializeControllerFuture;
-
-  // _camDesc() async {
-  //   _controller = CameraController(
-  //     getCamDescription,
-  //     ResolutionPreset.medium,
-  //     enableAudio: false,
-  //   );
-  //   // Next, initialize the controller. This returns a Future.
-  //   _initializeControllerFuture = _controller.initialize();
-  // }
 
   Future<dynamic> pickImage() async {
     try {
       final image = await ImagePicker().pickImage(
           source: ImageSource.camera, preferredCameraDevice: CameraDevice.rear);
-      if (image == null) return;
+      if (image == null) {
+        Navigator.pop(context);
+        return;
+      }
       final capturedImage = File(image.path);
       setState(() => this.xImage = capturedImage);
     } on PlatformException catch (e) {
