@@ -27,11 +27,19 @@ class _EnterPasswordState extends State<EnterPassword> {
 }
 
 // ignore: use_key_in_widget_constructors
-class SecondPart extends StatelessWidget {
+class SecondPart extends StatefulWidget {
   final String number;
   SecondPart({required this.number});
+
+  @override
+  State<SecondPart> createState() => _SecondPartState();
+}
+
+class _SecondPartState extends State<SecondPart> {
   final _formKey = GlobalKey<FormState>();
+  bool isVisible = false;
   final TextEditingController _pwdController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
@@ -59,7 +67,7 @@ class SecondPart extends StatelessWidget {
                       fontSize: 14)),
               TextFormField(
                 validator: (args) {
-                  if (args!.length < 1) {
+                  if (_pwdController.text.trim().length < 1) {
                     return "Please enter Password";
                   }
                 },
@@ -68,7 +76,17 @@ class SecondPart extends StatelessWidget {
                     fontFamily: 'WorkSansSemiBold',
                     fontSize: 16.0,
                     color: Colors.black),
+                obscureText: !isVisible,
                 decoration: InputDecoration(
+                  suffix: InkWell(
+                    child: Icon(
+                        !isVisible ? Icons.visibility_off : Icons.visibility),
+                    onTap: () {
+                      setState(() {
+                        isVisible = !isVisible;
+                      });
+                    },
+                  ),
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey)),
                   focusedBorder: UnderlineInputBorder(
@@ -95,7 +113,7 @@ class SecondPart extends StatelessWidget {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             String requestJson = json.encode({
-                              "phone_no": this.number,
+                              "phone_no": this.widget.number,
                               "password": _pwdController.text
                             });
                             context

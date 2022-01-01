@@ -11,9 +11,9 @@ import 'package:flutter/material.dart';
 
 class FindTaskProvider extends ChangeNotifier {
   ApiProvider _apiProvider = ApiProvider();
-  FindTaskModel? _findTask;
+  FindTaskModel? task;
   Task? currentTask;
-  FindTaskModel? get findTaskData => _findTask;
+  FindTaskModel? get findTaskData => task;
   bool gotResponse = false;
   bool postResponse = true;
   Future<dynamic> findTask(context) async {
@@ -22,15 +22,15 @@ class FindTaskProvider extends ChangeNotifier {
       print(response);
       if (response != null) {
         if (response["message"] != "No delivery schedule for today") {
-          _findTask = FindTaskModel.fromJson(response);
+          task = FindTaskModel.fromJson(response);
           currentTask = Task.pickup;
           postResponse = !postResponse;
 
-          if (_findTask?.message == "You have successfully Got Delivery" &&
+          if (task?.message == "You have successfully Got Delivery" &&
               gotResponse) {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => PickupPackage(
-                      pickupAddress: _findTask?.data?.result?.pickupAddress,
+                      pickupAddress: task?.data?.result?.pickupAddress,
                       task: currentTask!,
                     )));
           }

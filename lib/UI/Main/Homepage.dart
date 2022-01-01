@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:delivery/Animation/avatar_glow.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/CommonWidget/Snackbar.dart';
@@ -35,7 +37,21 @@ class _HomepageState extends State<Homepage> {
           return true;
         } else {
           previousBackPressTime = now;
-          showCustomSnackBar(context, Text('Press again to exit'));
+          showCustomSnackBar(
+              context,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Press again to exit'),
+                  InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Theme(
+                          data: ThemeData(primaryColor: Colors.amber),
+                          child: Text('EXIT')))
+                ],
+              ));
           return false;
         }
       },
@@ -154,24 +170,22 @@ class _HomepageState extends State<Homepage> {
                 color: Theme.of(context).primaryColor,
                 boxShadow: [
                   BoxShadow(
-                      offset: Offset(0, 4),
-                      color: Colors.black26,
-                      blurRadius: 5,
-                      spreadRadius: 4)
+                      offset: Offset(0, 0),
+                      color: Theme.of(context).primaryColor.withOpacity(0.7),
+                      blurRadius: 20,
+                      spreadRadius: 3)
                 ]),
             child: ElevatedButton(
               onPressed: () {
                 context.read<FindTaskProvider>().changeWidget();
                 context.read<FindTaskProvider>().findTask(context);
               },
-              style: ElevatedButton.styleFrom(shape: CircleBorder()),
+              style:
+                  ElevatedButton.styleFrom(shape: CircleBorder(), elevation: 0),
               child: Center(
                 child: Text(
                   'Start',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      backgroundColor: Colors.transparent),
+                  style: TextStyle(color: Colors.white, fontSize: 30),
                 ),
               ),
             ),
