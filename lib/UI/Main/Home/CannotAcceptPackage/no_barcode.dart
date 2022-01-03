@@ -22,7 +22,7 @@ class _NoBarcodeState extends State<NoBarcode> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            sbh(32),
+            32.h,
             Text(
               'No Barcode or ID',
               style: TextStyle(
@@ -31,13 +31,13 @@ class _NoBarcodeState extends State<NoBarcode> {
                   fontWeight: FontWeight.w500,
                   color: BLACK1),
             ),
-            sbh(16),
+            16.h,
             Text(
               'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod',
               style: TextStyle(fontSize: 18),
               textAlign: TextAlign.center,
             ),
-            sbh(32),
+            32.h,
             if (code.isNotEmpty) ...[
               Container(
                   height: MediaQuery.of(context).size.height * 0.1,
@@ -55,7 +55,7 @@ class _NoBarcodeState extends State<NoBarcode> {
                         fontSize: 20,
                         color: Theme.of(context).primaryColor),
                   ))),
-              sbh(24)
+              2.h
             ],
             ElevatedButton(
               onPressed: () {
@@ -77,7 +77,7 @@ class _NoBarcodeState extends State<NoBarcode> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 51, vertical: 16)),
             ),
-            sbh(48),
+            48.h,
             goBackButton(context),
           ],
         ),

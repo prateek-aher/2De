@@ -5,7 +5,7 @@ A new Flutter project.
 ## Getting Started
 
 ### Developer shortcuts
-- use sbh(20) to specify SizedBox(height:20). sbw(20) if SizedBox(width:20).
+- use **20.h** to specify SizedBox(height:20). **sbw(20)** if SizedBox(width:20).
 
 This project is a starting point for a Flutter application.
 

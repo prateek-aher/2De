@@ -15,7 +15,7 @@ class Other extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            sbh(32),
+            32.h,
             Text(
               'Other issue with the package?',
               textAlign: TextAlign.center,
@@ -25,13 +25,13 @@ class Other extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                   color: BLACK1),
             ),
-            sbh(16),
+            16.h,
             Text(
               'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod',
               style: TextStyle(fontSize: 18),
               textAlign: TextAlign.center,
             ),
-            sbh(48),
+            48.h,
             Text(
               'Call Hub Manager',
               style: TextStyle(

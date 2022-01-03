@@ -32,7 +32,7 @@ class _IssueWithPackageState extends State<IssueWithPackage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            sbh(32),
+            32.h,
             Text(
               'Issue with Package',
               style: TextStyle(
@@ -41,13 +41,13 @@ class _IssueWithPackageState extends State<IssueWithPackage> {
                   fontWeight: FontWeight.w500,
                   color: BLACK1),
             ),
-            sbh(16),
+            16.h,
             Text(
               'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod',
               style: TextStyle(fontSize: 18),
               textAlign: TextAlign.center,
             ),
-            sbh(16),
+            16.h,
             if (xImage != null)
               Container(
                   height: MediaQuery.of(context).size.height * 0.3,
@@ -67,7 +67,7 @@ class _IssueWithPackageState extends State<IssueWithPackage> {
                         borderRadius: BorderRadius.circular(8)),
                     child: Icon(Icons.camera)),
               ),
-            sbh(24),
+            24.h,
             ElevatedButton(
               onPressed: xImage == null ? null : () {},
               child: Text(
@@ -82,7 +82,7 @@ class _IssueWithPackageState extends State<IssueWithPackage> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 51, vertical: 16)),
             ),
-            sbh(48),
+            48.h,
             goBackButton(context),
           ],
         ),

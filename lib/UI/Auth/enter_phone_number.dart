@@ -4,16 +4,11 @@ import 'package:delivery/Providers/SendOtpProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:delivery/CommonWidget/CommonWidget.dart';
 
-class SendOtp extends StatefulWidget {
-  const SendOtp({Key? key}) : super(key: key);
+class EnterPhoneNumber extends StatelessWidget {
+  const EnterPhoneNumber({Key? key}) : super(key: key);
 
-  @override
-  _SendOtpState createState() => _SendOtpState();
-}
-
-class _SendOtpState extends State<SendOtp> {
-  final TextEditingController _phoneNumberController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,17 +22,30 @@ class _SendOtpState extends State<SendOtp> {
             width: 100,
           )),
           Spacer(),
-          SecondPart(_phoneNumberController)
+          SecondPart()
         ],
       ),
     );
   }
 }
 
-class SecondPart extends StatelessWidget {
-  final TextEditingController _phoneController;
+class SecondPart extends StatefulWidget {
+  SecondPart({Key? key}) : super(key: key);
+
+  @override
+  State<SecondPart> createState() => _SecondPartState();
+}
+
+class _SecondPartState extends State<SecondPart> {
+  late final TextEditingController _phoneController;
   final _formKey = GlobalKey<FormState>();
-  SecondPart(this._phoneController, {Key? key}) : super(key: key);
+
+  @override
+  void initState() {
+    super.initState();
+    _phoneController = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,14 +65,14 @@ class SecondPart extends StatelessWidget {
               fontSize: Theme.of(context).textTheme.headline6!.fontSize,
             ),
           ),
-          const SizedBox(height: 30),
+          30.h,
           Text(
             'Enter Your Phone Number',
             style: TextStyle(
               fontSize: Theme.of(context).textTheme.subtitle1!.fontSize,
             ),
           ),
-          const SizedBox(height: 10),
+          10.h,
           Form(
             key: _formKey,
             child: Row(
@@ -80,7 +88,7 @@ class SecondPart extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 12),
+                12.w,
                 Container(
                   padding: const EdgeInsets.all(4),
                   width: MediaQuery.of(context).size.width * 0.7,
@@ -114,7 +122,7 @@ class SecondPart extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 10),
+          10.h,
           Container(
               height: MediaQuery.of(context).size.height * 0.07,
               width: MediaQuery.of(context).size.width * 0.4,
@@ -136,9 +144,15 @@ class SecondPart extends StatelessWidget {
                         fontSize:
                             Theme.of(context).textTheme.subtitle1!.fontSize),
                   ))),
-          const SizedBox(height: 70),
+          70.h,
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    super.dispose();
   }
 }

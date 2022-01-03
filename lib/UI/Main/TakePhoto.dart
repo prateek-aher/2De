@@ -65,7 +65,7 @@ class _TakePhotoScreenState extends State<TakePhotoScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             xImage != null ? Image.file(xImage!) : Container(),
-            sbh(12),
+            12.h,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -84,7 +84,7 @@ class _TakePhotoScreenState extends State<TakePhotoScreen> {
                         padding: const EdgeInsets.all(16)),
                   ),
                 ),
-                sbw(12),
+                12.w,
                 Expanded(
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(

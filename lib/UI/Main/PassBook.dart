@@ -213,7 +213,7 @@ class _PassbookState extends State<Passbook> {
                                   fontSize: 16,
                                   color: BLACK1),
                             ),
-                            sbh(12),
+                            12.h,
                             Text(
                                 '${x['earning'].toString().substring(0, 1) + '\u20b9' + x['earning'].toString().substring(1)}',
                                 style: TextStyle(
@@ -230,7 +230,7 @@ class _PassbookState extends State<Passbook> {
                               '#${x['id']}',
                               style: TextStyle(fontSize: 16, color: BLACK3),
                             ),
-                            sbh(12),
+                            12.h,
                             Text(
                                 'Closing balance: \u20b9${x['closing_balance']}',
                                 style: TextStyle(
@@ -327,7 +327,7 @@ class _PassbookState extends State<Passbook> {
                                     fontWeight: FontWeight.bold))
                           ],
                         ),
-                        sbh(12),
+                        12.h,
                         Row(
                           children: [
                             ...List.generate(
@@ -387,7 +387,7 @@ class _PassbookState extends State<Passbook> {
                                             fontWeight: FontWeight.w500),
                                       )),
                                     ),
-                                    sbh(16)
+                                    16.h
                                   ],
                                 ),
                               ),
@@ -437,7 +437,7 @@ class _PassbookState extends State<Passbook> {
                                     fontWeight: FontWeight.bold))
                           ],
                         ),
-                        sbh(12),
+                        12.h,
                         Row(
                           children: [
                             ...List.generate(
@@ -497,7 +497,7 @@ class _PassbookState extends State<Passbook> {
                                             fontWeight: FontWeight.w500),
                                       )),
                                     ),
-                                    sbh(22)
+                                    22.h
                                   ],
                                 ),
                               ),
@@ -543,7 +543,7 @@ class _PassbookState extends State<Passbook> {
                                 fontSize: 16,
                                 color: BLACK1),
                           ),
-                          sbh(12),
+                          12.h,
                           Text(
                               '${x['earning'].toString().substring(0, 1) + '\u20b9' + x['earning'].toString().substring(1)}',
                               style: TextStyle(
@@ -560,7 +560,7 @@ class _PassbookState extends State<Passbook> {
                             '#${x['id']}',
                             style: TextStyle(fontSize: 16, color: BLACK3),
                           ),
-                          sbh(12),
+                          12.h,
                           Text('Closing balance: \u20b9${x['closing_balance']}',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,

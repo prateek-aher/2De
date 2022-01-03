@@ -1,11 +1,9 @@
-import 'dart:io';
-
 import 'package:delivery/Animation/avatar_glow.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/CommonWidget/Snackbar.dart';
+import 'package:delivery/Providers/BagProvider.dart';
 import 'package:delivery/Providers/FindTaskProvider.dart';
 import 'package:delivery/Providers/TimeProvider.dart';
-import 'package:delivery/Providers/BagProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -85,11 +83,11 @@ class _HomepageState extends State<Homepage> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          sbh(MediaQuery.of(context).size.height * 0.07),
+                          (MediaQuery.of(context).size.height * 0.07).h,
                           Row(
                             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              sbw(8),
+                              8.w,
                               Text(
                                 'My Bag',
                                 style: TextStyle(
@@ -107,10 +105,10 @@ class _HomepageState extends State<Homepage> {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              sbw(8)
+                              8.w
                             ],
                           ),
-                          sbh(12),
+                          12.h,
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
@@ -219,7 +217,7 @@ class _HomepageState extends State<Homepage> {
               ),
             ),
           ),
-          sbh(20),
+          20.h,
           OutlinedButton(
               onPressed: () {
                 context.read<FindTaskProvider>().changeWidget();

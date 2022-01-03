@@ -28,12 +28,12 @@ class Help extends StatelessWidget {
             },
           ),
           divider(),
-          sbh(18),
+          18.h,
           Text(
             'Hub Manager',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
-          sbh(20),
+          20.h,
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(12),
@@ -82,14 +82,14 @@ class Help extends StatelessWidget {
               ],
             ),
           ),
-          sbh(20),
+          20.h,
           divider(),
-          sbh(18),
+          18.h,
           Text(
             'City Manager',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
-          sbh(20),
+          20.h,
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(12),
@@ -107,7 +107,7 @@ class Help extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                sbw(12),
+                12.w,
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,

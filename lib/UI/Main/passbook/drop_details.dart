@@ -16,7 +16,7 @@ class DropDetails extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: ListView(
           children: [
-            sbh(24),
+            24.h,
             Text.rich(
               TextSpan(children: [
                 TextSpan(
@@ -31,13 +31,13 @@ class DropDetails extends StatelessWidget {
                         color: BLACK3)),
               ]),
             ),
-            sbh(12),
+            12.h,
             Text('#223212',
                 style: TextStyle(
                     fontFamily: 'WorkSans',
                     fontSize: 16,
                     fontWeight: FontWeight.w500)),
-            sbh(12),
+            12.h,
             Text(
               '20 Jan 2020, 04:00 PM',
               style: TextStyle(
@@ -46,7 +46,7 @@ class DropDetails extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                   color: BLACK4),
             ),
-            sbh(8),
+            8.h,
             // package image
             Container(
               alignment: Alignment.centerLeft,
@@ -63,21 +63,21 @@ class DropDetails extends StatelessWidget {
                       ),
                       fit: BoxFit.cover)),
             ),
-            sbh(24),
+            24.h,
             buildDetailRow(left: 'Amount Awarded ', right: '\u20b915'),
-            sbh(12),
+            12.h,
             buildDetailRow(left: 'Time-Bound bonus ', right: '\u20b922'),
-            sbh(12),
+            12.h,
             buildDetailRow(left: 'Closing Balance ', right: '\u20b93400'),
-            sbh(12),
+            12.h,
             buildDetailRow(left: 'Cash Collected ', right: '\u20b92000'),
-            sbh(12),
+            12.h,
             buildDetailRow(
                 left: 'Drop Assigned at ', right: '20 Jan 2020, 05:00 PM'),
-            sbh(12),
+            12.h,
             buildDetailRow(
                 left: 'Arrived at location ', right: '20 Jan 2020, 05:00 PM'),
-            sbh(12),
+            12.h,
             buildDetailRow(
                 left: 'Drop Completed at ', right: '20 Jan 2020, 05:00 PM'),
           ],

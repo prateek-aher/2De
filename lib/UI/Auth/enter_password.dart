@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Providers/LoginProvider.dart';
 import 'package:delivery/UI/Auth/forget_password.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,7 @@ class _SecondPartState extends State<SecondPart> {
                     fontSize: Theme.of(context).textTheme.headline3!.fontSize,
                     fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 24),
+              24.h,
               Text('Password',
                   style: TextStyle(
                       color: Colors.grey,
@@ -100,7 +101,7 @@ class _SecondPartState extends State<SecondPart> {
                 },
                 textInputAction: TextInputAction.go,
               ),
-              SizedBox(height: 18),
+              18.h,
               Row(
                 children: [
                   SizedBox(
@@ -132,7 +133,7 @@ class _SecondPartState extends State<SecondPart> {
                   ),
                 ],
               ),
-              SizedBox(height: 36),
+              36.h,
               GestureDetector(
                 onTap: () {
                   Navigator.push(

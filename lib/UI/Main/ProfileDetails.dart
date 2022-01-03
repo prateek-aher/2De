@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:delivery/CommonWidget/CommonWidget.dart';
-import 'package:delivery/UI/Auth/send_otp.dart';
+import 'package:delivery/UI/Auth/enter_phone_number.dart';
 import 'package:delivery/UI/Main/ProfileDetails/bank_account_details.dart';
 import 'package:delivery/UI/Main/ProfileDetails/insurance_details.dart';
 import 'package:delivery/UI/Main/ProfileDetails/my_documents.dart';
@@ -211,7 +211,8 @@ class ProfileDetails extends StatelessWidget {
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => SendOtp()),
+                                        builder: (context) =>
+                                            EnterPhoneNumber()),
                                     (route) => false);
                               },
                               child: Text('YES')),

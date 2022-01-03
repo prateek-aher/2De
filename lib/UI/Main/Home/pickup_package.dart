@@ -57,13 +57,13 @@ class PickupPackage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      sbh(12),
+                      12.h,
                       Text(
                         '${pickupAddress!.firstname} ${pickupAddress!.lastname}',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w500),
                       ),
-                      sbh(6),
+                      6.h,
                       Text(
                         '#' +
                             context
@@ -84,7 +84,7 @@ class PickupPackage extends StatelessWidget {
                         pickupAddress!.businessName ?? '',
                         style: TextStyle(fontSize: 18),
                       ),
-                      sbh(12),
+                      12.h,
                       Text(
                         'Flat, Floor, Building Name',
                         style: TextStyle(
@@ -92,12 +92,12 @@ class PickupPackage extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             color: Colors.black45),
                       ),
-                      sbh(6),
+                      6.h,
                       Text(
                         '${pickupAddress!.street}, ${pickupAddress!.city}, ${pickupAddress!.state}, ${pickupAddress!.country}, ${pickupAddress!.pinCode}',
                         style: TextStyle(fontSize: 16),
                       ),
-                      sbh(12),
+                      12.h,
                       Text(
                         'Landmark',
                         style: TextStyle(
@@ -105,12 +105,12 @@ class PickupPackage extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             color: Colors.black45),
                       ),
-                      sbh(6),
+                      6.h,
                       Text(
                         '${pickupAddress!.landmark}',
                         style: TextStyle(fontSize: 16),
                       ),
-                      sbh(12),
+                      12.h,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -128,7 +128,7 @@ class PickupPackage extends StatelessWidget {
                             style: OutlinedButton.styleFrom(
                                 padding: const EdgeInsets.all(16)),
                           ),
-                          sbw(12),
+                          12.w,
                           OutlinedButton.icon(
                             onPressed: () async {
                               await launch('https://maps.google.com/?api=1&q=' +
@@ -145,11 +145,11 @@ class PickupPackage extends StatelessWidget {
                           )
                         ],
                       ),
-                      sbh(12),
+                      12.h,
                     ],
                   ),
                 ),
-                sbh(48),
+                48.h,
               ],
             ),
       bottomNavigationBar: Container(

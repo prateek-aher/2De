@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/UI/Main/TakePhoto.dart';
 import 'package:flutter/foundation.dart';
@@ -60,7 +61,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: sbh(0),
+        leading: 0.h,
         backgroundColor: Colors.white,
         title: Text(
           "Scan QR",
@@ -75,7 +76,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             children: [
-              sbh(12),
+              12.h,
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.4,
                 child: QRView(key: _qrKey, onQRViewCreated: _onQRViewCreated),
@@ -86,7 +87,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    sbh(24),
+                    24.h,
                     Text(
                       "Enter Code Manually",
                       style:
@@ -101,7 +102,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
                             color: Colors.grey[400],
                           )),
                     ),
-                    sbh(24),
+                    24.h,
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16)),
@@ -117,7 +118,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
                             fontWeight: FontWeight.w500,
                           ),
                         )),
-                    // sbh(24)
+                    24.h
                   ],
                 ),
               )

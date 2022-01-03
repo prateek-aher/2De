@@ -15,7 +15,7 @@ class ConfirmBagFull extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            sbh(32),
+            32.h,
             Text(
               'Your bag is full?',
               style: TextStyle(
@@ -24,13 +24,13 @@ class ConfirmBagFull extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                   color: BLACK1),
             ),
-            sbh(16),
+            16.h,
             Text(
               'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod',
               style: TextStyle(fontSize: 18),
               textAlign: TextAlign.center,
             ),
-            sbh(32),
+            32.h,
             ElevatedButton(
               onPressed: () {},
               child: Text(
@@ -45,7 +45,7 @@ class ConfirmBagFull extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 51, vertical: 16)),
             ),
-            sbh(48),
+            48.h,
             goBackButton(context),
           ],
         ),

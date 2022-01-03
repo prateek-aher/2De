@@ -69,12 +69,12 @@ class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
                   'To:',
                   style: TextStyle(fontSize: 16, color: Colors.grey),
                 ),
-                sbh(8),
+                8.h,
                 Text(
                   '${widget.address.firstname} ${widget.address.lastname}',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
-                sbh(6),
+                6.h,
                 // Text(
                 //   '#' +
                 //       context
@@ -91,7 +91,7 @@ class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
                   widget.address.businessName ?? '',
                   style: TextStyle(fontSize: 18),
                 ),
-                sbh(12),
+                12.h,
                 Text(
                   'Flat, Floor, Building Name',
                   style: TextStyle(
@@ -99,12 +99,12 @@ class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
                       fontWeight: FontWeight.w500,
                       color: Colors.black45),
                 ),
-                sbh(6),
+                6.h,
                 Text(
                   '${widget.address.street}, ${widget.address.city}, ${widget.address.state}, ${widget.address.country}, ${widget.address.pinCode}',
                   style: TextStyle(fontSize: 16),
                 ),
-                sbh(12),
+                12.h,
                 Text(
                   'Landmark',
                   style: TextStyle(
@@ -112,21 +112,21 @@ class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
                       fontWeight: FontWeight.w500,
                       color: Colors.black45),
                 ),
-                sbh(6),
+                6.h,
                 Text(
                   '${widget.address.landmark}',
                   style: TextStyle(fontSize: 16),
                 ),
-                sbh(12),
+                12.h,
                 Image.network(
                   'https://static9.depositphotos.com/1669785/1150/i/600/depositphotos_11506024-stock-photo-package.jpg',
                   height: MediaQuery.of(context).size.height * 0.2,
                 ),
-                sbh(12),
+                12.h,
               ],
             ),
           ),
-          sbh(48),
+          48.h,
         ],
       ),
       bottomNavigationBar: Container(
@@ -187,7 +187,7 @@ class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
                               ));
                     }),
                   ),
-                  sbw(12),
+                  12.w,
                   Expanded(
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(

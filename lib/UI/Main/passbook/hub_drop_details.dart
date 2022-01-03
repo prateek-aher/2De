@@ -23,7 +23,7 @@ class HubDropDetails extends StatelessWidget {
           child: Scrollbar(
             child: ListView(
               children: [
-                sbh(24),
+                24.h,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -39,7 +39,7 @@ class HubDropDetails extends StatelessWidget {
                         )),
                   ],
                 ),
-                sbh(16),
+                16.h,
                 ...List.generate(
                     6,
                     (index) => Container(
@@ -57,12 +57,12 @@ class HubDropDetails extends StatelessWidget {
                                 data['package_image_url']!,
                                 fit: BoxFit.cover,
                               )),
-                              sbw(12),
+                              12.w,
                               Expanded(
                                   child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  sbh(12),
+                                  12.h,
                                   Text(data['name']!,
                                       style: TextStyle(
                                         fontFamily: 'WorkSans',
@@ -77,14 +77,14 @@ class HubDropDetails extends StatelessWidget {
                                         fontSize: 16,
                                         color: GREY5),
                                   ),
-                                  sbh(24),
+                                  24.h,
                                   Text('#${data['delivery_id']}',
                                       style: TextStyle(
                                         fontFamily: 'WorkSans',
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16,
                                       )),
-                                  sbh(12),
+                                  12.h,
                                 ],
                               )),
                             ],

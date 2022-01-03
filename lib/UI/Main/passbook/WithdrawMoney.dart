@@ -34,7 +34,7 @@ class WithDrawMoney extends StatelessWidget {
                           fontSize: 20,
                           fontFamily: 'WorkSans',
                           fontWeight: FontWeight.w600)),
-                  sbh(16),
+                  16.h,
                   Text("Available balance: \u20b9$balance",
                       style: TextStyle(
                           fontSize: 14,
@@ -66,7 +66,7 @@ class WithDrawMoney extends StatelessWidget {
                               TextStyle(color: Colors.grey[400], fontSize: 20)),
                     ),
                   ),
-                  sbh(22),
+                  22.h,
                   SizedBox(
                       height: 50,
                       width: double.infinity,
@@ -75,7 +75,7 @@ class WithDrawMoney extends StatelessWidget {
                             // _key.currentState!.validate();
                           },
                           child: Text('Next'))),
-                  sbh(16),
+                  16.h,
                   Text(
                     'Please note: Amount withdrawn will be transferred to your account on next working wednesday',
                     style: TextStyle(fontSize: 14, color: GREY5),
@@ -93,7 +93,7 @@ class WithDrawMoney extends StatelessWidget {
                           fontSize: 20,
                           fontFamily: 'WorkSans',
                           fontWeight: FontWeight.w600)),
-                  sbh(16),
+                  16.h,
                   FilterWithdrawal(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -144,7 +144,7 @@ class WithDrawMoney extends StatelessWidget {
                                 'assets/withdrawal.png',
                                 height: 35,
                               ),
-                              sbw(12),
+                              12.w,
                               Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -155,7 +155,7 @@ class WithDrawMoney extends StatelessWidget {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14,
                                       )),
-                                  sbh(14),
+                                  14.h,
                                   Text('11:00 AM',
                                       style: TextStyle(
                                           // fontWeight: FontWeight.bold,
@@ -174,7 +174,7 @@ class WithDrawMoney extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
                                           color: Colors.red)),
-                                  sbh(14),
+                                  14.h,
                                   Text('Closing balance: ₹ 0',
                                       style: TextStyle(
                                           // fontWeight: FontWeight.bold,
@@ -210,25 +210,25 @@ class FilterWithdrawal extends StatelessWidget {
             onPressed: () {},
             style: OutlinedButton.styleFrom(backgroundColor: Colors.white),
           ),
-          sbw(6),
+          6.w,
           OutlinedButton(
             child: Text('Today'),
             onPressed: () {},
             style: OutlinedButton.styleFrom(backgroundColor: Colors.white),
           ),
-          sbw(6),
+          6.w,
           OutlinedButton(
             child: Text('This Week'),
             onPressed: () {},
             style: OutlinedButton.styleFrom(backgroundColor: Colors.white),
           ),
-          sbw(6),
+          6.w,
           OutlinedButton(
             child: Text('This Month'),
             onPressed: () {},
             style: OutlinedButton.styleFrom(backgroundColor: Colors.white),
           ),
-          sbw(6),
+          6.w,
           OutlinedButton(
             child: Text('This Year'),
             onPressed: () {},

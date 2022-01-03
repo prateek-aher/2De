@@ -12,19 +12,19 @@ class SuccessfullyRegistered extends StatelessWidget {
             child: ListView(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       children: [
-        sbh(15),
+        15.h,
         Text(
           'Registered Successfully',
           style: TextStyle(
               fontSize: Theme.of(context).textTheme.headline5!.fontSize,
               fontWeight: FontWeight.w500),
         ),
-        sbh(18),
+        18.h,
         Text(
           'Next Steps',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
         ),
-        sbh(12),
+        12.h,
         Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -45,11 +45,11 @@ class SuccessfullyRegistered extends StatelessWidget {
                     "Step 1:\t Collect Documents",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
-                  sbh(12),
+                  12.h,
                   Text(
                       'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
                       style: TextStyle(fontSize: 14)),
-                  sbh(12),
+                  12.h,
                   textTile("Orignal Adhar Card"),
                   textTile("Pan Card"),
                   textTile("Delivery Vehicle"),
@@ -57,7 +57,7 @@ class SuccessfullyRegistered extends StatelessWidget {
                 ],
               ),
             ),
-            sbh(12),
+            12.h,
             Container(
               // margin: EdgeInsets.only(left: 15, right: 15, top: 10),
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
@@ -75,12 +75,12 @@ class SuccessfullyRegistered extends StatelessWidget {
                     "Step 2:\t Visit our hub between 9am to 5 pm",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
-                  sbh(12),
+                  12.h,
                   Text(
                     DOCUMENT_VERIFICATION_ADDRESS,
                     style: TextStyle(fontSize: 14),
                   ),
-                  sbh(24),
+                  24.h,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -95,7 +95,7 @@ class SuccessfullyRegistered extends StatelessWidget {
                         style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.all(16)),
                       ),
-                      sbw(12),
+                      12.w,
                       OutlinedButton.icon(
                         onPressed: () {},
                         icon: Icon(Icons.navigation),
@@ -110,7 +110,7 @@ class SuccessfullyRegistered extends StatelessWidget {
                 ],
               ),
             ),
-            sbh(12),
+            12.h,
             Container(
               // margin: EdgeInsets.only(left: 15, right: 15, top: 10),
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
@@ -128,17 +128,17 @@ class SuccessfullyRegistered extends StatelessWidget {
                     "Step 3:\t Verify Documents",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
-                  sbh(12),
+                  12.h,
                   Text(
                     'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut',
                     style: TextStyle(fontSize: 14),
                   ),
-                  sbh(18),
+                  18.h,
                   Text(
                     'Contact Person',
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                   ),
-                  sbh(12),
+                  12.h,
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(12),
@@ -189,7 +189,7 @@ class SuccessfullyRegistered extends StatelessWidget {
                 ],
               ),
             ),
-            sbh(48),
+            48.h,
           ],
         ),
       ],

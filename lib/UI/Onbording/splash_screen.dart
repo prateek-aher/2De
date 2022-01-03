@@ -1,4 +1,4 @@
-import 'package:delivery/UI/Auth/send_otp.dart';
+import 'package:delivery/UI/Auth/enter_phone_number.dart';
 import 'package:delivery/UI/Main/Homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,11 +12,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   bool showHeart1 = false;
-
   bool showHeart2 = false;
-
   bool showHeart3 = false;
-
   bool showHeart4 = false;
 
   validateUser() async {
@@ -32,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
           MaterialPageRoute(
               builder: (context) =>
                   //SuccesfullyResgestered()
-                  const SendOtp()
+                  const EnterPhoneNumber()
               //Homepage() //const SendOtp()
               ));
     }
@@ -42,8 +39,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(const Duration(seconds: 3), () {
       validateUser();
-      //Navigator.push(
-      //    context, MaterialPageRoute(builder: (context) => TakePhotoScreen()));
     });
     animateHearts();
     super.initState();

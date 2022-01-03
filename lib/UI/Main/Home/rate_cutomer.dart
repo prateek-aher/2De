@@ -19,7 +19,7 @@ class _RateCustomerState extends State<RateCustomer> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          sbh(24),
+          24.h,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
             child: Text(

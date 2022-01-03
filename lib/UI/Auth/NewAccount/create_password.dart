@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Providers/user_Registration_Provider.dart';
-import 'package:delivery/UI/Auth/send_otp.dart';
+import 'package:delivery/UI/Auth/enter_phone_number.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +39,7 @@ class _CreatePasswordState extends State<CreatePassword> {
                           fontWeight: FontWeight.bold,
                           fontSize:
                               Theme.of(context).textTheme.headline3!.fontSize)),
-                  sbh(24),
+                  24.h,
                   Text(
                     'Enter password',
                     style: TextStyle(
@@ -77,7 +77,7 @@ class _CreatePasswordState extends State<CreatePassword> {
                           return "Password Should be Atleast 5 Character";
                         }
                       }),
-                  sbh(24),
+                  24.h,
                   Text(
                     'Re-enter password',
                     style: TextStyle(
@@ -116,7 +116,7 @@ class _CreatePasswordState extends State<CreatePassword> {
                     },
                     //autovalidate: true,
                   ),
-                  sbh(36),
+                  36.h,
                   Row(
                     children: [
                       Container(
@@ -170,7 +170,8 @@ class _CreatePasswordState extends State<CreatePassword> {
                     onTap: () {
                       Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => SendOtp()),
+                          MaterialPageRoute(
+                              builder: (context) => EnterPhoneNumber()),
                           (route) => false);
                     },
                     child: Text(
@@ -179,7 +180,7 @@ class _CreatePasswordState extends State<CreatePassword> {
                           color: Theme.of(context).primaryColor, fontSize: 16),
                     ),
                   ),
-                  sbh(12),
+                  12.h,
                 ],
               ),
             ),

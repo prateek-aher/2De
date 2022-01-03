@@ -1,6 +1,6 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/UI/Auth/NewAccount/create_password.dart';
-import 'package:delivery/UI/Auth/send_otp.dart';
+import 'package:delivery/UI/Auth/enter_phone_number.dart';
 import 'package:flutter/material.dart';
 
 class EnterName extends StatefulWidget {
@@ -32,7 +32,7 @@ class _EnterNameState extends State<EnterName> {
                           fontWeight: FontWeight.bold,
                           fontSize:
                               Theme.of(context).textTheme.headline3!.fontSize)),
-                  sbh(24),
+                  24.h,
                   Text(
                     'Full Name',
                     style: TextStyle(
@@ -68,7 +68,7 @@ class _EnterNameState extends State<EnterName> {
                       }
                     },
                   ),
-                  sbh(24),
+                  24.h,
                   Text(
                     'Email Address',
                     style: TextStyle(
@@ -136,7 +136,7 @@ class _EnterNameState extends State<EnterName> {
                   //       return "Enter Valid mail";
                   //   },
                   // ),
-                  sbh(36),
+                  36.h,
                   Row(
                     children: [
                       Container(
@@ -183,7 +183,8 @@ class _EnterNameState extends State<EnterName> {
                     onTap: () {
                       Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => SendOtp()),
+                          MaterialPageRoute(
+                              builder: (context) => EnterPhoneNumber()),
                           (route) => false);
                     },
                     child: Text(
@@ -192,7 +193,7 @@ class _EnterNameState extends State<EnterName> {
                           color: Theme.of(context).primaryColor, fontSize: 16),
                     ),
                   ),
-                  sbh(12),
+                  12.h,
                 ],
               ),
             ),

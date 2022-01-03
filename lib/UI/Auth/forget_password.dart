@@ -32,12 +32,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 'Reach out to your hub or city manager. They will be able to help you with a new password.',
                 style: TextStyle(fontSize: 16),
               ),
-              sbh(36),
+              36.h,
               Text(
                 'Your Hub Manager',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
               ),
-              sbh(12),
+              12.h,
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
@@ -54,7 +54,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         'https://www.pinpng.com/pngs/m/341-3416159_no-avatar-pic-user-profile-image-png-transparent.png',
                       ),
                     ),
-                    sbw(12),
+                    12.w,
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,12 +87,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ],
                 ),
               ),
-              sbh(36),
+              36.h,
               Text(
                 'City Manager',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
               ),
-              sbh(12),
+              12.h,
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
@@ -109,7 +109,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         'https://www.pinpng.com/pngs/m/341-3416159_no-avatar-pic-user-profile-image-png-transparent.png',
                       ),
                     ),
-                    sbw(12),
+                    12.w,
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,7 +142,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ],
                 ),
               ),
-              sbh(36),
+              36.h,
               Text(
                 'Entered wrong Phone Number?',
                 style: TextStyle(fontSize: 16),

@@ -69,7 +69,7 @@ class _EarningHistoryFilterState extends State<EarningHistoryFilter> {
             visible: _groupValue == 'select',
             child: ListTile(
               minLeadingWidth: 40,
-              leading: sbw(0),
+              leading: 0.w,
               trailing: IconButton(
                 onPressed: () async {
                   DateTimeRange? range = await showDateRangePicker(
@@ -101,10 +101,10 @@ class _EarningHistoryFilterState extends State<EarningHistoryFilter> {
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold),
                             )
-                          : sbw(0),
+                          : 0.w,
                     ],
                   ),
-                  sbw(12),
+                  12.w,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -118,7 +118,7 @@ class _EarningHistoryFilterState extends State<EarningHistoryFilter> {
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold),
                             )
-                          : sbw(0),
+                          : 0.w,
                     ],
                   ),
                 ],
@@ -155,7 +155,7 @@ class _EarningHistoryFilterState extends State<EarningHistoryFilter> {
                     ElevatedButton.styleFrom(padding: const EdgeInsets.all(18)),
               ),
             ),
-            sbw(12),
+            12.w,
             Expanded(
               child: OutlinedButton(
                 onPressed: () {},

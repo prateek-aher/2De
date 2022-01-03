@@ -12,6 +12,7 @@ import '../app.dart';
 void showLoading() {
   showDialog(
       context: navigatorKey.currentContext!,
+      barrierDismissible: false,
       builder: (context) => Center(
               child: Container(
             height: 40,
@@ -39,8 +40,13 @@ void showMessage(String message) {
 Divider divider() => Divider(height: 2, thickness: 1, color: Color(0xffe2e4e6));
 Divider greyDivider() => Divider(height: 2, thickness: 1, color: GREY7);
 
-SizedBox sbw(double w) => SizedBox(width: w);
-SizedBox sbh(double h) => SizedBox(height: h);
+extension SizedBoxExtension on num {
+  SizedBox get h => SizedBox(height: this.toDouble());
+  SizedBox get w => SizedBox(width: this.toDouble());
+}
+
+// SizedBox sbw(double w) => SizedBox(width: w);
+// SizedBox sbh(double h) => SizedBox(height: h);
 
 PreferredSizeWidget customAppBar(BuildContext context) => AppBar(
       leading: SizedBox(),
