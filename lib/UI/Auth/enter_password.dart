@@ -139,7 +139,8 @@ class _SecondPartState extends State<SecondPart> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ForgotPassword()));
+                          builder: (context) =>
+                              ForgotPassword(phoneNumber: widget.number)));
                 },
                 child: Text(
                   'Forgot Password',

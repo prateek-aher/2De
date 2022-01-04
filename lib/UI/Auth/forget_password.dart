@@ -1,11 +1,15 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Providers/SendOtpProvider.dart';
+import 'package:delivery/UI/Auth/enter_phone_number.dart';
+import 'package:delivery/Utils/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({Key? key}) : super(key: key);
+  const ForgotPassword({Key? key, required this.phoneNumber}) : super(key: key);
+  final String phoneNumber;
 
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();
@@ -143,90 +147,41 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
               ),
               36.h,
-              Text(
-                'Entered wrong Phone Number?',
-                style: TextStyle(fontSize: 16),
-              ),
-              InkWell(
-                onTap: () async {
-                  String number = '';
-                  GlobalKey<FormState> dialogForm = GlobalKey<FormState>();
-                  await showDialog(
-                      context: context,
-                      barrierColor: const Color(0xffF7F9FB).withOpacity(0.5),
-                      barrierDismissible: true,
-                      builder: (context) => AlertDialog(
-                            backgroundColor: Colors.white,
-                            title: Container(
-                              height: 80,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text('Phone Number'),
-                                  Expanded(
-                                    child: Form(
-                                      key: dialogForm,
-                                      child: TextFormField(
-                                        validator: (value) {
-                                          if (value!.length == 0 || value == '')
-                                            return '*';
-                                          if (value.length < 10)
-                                            return 'Invalid number';
-                                        },
-                                        onChanged: (value) {
-                                          number = value;
-                                        },
-                                        inputFormatters: [
-                                          LengthLimitingTextInputFormatter(10),
-                                          FilteringTextInputFormatter.digitsOnly
-                                        ],
-                                        keyboardType: TextInputType.phone,
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                          focusedBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color:
-                                                      themeData.primaryColor)),
-                                          focusedErrorBorder:
-                                              UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Colors.red)),
-                                          hintText: '9876543210',
-                                          hintStyle: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.grey[300],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            actions: [
-                              OutlinedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text('CANCEL')),
-                              ElevatedButton(
-                                  onPressed: () {
-                                    if (dialogForm.currentState!.validate()) {
-                                      Provider.of<SendOtpProvider>(context)
-                                          .phoneNum = number;
-                                      Navigator.of(context).pop();
-                                    }
-                                  },
-                                  child: Text('SUBMIT')),
-                            ],
-                            actionsAlignment: MainAxisAlignment.center,
-                          ));
-                },
-                child: Text(
-                  'Click here to Change Phone Number!',
-                  style: TextStyle(fontSize: 16, color: themeData.primaryColor),
-                ),
+              Wrap(
+                runAlignment: WrapAlignment.start,
+                alignment: WrapAlignment.start,
+                spacing: 4,
+                children: [
+                  RichText(
+                      softWrap: true,
+                      text: TextSpan(
+                        text: 'Is ',
+                        style: TextStyle(fontSize: 16, color: BLACK4),
+                        children: [
+                          TextSpan(
+                              text: widget.phoneNumber,
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w500)),
+                          TextSpan(
+                              text: ' not your number?',
+                              style: TextStyle(fontSize: 16)),
+                        ],
+                      )),
+                  InkWell(
+                    onTap: () async {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EnterPhoneNumber()),
+                          (route) => false);
+                    },
+                    child: Text(
+                      'Change here.',
+                      style: TextStyle(
+                          fontSize: 16, color: themeData.primaryColor),
+                    ),
+                  )
+                ],
               ),
             ],
           ),
