@@ -18,8 +18,8 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   @override
   void initState() {
-    context.read<BagProvider>().getMyBag(context);
     WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<BagProvider>().getMyBag(context);
       context.read<TimeProvider>().updateTime();
     });
     super.initState();

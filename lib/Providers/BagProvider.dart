@@ -1,4 +1,5 @@
 import 'package:delivery/CommonWidget/Snackbar.dart';
+import 'package:delivery/Models/my_bag.dart';
 import 'package:delivery/Network/Api_Provider.dart';
 import 'package:delivery/Utils/endpoints.dart';
 import 'package:flutter/material.dart';
@@ -57,10 +58,10 @@ class BagProvider extends ChangeNotifier {
       print(response);
       if (response != null) {
         if (response["status"] == 'success') {
-          // MyBagModel _myBag = MyBagModel.fromJson(response);
-          // _myBagItems = _myBag.data?.result ?? <dynamic>[];
+          MyBagModel _myBag = MyBagModel.fromJson(response);
           _myBagItems.clear();
-          _myBagItems.addAll(_list);
+          _myBagItems.addAll(_myBag.data?.result ?? <dynamic>[]);
+
           notifyListeners();
         } else {
           // reSet();

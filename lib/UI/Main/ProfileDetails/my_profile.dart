@@ -1,7 +1,9 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Models/my_profile_model.dart';
 import 'package:delivery/Network/get_profile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MyProfile extends StatefulWidget {
   const MyProfile({Key? key}) : super(key: key);
@@ -52,149 +54,17 @@ class _MyProfileState extends State<MyProfile> {
                     maxLines: 1,
                   ),
                 ),
-                SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'First Name',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      _model?.data?.result?.name?.split(' ').first ?? '',
-                      style: TextStyle(fontSize: 14),
-                    )
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Middle Name',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      (_model?.data?.result?.name?.trim().split(' ').length ??
-                                  0) >
-                              2
-                          ? (_model?.data?.result?.name?.trim().split(' ')[2] ??
-                              '')
-                          : '',
-                      style: TextStyle(fontSize: 14),
-                    )
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Last Name',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      _model?.data?.result?.name?.trim().split(' ').last ?? '',
-                      style: TextStyle(fontSize: 14),
-                    )
-                  ],
-                ),
-                SizedBox(height: 20),
+                4.h,
+                ...profileEntry(
+                    title: 'Name', value: _model?.data?.result?.name ?? ''),
                 divider(),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Phone Number',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      _model?.data?.result?.phoneNo ?? '',
-                      style: TextStyle(fontSize: 14),
-                    )
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Alternate Phone Number',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      _model?.data?.result?.alternatePhoneNo ?? '',
-                      style: TextStyle(fontSize: 14),
-                    )
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Home Address',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    SizedBox(
-                      width: 200,
-                      child: Text(
-                        _model?.data?.result?.address ?? '',
-                        overflow: TextOverflow.visible,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 20),
+                ...profileEntry(
+                    title: 'Phone Number',
+                    value: _model?.data?.result?.phoneNo ?? ''),
                 divider(),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Relative’s Phone Number',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      _model?.data?.result?.relativePhoneNo ?? '',
-                      style: TextStyle(fontSize: 14),
-                    )
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Relationship with Relative',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      _model?.data?.result?.relationship ?? '',
-                      style: TextStyle(fontSize: 14),
-                    )
-                  ],
-                ),
-                SizedBox(height: 20),
+                ...profileEntry(
+                    title: 'Email address',
+                    value: _model?.data?.result?.email ?? ''),
                 divider(),
                 SizedBox(height: 20),
                 Row(
@@ -207,7 +77,14 @@ class _MyProfileState extends State<MyProfile> {
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      _model?.data?.result?.onboardDate ?? '',
+                      DateFormat('dd MMM yyyy').format(DateTime.parse(_model
+                              ?.data?.result?.onboardDate
+                              ?.split(',')
+                              .first
+                              .split('/')
+                              .reversed
+                              .join('-') ??
+                          '')),
                       style: TextStyle(fontSize: 14),
                     )
                   ],
@@ -224,4 +101,28 @@ class _MyProfileState extends State<MyProfile> {
     _model = await ProfileService.getProfile();
     setState(() {});
   }
+
+  Iterable<Widget> profileEntry(
+          {required String title, required String value}) =>
+      [
+        20.h,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              textAlign: TextAlign.start,
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            ),
+            Text(
+              value,
+              textAlign: TextAlign.end,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 14),
+            )
+          ],
+        ),
+        20.h,
+      ];
 }
