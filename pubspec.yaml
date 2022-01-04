@@ -13,7 +13,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   provider: ^6.0.0
   http:
-  otp_text_field: ^1.1.1
   intl: ^0.17.0
   shared_preferences:
   url_launcher:

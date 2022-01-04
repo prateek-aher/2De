@@ -23,7 +23,7 @@ class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
   @override
   void initState() {
     if (widget.task == Task.drop) {
-      context.read<TimeProvider>().start10minuteTimer();
+      context.read<TimeProvider>().startTimer(Duration(minutes: 10));
     }
     super.initState();
   }

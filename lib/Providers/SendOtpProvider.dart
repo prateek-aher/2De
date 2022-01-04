@@ -15,12 +15,15 @@ class SendOtpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Null> testCall(requestJson, String number, context) async {
+  Future<Null> testCall(requestJson, String number, BuildContext context,
+      [bool resend = false]) async {
     _phoneNumber = number;
     notifyListeners();
     try {
       // check login
-      showLoading();
+      if (!resend) {
+        showLoading();
+      }
       final response = await _apiProvider.auth(CHECK_LOGIN, requestJson);
       print(response);
       if (response['status'] == "failed") {
@@ -30,11 +33,13 @@ class SendOtpProvider extends ChangeNotifier {
           if (response != null) {
             print(response);
             if (response['status'] == "success") {
-              hideLoading();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => EnterOtp(number: number)));
+              if (!resend) {
+                hideLoading();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EnterOtp(number: number)));
+              }
               //notifyListeners();
             }
           }

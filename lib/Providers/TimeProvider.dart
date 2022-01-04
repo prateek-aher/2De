@@ -22,10 +22,10 @@ class TimeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void start10minuteTimer() {
+  void startTimer(Duration duration) {
     if (!timerRunning) {
       timerRunning = true;
-      _seconds = 600;
+      _seconds = duration.inSeconds;
       Timer.periodic(Duration(seconds: 1), (timer) {
         if (_seconds > 0) {
           _seconds--;
