@@ -3,15 +3,22 @@ import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Providers/SendOtpProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:provider/provider.dart';
 
-class EnterOtp extends StatelessWidget {
+class EnterOtp extends StatefulWidget {
   final String? number;
-
-  String otp = '';
   EnterOtp({@required this.number});
+  @override
+  State<EnterOtp> createState() => _EnterOtpState();
+}
+
+class _EnterOtpState extends State<EnterOtp> {
+  String otp = '';
+  late List<FocusNode> nodes;
+  late List<TextEditingController> controllers;
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +50,12 @@ class EnterOtp extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    'Otp Sent to +91-' + this.number.toString(),
+                    'Otp Sent to +91-' + this.widget.number.toString(),
                     style: TextStyle(
                       fontSize: Theme.of(context).textTheme.headline6!.fontSize,
                     ),
                   ),
-                  30.h,
+                  10.h,
                   InkWell(
                     highlightColor:
                         Theme.of(context).primaryColor.withOpacity(0.1),
@@ -64,35 +71,82 @@ class EnterOtp extends StatelessWidget {
                       ),
                     ),
                   ),
-                  10.h,
-                  Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey[300]!),
-                          borderRadius: BorderRadius.circular(8)),
-                      child: OTPTextField(
-                        fieldStyle: FieldStyle.underline,
-                        length: 4,
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        fieldWidth: 40,
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.w500),
-                        textFieldAlignment: MainAxisAlignment.spaceAround,
-                        keyboardType: TextInputType.phone,
-                        onChanged: (text) {
-                          otp = text;
-                          print('onchanged: $otp');
-                        },
-                        onCompleted: (pin) {
-                          otp = pin;
-                          print("Completed: " + otp);
-                          String requestJson = json
-                              .encode({"phone_no": this.number, "otp": otp});
-                          context
-                              .read<SendOtpProvider>()
-                              .verifyOtp(requestJson, context);
-                        },
-                      )),
+                  30.h,
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(
+                        4,
+                        (index) => Container(
+                              padding: const EdgeInsets.all(4),
+                              height: 50,
+                              width: 50,
+                              child: TextField(
+                                controller: controllers[index],
+                                focusNode: nodes[index],
+                                textAlign: TextAlign.center,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.grey[300]!),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                keyboardType: TextInputType.phone,
+                                toolbarOptions: ToolbarOptions(
+                                    cut: false,
+                                    paste: false,
+                                    copy: false,
+                                    selectAll: false),
+                                onChanged: (_) {
+                                  if (index < 3) {
+                                    if (controllers[index]
+                                        .text
+                                        .trim()
+                                        .isNotEmpty) {
+                                      nodes[index + 1].requestFocus();
+                                    } else if (index > 0) {
+                                      nodes[index - 1].requestFocus();
+                                    }
+                                  } else if (controllers[index]
+                                      .text
+                                      .trim()
+                                      .isNotEmpty) {
+                                    FocusScope.of(context).unfocus();
+                                  } else {
+                                    nodes[index - 1].requestFocus();
+                                  }
+                                },
+                                textInputAction: TextInputAction.done,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(1),
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                              ),
+                              // child: OTPTextField(
+                              //   fieldStyle: FieldStyle.underline,
+                              //   length: 4,
+                              //   width: MediaQuery.of(context).size.width * 0.6,
+                              //   fieldWidth: 40,
+                              //   style:
+                              //       TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                              //   textFieldAlignment: MainAxisAlignment.spaceAround,
+                              //   keyboardType: TextInputType.phone,
+                              //   onChanged: (text) {
+                              //     otp = text;
+                              //     print('onchanged: $otp');
+                              //   },
+                              //   onCompleted: (pin) {
+                              //     otp = pin;
+                              //     print("Completed: " + otp);
+                              //     String requestJson =
+                              //         json.encode({"phone_no": this.number, "otp": otp});
+                              //     context
+                              //         .read<SendOtpProvider>()
+                              //         .verifyOtp(requestJson, context);
+                              //   },
+                              // ),
+                            )),
+                  ),
                   const SizedBox(height: 10),
                   Row(
                     children: [
@@ -103,17 +157,29 @@ class EnterOtp extends StatelessWidget {
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
                                       Theme.of(context).primaryColor)),
-                              onPressed: () {
-                                // if (_formKey.currentState!.validate()) {
+                              onPressed: () async {
+                                FocusScope.of(context).unfocus();
+                                otp = '';
+                                controllers.forEach((element) {
+                                  otp += element.text.trim();
+                                });
+                                print('OTP typed: $otp');
                                 if (otp.isNotEmpty && otp.length == 4) {
-                                  String requestJson = json.encode(
-                                      {"phone_no": this.number, "otp": otp});
-                                  context
+                                  String requestJson = json.encode({
+                                    "phone_no": this.widget.number,
+                                    "otp": otp
+                                  });
+                                  await context
                                       .read<SendOtpProvider>()
                                       .verifyOtp(requestJson, context);
+                                } else if (otp.length < 4) {
+                                  showCustomSnackBar(context,
+                                      Text('One or more fields are empty'),
+                                      backgroundColor: Colors.red);
                                 } else {
                                   showCustomSnackBar(
-                                      context, Text('Invalid OTP'));
+                                      context, Text('Invalid OTP'),
+                                      backgroundColor: Colors.red);
                                 }
                                 // }
                               },
@@ -135,5 +201,23 @@ class EnterOtp extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    nodes = List.generate(4, (index) => FocusNode());
+    controllers = List.generate(4, (index) => TextEditingController());
+  }
+
+  @override
+  void dispose() {
+    nodes.forEach((element) {
+      element.dispose();
+    });
+    controllers.forEach((element) {
+      element.dispose();
+    });
+    super.dispose();
   }
 }

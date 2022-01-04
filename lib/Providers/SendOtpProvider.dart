@@ -58,11 +58,10 @@ class SendOtpProvider extends ChangeNotifier {
   }
 
   Future<Null> verifyOtp(requestJson, context) async {
+    showLoading();
     try {
-      showLoading();
       final response = await _apiProvider.auth(VERIFY_OTP, requestJson);
       if (response != null) {
-        hideLoading();
         if (response['status'] == "success") {
           Navigator.push(
               context,
@@ -71,12 +70,15 @@ class SendOtpProvider extends ChangeNotifier {
                         number: _phoneNumber!,
                       )));
         } else {
-          showMessage('Error');
+          print(response);
+          showMessage(response['message'] ??
+              response['data']['result']['Error'] ??
+              'Error');
         }
       }
     } on Exception catch (e) {
       showMessage(e.toString());
-      hideLoading();
     }
+    hideLoading();
   }
 }
