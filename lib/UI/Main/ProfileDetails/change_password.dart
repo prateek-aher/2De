@@ -2,6 +2,7 @@ import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Models/change_password_model.dart';
 import 'package:delivery/Network/change_password.dart';
 import 'package:flutter/material.dart';
+import 'package:delivery/CommonWidget/CommonWidget.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({Key? key}) : super(key: key);
@@ -14,16 +15,22 @@ class _ChangePasswordState extends State<ChangePassword> {
   late TextEditingController _currentPassword;
   late TextEditingController _newPassword;
   late TextEditingController _confirmPassword;
+  late FocusNode _newPassNode;
+  late FocusNode _confirmPassNode;
 
   GlobalKey<FormState> _form = GlobalKey();
 
   bool isCurrentVisible = false;
   bool isNewVisible = false;
+  bool isConfirmVisible = false;
+
   @override
   void initState() {
     _currentPassword = TextEditingController();
     _newPassword = TextEditingController();
     _confirmPassword = TextEditingController();
+    _newPassNode = FocusNode();
+    _confirmPassNode = FocusNode();
     super.initState();
   }
 
@@ -53,10 +60,9 @@ class _ChangePasswordState extends State<ChangePassword> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 28),
+                    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.',
+                    style: TextStyle(fontSize: 16)),
+                28.h,
                 Form(
                   key: _form,
                   child: Column(
@@ -73,9 +79,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                         controller: _currentPassword,
                         maxLength: 50,
                         validator: (v) {
-                          return v?.isEmpty ?? true
+                          return (v?.isEmpty ?? true)
                               ? 'Insert Current password'
                               : null;
+                        },
+                        textInputAction: TextInputAction.next,
+                        onEditingComplete: () {
+                          _newPassNode.requestFocus();
                         },
                         obscureText: !isCurrentVisible,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -91,20 +101,17 @@ class _ChangePasswordState extends State<ChangePassword> {
                               },
                             ),
                             hintText: 'Enter Current Password here',
-                            hintStyle: TextStyle(
-                              color: Colors.grey[400],
-                            )),
+                            hintStyle: TextStyle(color: Colors.grey[400])),
                       ),
-                      SizedBox(height: 12),
-                      Text(
-                        'New Password',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[500],
-                            fontWeight: FontWeight.bold),
-                      ),
+                      12.h,
+                      Text('New Password',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[500],
+                              fontWeight: FontWeight.bold)),
                       TextFormField(
                         controller: _newPassword,
+                        focusNode: _newPassNode,
                         maxLength: 50,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (v) {
@@ -115,6 +122,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                             return 'Atleast 6 characters required';
                           }
                           return null;
+                        },
+                        textInputAction: TextInputAction.next,
+                        onEditingComplete: () {
+                          _confirmPassNode.requestFocus();
                         },
                         obscureText: !isNewVisible,
                         decoration: InputDecoration(
@@ -133,7 +144,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               color: Colors.grey[400],
                             )),
                       ),
-                      SizedBox(height: 12),
+                      12.h,
                       Text(
                         'Confirm Password',
                         style: TextStyle(
@@ -143,6 +154,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       ),
                       TextFormField(
                         controller: _confirmPassword,
+                        focusNode: _confirmPassNode,
                         maxLength: 50,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (v) {
@@ -152,14 +164,30 @@ class _ChangePasswordState extends State<ChangePassword> {
                           if (_newPassword.text.isEmpty) {
                             return 'Insert new password first';
                           }
+                          if (_confirmPassword.text.trim() !=
+                              _newPassword.text.trim()) {
+                            return 'Passwords don\'t match';
+                          }
                           return null;
                         },
-                        obscureText: true,
+                        textInputAction: TextInputAction.done,
+                        obscureText: !isConfirmVisible,
                         decoration: InputDecoration(
-                            hintText: 'Retype New password here',
-                            hintStyle: TextStyle(
-                              color: Colors.grey[400],
-                            )),
+                          hintText: 'Retype New password here',
+                          hintStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),
+                          suffix: InkWell(
+                            child: Icon(!isConfirmVisible
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                            onTap: () {
+                              setState(() {
+                                isConfirmVisible = !isConfirmVisible;
+                              });
+                            },
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -196,25 +224,27 @@ class _ChangePasswordState extends State<ChangePassword> {
     _currentPassword.dispose();
     _newPassword.dispose();
     _confirmPassword.dispose();
+    _newPassNode.dispose();
+    _confirmPassNode.dispose();
     super.dispose();
   }
 
   void change() async {
+    FocusScope.of(context).unfocus();
     ChangePasswordModel? model;
     if (_form.currentState!.validate()) {
+      showLoading();
       model = await ChangePasswordService.change({
         'current_password': _currentPassword.text.trim(),
         'new_password': _newPassword.text.trim(),
       });
       if ((model?.status?.toLowerCase() ?? '') == 'success') {
+        hideLoading();
+        Navigator.of(context).pop();
         showCustomSnackBar(
-                context, Text(model?.data?.result!.message ?? 'Success'))
-            .whenComplete(() {
-          Future.delayed(Duration(seconds: 3), () {
-            Navigator.of(context).pop();
-          });
-        });
+            context, Text(model?.data?.result!.message ?? 'Success'));
       } else {
+        hideLoading();
         showCustomSnackBar(context, Text(model?.data?.result!.error ?? 'Error'),
             backgroundColor: Colors.red);
       }
