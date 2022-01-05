@@ -131,6 +131,7 @@ class _SecondPartState extends State<SecondPart> {
                       backgroundColor: MaterialStateProperty.all(
                           Theme.of(context).primaryColor)),
                   onPressed: () {
+                    FocusScope.of(context).unfocus();
                     if (_formKey.currentState!.validate()) {
                       String requestJson = jsonEncode(
                           {"phone_no": "${_phoneController.text.trim()}"});

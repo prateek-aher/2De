@@ -1,4 +1,5 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
+import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Network/Api_Provider.dart';
 import 'package:delivery/UI/Auth/NewAccount/enter_name.dart';
 import 'package:delivery/UI/Auth/enter_otp.dart';
@@ -39,8 +40,10 @@ class SendOtpProvider extends ChangeNotifier {
                     context,
                     MaterialPageRoute(
                         builder: (context) => EnterOtp(number: number)));
+              } else {
+                showCustomSnackBar(
+                    context, Text('An OTP has been sent to $number'));
               }
-              //notifyListeners();
             }
           }
         } on Exception catch (e) {

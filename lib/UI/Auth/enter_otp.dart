@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:delivery/CommonWidget/CommonWidget.dart';
@@ -17,11 +18,53 @@ class EnterOtp extends StatefulWidget {
 
 class _EnterOtpState extends State<EnterOtp> {
   String otp = '';
+  int durationInSeconds = 90;
+  late int minutes;
+  late int seconds;
+  late Timer timer;
   late List<FocusNode> nodes;
   late List<TextEditingController> controllers;
 
   @override
+  void initState() {
+    super.initState();
+    nodes = List.generate(4, (index) => FocusNode());
+    controllers = List.generate(4, (index) => TextEditingController());
+    startCountDown();
+  }
+
+  void startCountDown() {
+    Timer.periodic(Duration(seconds: 1), (t) {
+      timer = t;
+      if (durationInSeconds > 0) {
+        setState(() {
+          durationInSeconds--;
+        });
+      } else {
+        setState(() {
+          durationInSeconds = 0;
+        });
+        timer.cancel();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    nodes.forEach((element) {
+      element.dispose();
+    });
+    controllers.forEach((element) {
+      element.dispose();
+    });
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    minutes = (durationInSeconds / 60).floor();
+    seconds = durationInSeconds % 60;
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -74,7 +117,6 @@ class _EnterOtpState extends State<EnterOtp> {
                   ),
                   30.h,
                   Row(
-                    // mainAxisSize: MainAxisSize.min,
                     children: [
                       ...List.generate(
                           4,
@@ -149,12 +191,10 @@ class _EnterOtpState extends State<EnterOtp> {
                                 // ),
                               )),
                       20.w,
-                      Consumer<TimeProvider>(builder: (__, timer, _) {
-                        return Text(
-                          '${(timer.seconds / 60).floor()}:${timer.seconds % 60}',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        );
-                      }),
+                      Text(
+                        '${minutes < 10 ? '0' : ''}$minutes:${seconds < 10 ? '0' : ''}$seconds',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ],
                   ),
                   30.h,
@@ -201,23 +241,22 @@ class _EnterOtpState extends State<EnterOtp> {
                                         .subtitle1!
                                         .fontSize),
                               ))),
-                      Consumer<TimeProvider>(builder: (__, timer, _) {
-                        return Visibility(
-                            visible: !timer.timerRunning,
-                            child: TextButton(
-                                onPressed: () async {
-                                  String requestJson = jsonEncode(
-                                      {"phone_no": "${widget.number}"});
-                                  await context
-                                      .read<SendOtpProvider>()
-                                      .testCall(requestJson,
-                                          widget.number ?? '', context, true);
-                                  context
-                                      .read<TimeProvider>()
-                                      .startTimer(Duration(seconds: 90));
-                                },
-                                child: Text('Resend OTP')));
-                      }),
+                      Visibility(
+                          visible: durationInSeconds <= 0,
+                          child: TextButton(
+                              onPressed: () async {
+                                String requestJson = jsonEncode(
+                                    {"phone_no": "${widget.number}"});
+                                await context.read<SendOtpProvider>().testCall(
+                                    requestJson,
+                                    widget.number ?? '',
+                                    context,
+                                    true);
+                                setState(() {
+                                  durationInSeconds = 90;
+                                });
+                              },
+                              child: Text('Resend OTP'))),
                     ],
                   ),
                   70.h,
@@ -228,24 +267,5 @@ class _EnterOtpState extends State<EnterOtp> {
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    nodes = List.generate(4, (index) => FocusNode());
-    controllers = List.generate(4, (index) => TextEditingController());
-    context.read<TimeProvider>().startTimer(Duration(seconds: 90));
-  }
-
-  @override
-  void dispose() {
-    nodes.forEach((element) {
-      element.dispose();
-    });
-    controllers.forEach((element) {
-      element.dispose();
-    });
-    super.dispose();
   }
 }
