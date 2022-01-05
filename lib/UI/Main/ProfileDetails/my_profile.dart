@@ -1,9 +1,7 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Models/my_profile_model.dart';
 import 'package:delivery/Network/get_profile.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class MyProfile extends StatefulWidget {
   const MyProfile({Key? key}) : super(key: key);
@@ -18,6 +16,11 @@ class _MyProfileState extends State<MyProfile> {
   void initState() {
     super.initState();
     getModel();
+  }
+
+  void getModel() async {
+    _model = await ProfileService.getProfile();
+    setState(() {});
   }
 
   @override
@@ -66,40 +69,17 @@ class _MyProfileState extends State<MyProfile> {
                     title: 'Email address',
                     value: _model?.data?.result?.email ?? ''),
                 divider(),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Onboarded on',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      DateFormat('dd MMM yyyy').format(DateTime.parse(_model
-                              ?.data?.result?.onboardDate
-                              ?.split(',')
-                              .first
-                              .split('/')
-                              .reversed
-                              .join('-') ??
-                          '')),
-                      style: TextStyle(fontSize: 14),
-                    )
-                  ],
-                )
+                ...profileEntry(
+                    title: 'Onboarded on',
+                    value:
+                        _model?.data?.result?.onboardDate?.split(',').first ??
+                            ''),
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  void getModel() async {
-    _model = await ProfileService.getProfile();
-    setState(() {});
   }
 
   Iterable<Widget> profileEntry(

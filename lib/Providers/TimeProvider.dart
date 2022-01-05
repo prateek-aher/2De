@@ -11,8 +11,6 @@ class TimeProvider extends ChangeNotifier {
   bool timerRunning = false;
   int get seconds => _seconds;
   Future<Null> updateTime() async {
-    // _timeString =
-    //     "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
     Timer.periodic(Duration(seconds: 1), (Timer t) => _getCurrentTime());
     notifyListeners();
   }
