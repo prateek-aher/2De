@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:delivery/CommonWidget/CommonWidget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyHub extends StatelessWidget {
   const MyHub({Key? key}) : super(key: key);
@@ -42,7 +44,7 @@ class MyHub extends StatelessWidget {
                         maxLines: 1,
                       ),
                     ),
-                    SizedBox(height: 24),
+                    24.h,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +60,7 @@ class MyHub extends StatelessWidget {
                         )
                       ],
                     ),
-                    SizedBox(height: 20),
+                    20.h,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +76,7 @@ class MyHub extends StatelessWidget {
                         )
                       ],
                     ),
-                    SizedBox(height: 20),
+                    20.h,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +92,7 @@ class MyHub extends StatelessWidget {
                         )
                       ],
                     ),
-                    SizedBox(height: 20),
+                    20.h,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,7 +105,7 @@ class MyHub extends StatelessWidget {
                         SizedBox(
                           width: 200,
                           child: Text(
-                            '234, qwerty, baner, Pune, 411045',
+                            'BLOCK-A, Baner - Balewadi Rd, Baner, Pune, Maharashtra 411045',
                             overflow: TextOverflow.visible,
                             textAlign: TextAlign.right,
                             style: TextStyle(fontSize: 14),
@@ -111,12 +113,14 @@ class MyHub extends StatelessWidget {
                         )
                       ],
                     ),
-                    SizedBox(height: 20),
+                    20.h,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         OutlinedButton.icon(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await launch('tel:9765678976');
+                          },
                           icon: Icon(Icons.call),
                           label: Text(
                             'Call',
@@ -126,9 +130,14 @@ class MyHub extends StatelessWidget {
                           style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.all(16)),
                         ),
-                        SizedBox(width: 12),
+                        12.w,
                         OutlinedButton.icon(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await launch('https://maps.google.com/?api=1&q=' +
+                                jsonEncode(
+                                    'BLOCK-A, Baner - Balewadi Rd, Baner, Pune, Maharashtra 411045' +
+                                        '&output=classic'));
+                          },
                           icon: Icon(Icons.navigation),
                           label: Text('Navigate',
                               style: TextStyle(
@@ -138,9 +147,9 @@ class MyHub extends StatelessWidget {
                         )
                       ],
                     ),
-                    SizedBox(height: 20),
+                    20.h,
                     divider(),
-                    SizedBox(height: 20),
+                    20.h,
                     Text(
                       'Hub Manager',
                       style:
@@ -166,7 +175,7 @@ class MyHub extends StatelessWidget {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                            SizedBox(width: 12),
+                            12.w,
                             Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,20 +184,22 @@ class MyHub extends StatelessWidget {
                                   'Mahendra Singh Dhoni',
                                   style: TextStyle(fontSize: 16),
                                 ),
-                                Text(
+                                SelectableText(
                                   '+91 9765886434',
                                   style: TextStyle(fontSize: 16),
                                 ),
                               ],
                             ),
-                            SizedBox(width: 12),
+                            12.w,
                             Container(
                                 decoration: BoxDecoration(
                                     border:
                                         Border.all(color: Colors.grey[300]!),
                                     borderRadius: BorderRadius.circular(8)),
                                 child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    await launch('tel:+91 9765886434');
+                                  },
                                   icon: Icon(
                                     Icons.call,
                                     color: Theme.of(context).primaryColor,
@@ -198,9 +209,9 @@ class MyHub extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    20.h,
                     divider(),
-                    SizedBox(height: 20),
+                    20.h,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,7 +227,7 @@ class MyHub extends StatelessWidget {
                         )
                       ],
                     ),
-                    SizedBox(height: 20),
+                    20.h,
                     GridView.count(
                       physics: NeverScrollableScrollPhysics(),
                       crossAxisCount: 3,
@@ -237,73 +248,70 @@ class MyHub extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 24),
+              24.h,
               Container(
-                color: Colors.white,
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.05,
-                    vertical: MediaQuery.of(context).size.width * 0.1),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'City Manager',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    SizedBox(height: 20),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey[300]!),
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            radius: MediaQuery.of(context).size.width * 0.1,
-                            backgroundColor: Colors.grey[300]!,
-                            backgroundImage: NetworkImage(
-                              'https://www.pinpng.com/pngs/m/341-3416159_no-avatar-pic-user-profile-image-png-transparent.png',
-                            ),
-                          ),
-                          SizedBox(width: 12),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.05,
+                      vertical: MediaQuery.of(context).size.width * 0.1),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('City Manager',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500)),
+                      20.h,
+                      Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey[300]!),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(
-                                'Suresh Raina',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                '+91 9765886434',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                          // SizedBox(width: 12),
-                          Spacer(),
-                          Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey[300]!),
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.call,
-                                  color: Theme.of(context).primaryColor,
+                              CircleAvatar(
+                                radius: MediaQuery.of(context).size.width * 0.1,
+                                backgroundColor: Colors.grey[300]!,
+                                backgroundImage: NetworkImage(
+                                  'https://www.pinpng.com/pngs/m/341-3416159_no-avatar-pic-user-profile-image-png-transparent.png',
                                 ),
-                              ))
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 24),
+                              ),
+                              12.w,
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Suresh Raina',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    '+91 9765886434',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                              Spacer(),
+                              Container(
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Colors.grey[300]!),
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: IconButton(
+                                      onPressed: () async {
+                                        await launch('tel:+91 9765886434');
+                                      },
+                                      icon: Icon(
+                                        Icons.call,
+                                        color: Theme.of(context).primaryColor,
+                                      )))
+                            ],
+                          ))
+                    ],
+                  )),
+              24.h,
             ],
           ),
         ),
