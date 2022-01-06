@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Providers/SendOtpProvider.dart';
-import 'package:delivery/Providers/TimeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -87,14 +86,14 @@ class _EnterOtpState extends State<EnterOtp> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Enter Otp',
+                    'Enter OTP',
                     style: TextStyle(
                         fontSize:
                             Theme.of(context).textTheme.headline3!.fontSize,
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    'Otp Sent to +91-' + this.widget.number.toString(),
+                    'OTP Sent to +91-' + this.widget.number.toString(),
                     style: TextStyle(
                       fontSize: Theme.of(context).textTheme.headline6!.fontSize,
                     ),
@@ -255,6 +254,7 @@ class _EnterOtpState extends State<EnterOtp> {
                                 setState(() {
                                   durationInSeconds = 90;
                                 });
+                                startCountDown();
                               },
                               child: Text('Resend OTP'))),
                     ],

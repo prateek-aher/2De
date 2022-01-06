@@ -4,8 +4,7 @@ import 'package:delivery/Network/Api_Provider.dart';
 import 'package:delivery/UI/Auth/NewAccount/enter_name.dart';
 import 'package:delivery/UI/Auth/enter_otp.dart';
 import 'package:delivery/UI/Auth/enter_password.dart';
-import 'package:delivery/Utils/endpoints.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:delivery/Utils/constants/endpoints.dart';
 import 'package:flutter/material.dart';
 
 class SendOtpProvider extends ChangeNotifier {
@@ -22,9 +21,9 @@ class SendOtpProvider extends ChangeNotifier {
     notifyListeners();
     try {
       // check login
-      if (!resend) {
-        showLoading();
-      }
+      // if (!resend) {
+      showLoading();
+      // }
       final response = await _apiProvider.auth(CHECK_LOGIN, requestJson);
       print(response);
       if (response['status'] == "failed") {
@@ -34,8 +33,8 @@ class SendOtpProvider extends ChangeNotifier {
           if (response != null) {
             print(response);
             if (response['status'] == "success") {
+              hideLoading();
               if (!resend) {
-                hideLoading();
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -55,9 +54,7 @@ class SendOtpProvider extends ChangeNotifier {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => EnterPassword(
-                      number: _phoneNumber!,
-                    )));
+                builder: (context) => EnterPassword(number: _phoneNumber!)));
       }
     } catch (e) {
       showLoading();

@@ -1,13 +1,8 @@
 // To parse this JSON data, do
 //
-//     final findTaskModel = findTaskModelFromJson(jsonString);
+//     final welcome = welcomeFromJson(jsonString);
 
-import 'dart:convert';
-
-FindTaskModel findTaskModelFromJson(String str) =>
-    FindTaskModel.fromJson(json.decode(str));
-
-String findTaskModelToJson(FindTaskModel data) => json.encode(data.toJson());
+import 'package:delivery/Utils/enumerations.dart';
 
 class FindTaskModel {
   FindTaskModel({
@@ -26,7 +21,7 @@ class FindTaskModel {
         status: json["status"],
         message: json["message"],
         error: json["error"],
-        data: Data.fromJson(json["data"]),
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -45,7 +40,7 @@ class Data {
   Result? result;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        result: Result.fromJson(json["result"]),
+        result: json["result"] == null ? null : Result.fromJson(json["result"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,81 +50,197 @@ class Data {
 
 class Result {
   Result({
+    this.task,
+    this.packages = const <Package>[],
+  });
+
+  Task? task;
+  List<Package> packages;
+
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
+        task: json["task"] == null ? null : Task.fromJson(json["task"]),
+        packages: json["packages"] == null
+            ? []
+            : List<Package>.from(
+                json["packages"].map((x) => Package.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "task": task?.toJson(),
+        "packages": List<dynamic>.from(packages.map((x) => x.toJson())),
+      };
+}
+
+class Package {
+  Package({
     this.deliveryId,
-    this.pickupAddress,
-    this.dropAddress,
+    this.orderId,
+    this.type,
+    this.weight = 0,
+    this.state,
+    this.isCod,
+    this.codAmount,
   });
 
   int? deliveryId;
-  Address? pickupAddress;
-  Address? dropAddress;
+  int? orderId;
+  String? type;
+  double weight;
+  String? state;
+  bool? isCod;
+  int? codAmount;
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory Package.fromJson(Map<String, dynamic> json) => Package(
         deliveryId: json["delivery_id"],
-        pickupAddress: Address.fromJson(json["pickup_address"]),
-        dropAddress: Address.fromJson(json["drop_address"]),
+        orderId: json["order_id"],
+        type: json["type"],
+        weight: json["weight"]?.toDouble(),
+        state: json["state"],
+        isCod: json["is_cod"],
+        codAmount: json["cod_amount"],
       );
 
   Map<String, dynamic> toJson() => {
         "delivery_id": deliveryId,
-        "pickup_address": pickupAddress?.toJson(),
-        "drop_address": dropAddress?.toJson(),
+        "order_id": orderId,
+        "type": type,
+        "weight": weight,
+        "state": state,
+        "is_cod": isCod,
+        "cod_amount": codAmount,
       };
+}
+
+class Task {
+  Task({
+    this.taskId,
+    this.taskType = TaskType.none,
+    this.schedules = const <int>[],
+    this.latitude,
+    this.longitude,
+    this.pincode,
+    this.id,
+    this.address,
+  });
+
+  int? taskId;
+  TaskType taskType;
+  List<int> schedules;
+  double? latitude;
+  double? longitude;
+  String? pincode;
+  dynamic id;
+  Address? address;
+
+  factory Task.fromJson(Map<String, dynamic> json) => Task(
+        taskId: json["task_id"] == null ? null : json["task_id"],
+        taskType: jsonToTaskType(json["task_type"]),
+        schedules: json["schedules"] == null
+            ? []
+            : List<int>.from(json["schedules"].map((x) => x)),
+        latitude: json["latitude"] == null ? null : json["latitude"].toDouble(),
+        longitude:
+            json["longitude"] == null ? null : json["longitude"].toDouble(),
+        pincode: json["pincode"] == null ? null : json["pincode"],
+        id: json["id"],
+        address:
+            json["address"] == null ? null : Address.fromJson(json["address"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "task_id": taskId == null ? null : taskId,
+        "task_type": taskTypeToJson(taskType),
+        "schedules": List<dynamic>.from(schedules.map((x) => x)),
+        "latitude": latitude,
+        "longitude": longitude,
+        "pincode": pincode,
+        "id": id,
+        "address": address?.toJson(),
+      };
+}
+
+TaskType jsonToTaskType(json) {
+  switch (json) {
+    case 'pickup':
+      return TaskType.pickup;
+    case 'drop':
+      return TaskType.drop;
+    case 'hubdrop':
+      return TaskType.hubdrop;
+    case 'hubpickup':
+      return TaskType.hubpickup;
+    default:
+      return TaskType.none;
+  }
+}
+
+String? taskTypeToJson(TaskType type) {
+  switch (type) {
+    case TaskType.none:
+      return null;
+    case TaskType.pickup:
+      return 'pickup';
+    case TaskType.drop:
+      return 'drop';
+    case TaskType.hubpickup:
+      return 'hubpickup';
+    case TaskType.hubdrop:
+      return 'hubdrop';
+  }
 }
 
 class Address {
   Address({
-    this.firstname,
-    this.lastname,
     this.street,
     this.area,
     this.city,
-    this.landmark,
-    this.country,
-    this.pinCode,
-    this.phoneNo,
     this.state,
+    this.country,
     this.businessName,
+    this.firstname,
+    this.lastname,
+    this.phoneNo,
+    this.landmark,
+    this.pincode,
   });
 
-  String? firstname;
-  String? lastname;
   String? street;
   String? area;
   String? city;
-  String? landmark;
-  String? country;
-  int? pinCode;
-  String? phoneNo;
   String? state;
+  String? country;
   String? businessName;
+  String? firstname;
+  String? lastname;
+  String? phoneNo;
+  String? landmark;
+  int? pincode;
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-        firstname: json["firstname"],
-        lastname: json["lastname"],
         street: json["street"],
         area: json["area"],
         city: json["city"],
-        landmark: json["landmark"],
+        state: json["state"],
         country: json["country"],
-        pinCode: json["pincode"],
+        businessName: json["business_name"],
+        firstname: json["firstname"],
+        lastname: json["lastname"],
         phoneNo: json["phone_no"],
-        state: json["state"] == null ? null : json["state"],
-        businessName:
-            json["business_name"] == null ? null : json["business_name"],
+        landmark: json["landmark"],
+        pincode: json["pincode"],
       );
 
   Map<String, dynamic> toJson() => {
-        "firstname": firstname,
-        "lastname": lastname,
         "street": street,
         "area": area,
         "city": city,
-        "landmark": landmark,
+        "state": state,
         "country": country,
-        "pincode": pinCode,
+        "business_name": businessName,
+        "firstname": firstname,
+        "lastname": lastname,
         "phone_no": phoneNo,
-        "state": state == null ? null : state,
-        "business_name": businessName == null ? null : businessName,
+        "landmark": landmark,
+        "pincode": pincode,
       };
 }

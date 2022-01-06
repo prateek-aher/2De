@@ -18,11 +18,16 @@ class EnterPassword extends StatefulWidget {
 class _EnterPasswordState extends State<EnterPassword> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: Column(
-        children: [const FirstPart(), SecondPart(number: widget.number)],
-      )),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        body: SafeArea(
+            child: Column(
+          children: [const FirstPart(), SecondPart(number: widget.number)],
+        )),
+      ),
     );
   }
 }
@@ -54,12 +59,10 @@ class _SecondPartState extends State<SecondPart> {
           child: ListView(
             shrinkWrap: true,
             children: [
-              Text(
-                'Enter Password',
-                style: TextStyle(
-                    fontSize: Theme.of(context).textTheme.headline3!.fontSize,
-                    fontWeight: FontWeight.bold),
-              ),
+              Text('Enter Password',
+                  style: TextStyle(
+                      fontSize: Theme.of(context).textTheme.headline3!.fontSize,
+                      fontWeight: FontWeight.bold)),
               24.h,
               Text('Password',
                   style: TextStyle(
@@ -112,6 +115,7 @@ class _SecondPartState extends State<SecondPart> {
                             backgroundColor: MaterialStateProperty.all(
                                 Theme.of(context).primaryColor)),
                         onPressed: () {
+                          FocusScope.of(context).unfocus();
                           if (_formKey.currentState!.validate()) {
                             String requestJson = json.encode({
                               "phone_no": this.widget.number,

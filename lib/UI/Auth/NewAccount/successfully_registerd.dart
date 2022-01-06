@@ -1,5 +1,5 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
-import 'package:delivery/Utils/endpoints.dart';
+import 'package:delivery/Utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 
 class SuccessfullyRegistered extends StatelessWidget {

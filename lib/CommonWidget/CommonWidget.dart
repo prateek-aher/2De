@@ -1,11 +1,6 @@
 import 'package:delivery/CommonWidget/Snackbar.dart';
-import 'package:delivery/Providers/SosProvider.dart';
-import 'package:delivery/UI/Main/Home/help.dart';
-import 'package:delivery/UI/Main/PassBook.dart';
-import 'package:delivery/UI/Main/ProfileDetails.dart';
 import 'package:delivery/Utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../app.dart';
 
@@ -44,67 +39,6 @@ extension SizedBoxExtension on num {
   SizedBox get h => SizedBox(height: this.toDouble());
   SizedBox get w => SizedBox(width: this.toDouble());
 }
-
-// SizedBox sbw(double w) => SizedBox(width: w);
-// SizedBox sbh(double h) => SizedBox(height: h);
-
-PreferredSizeWidget customAppBar(BuildContext context) => AppBar(
-      leading: SizedBox(),
-      flexibleSpace: FlexibleSpaceBar(
-        titlePadding: EdgeInsets.only(left: 20, bottom: 4),
-        title: InkWell(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfileDetails()));
-          },
-          child: Hero(
-            tag: 'profilepicture',
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/dummy_user.png'),
-              radius: 20,
-              backgroundColor: Colors.white,
-            ),
-          ),
-        ),
-      ),
-      backgroundColor: PRIMARY_COLOR,
-      centerTitle: true,
-      title: GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Passbook()));
-        },
-        child: Container(
-          height: 50,
-          width: 150,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-          ),
-        ),
-      ),
-      actions: [
-        TextButton(
-            style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                    EdgeInsets.symmetric(horizontal: 24))),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider(
-                          create: (BuildContext context) => SosProvider(),
-                          child: Help())));
-            },
-            child: Text(
-              "Help!",
-              style: TextStyle(fontSize: 20, color: Colors.white),
-            )),
-        // Text('     ')
-      ],
-    );
-
-enum Task { pickup, drop }
 
 EdgeInsetsGeometry containerPadding() =>
     const EdgeInsets.symmetric(horizontal: 15, vertical: 20);

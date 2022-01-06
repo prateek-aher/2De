@@ -1,4 +1,5 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
+import 'package:delivery/CommonWidget/custom_appbar.dart';
 import 'package:delivery/UI/Main/Homepage.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class _RateCustomerState extends State<RateCustomer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context),
+      appBar: CustomAppBar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

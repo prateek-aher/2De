@@ -1,6 +1,7 @@
 import 'package:delivery/Animation/avatar_glow.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/CommonWidget/Snackbar.dart';
+import 'package:delivery/CommonWidget/custom_appbar.dart';
 import 'package:delivery/Providers/BagProvider.dart';
 import 'package:delivery/Providers/FindTaskProvider.dart';
 import 'package:delivery/Providers/TimeProvider.dart';
@@ -16,6 +17,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  String? url;
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -35,26 +37,12 @@ class _HomepageState extends State<Homepage> {
           return true;
         } else {
           previousBackPressTime = now;
-          showCustomSnackBar(
-              context,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Press again to exit'),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Theme(
-                          data: ThemeData(primaryColor: Colors.amber),
-                          child: Text('EXIT')))
-                ],
-              ));
+          showCustomSnackBar(context, Text('Press again to exit'));
           return false;
         }
       },
       child: Scaffold(
-          appBar: customAppBar(context),
+          appBar: CustomAppBar(),
           body: Consumer<FindTaskProvider>(
             builder: (context, findTask, _) {
               return findTask.gotResponse ? findingTaskWidget() : idleWidget();

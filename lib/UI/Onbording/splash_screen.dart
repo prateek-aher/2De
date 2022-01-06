@@ -47,75 +47,81 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
-    return Scaffold(
-        body: SafeArea(
-      child: Column(
-        children: [
-          Spacer(),
-          Center(
-              child: Image.asset(
-            'assets/logo.png',
-            height: 100,
-            width: 100,
-          )),
-          Spacer(),
-          Stack(
-            children: [
-              Container(
-                  alignment: Alignment.bottomCenter,
-                  height: MediaQuery.of(context).size.height / 2,
-                  width: double
-                      .infinity, //MediaQuery.of(context).size.width * 0.8,
-                  child: Image.asset('assets/splash.png')),
-              Positioned(
-                  left: mq.width * 0.33,
-                  top: mq.height * 0.16,
-                  child: Visibility(
-                    visible: showHeart1,
-                    child: Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                      size: 32,
-                    ),
-                  )),
-              Positioned(
-                  right: mq.width * 0.4,
-                  top: mq.height * 0.12,
-                  child: Visibility(
-                    visible: showHeart2,
-                    child: Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                      size: 32,
-                    ),
-                  )),
-              Positioned(
-                  left: mq.width * 0.37,
-                  top: mq.height * 0.08,
-                  child: Visibility(
-                    visible: showHeart3,
-                    child: Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                      size: 24,
-                    ),
-                  )),
-              Positioned(
-                  right: mq.width * 0.5,
-                  top: mq.height * 0.02,
-                  child: Visibility(
-                    visible: showHeart4,
-                    child: Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                      size: 18,
-                    ),
-                  ))
-            ],
-          )
-        ],
-      ),
-    ));
+    return WillPopScope(
+      onWillPop: () async {
+        await Future.delayed(Duration.zero, () {});
+        return false;
+      },
+      child: Scaffold(
+          body: SafeArea(
+        child: Column(
+          children: [
+            Spacer(),
+            Center(
+                child: Image.asset(
+              'assets/logo.png',
+              height: 100,
+              width: 100,
+            )),
+            Spacer(),
+            Stack(
+              children: [
+                Container(
+                    alignment: Alignment.bottomCenter,
+                    height: MediaQuery.of(context).size.height / 2,
+                    width: double
+                        .infinity, //MediaQuery.of(context).size.width * 0.8,
+                    child: Image.asset('assets/splash.png')),
+                Positioned(
+                    left: mq.width * 0.33,
+                    top: mq.height * 0.16,
+                    child: Visibility(
+                      visible: showHeart1,
+                      child: Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                        size: 32,
+                      ),
+                    )),
+                Positioned(
+                    right: mq.width * 0.4,
+                    top: mq.height * 0.12,
+                    child: Visibility(
+                      visible: showHeart2,
+                      child: Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                        size: 32,
+                      ),
+                    )),
+                Positioned(
+                    left: mq.width * 0.37,
+                    top: mq.height * 0.08,
+                    child: Visibility(
+                      visible: showHeart3,
+                      child: Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                        size: 24,
+                      ),
+                    )),
+                Positioned(
+                    right: mq.width * 0.5,
+                    top: mq.height * 0.02,
+                    child: Visibility(
+                      visible: showHeart4,
+                      child: Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                        size: 18,
+                      ),
+                    ))
+              ],
+            )
+          ],
+        ),
+      )),
+    );
   }
 
   void animateHearts() {

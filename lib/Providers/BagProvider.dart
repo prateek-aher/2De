@@ -1,7 +1,7 @@
 import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Models/my_bag.dart';
 import 'package:delivery/Network/Api_Provider.dart';
-import 'package:delivery/Utils/endpoints.dart';
+import 'package:delivery/Utils/constants/endpoints.dart';
 import 'package:flutter/material.dart';
 
 // class DummyItem {

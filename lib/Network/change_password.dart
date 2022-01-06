@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:delivery/Models/change_password_model.dart';
 import 'package:delivery/Network/Api_Provider.dart';
-import 'package:delivery/Utils/endpoints.dart';
+import 'package:delivery/Utils/constants/endpoints.dart';
 
 class ChangePasswordService {
   static ApiProvider _apiProvider = ApiProvider();

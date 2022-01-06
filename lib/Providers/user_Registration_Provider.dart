@@ -1,7 +1,7 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Network/Api_Provider.dart';
 import 'package:delivery/UI/Auth/NewAccount/successfully_registerd.dart';
-import 'package:delivery/Utils/endpoints.dart';
+import 'package:delivery/Utils/constants/endpoints.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,5 @@
 import 'package:delivery/Exceptions/Custom_Excaption.dart';
-import 'package:delivery/Utils/endpoints.dart';
+import 'package:delivery/Utils/constants/endpoints.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';

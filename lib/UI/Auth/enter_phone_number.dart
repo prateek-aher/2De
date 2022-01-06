@@ -1,29 +1,57 @@
 import 'dart:convert';
 
+import 'package:delivery/CommonWidget/CommonWidget.dart';
+import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Providers/SendOtpProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:delivery/CommonWidget/CommonWidget.dart';
 
 class EnterPhoneNumber extends StatelessWidget {
   const EnterPhoneNumber({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Spacer(),
-          Center(
-              child: Image.asset(
-            'assets/logo.png',
-            height: 100,
-            width: 100,
-          )),
-          Spacer(),
-          SecondPart()
-        ],
+    DateTime previousBackPressTime = DateTime.now();
+    return WillPopScope(
+      onWillPop: () async {
+        DateTime now = DateTime.now();
+        if (now.difference(previousBackPressTime) < Duration(seconds: 3)) {
+          return true;
+        } else {
+          previousBackPressTime = now;
+          showCustomSnackBar(
+              context,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Press again to exit'),
+                  // InkWell(
+                  //     onTap: () {
+                  //       Navigator.of(context).pop();
+                  //     },
+                  //     child: Theme(
+                  //         data: ThemeData(primaryColor: Colors.amber),
+                  //         child: Text('EXIT')))
+                ],
+              ));
+          return false;
+        }
+      },
+      child: Scaffold(
+        body: Column(
+          children: [
+            Spacer(),
+            Center(
+                child: Image.asset(
+              'assets/logo.png',
+              height: 100,
+              width: 100,
+            )),
+            Spacer(),
+            SecondPart()
+          ],
+        ),
       ),
     );
   }
@@ -53,41 +81,27 @@ class _SecondPartState extends State<SecondPart> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Hello!',
-            style: TextStyle(
-                fontSize: Theme.of(context).textTheme.headline3!.fontSize,
-                fontWeight: FontWeight.bold),
-          ),
-          Text(
-            'Welcome to 2De.',
-            style: TextStyle(
-              fontSize: Theme.of(context).textTheme.headline6!.fontSize,
-            ),
-          ),
+          Text('Hello!',
+              style: TextStyle(
+                  fontSize: Theme.of(context).textTheme.headline3!.fontSize,
+                  fontWeight: FontWeight.bold)),
+          Text('Welcome to 2De.',
+              style: TextStyle(
+                  fontSize: Theme.of(context).textTheme.headline6!.fontSize)),
           30.h,
-          Text(
-            'Enter Your Phone Number',
-            style: TextStyle(
-              fontSize: Theme.of(context).textTheme.subtitle1!.fontSize,
-            ),
-          ),
+          Text('Enter Your Phone Number',
+              style: TextStyle(
+                  fontSize: Theme.of(context).textTheme.subtitle1!.fontSize)),
           10.h,
           Form(
             key: _formKey,
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration:
-                      BoxDecoration(border: Border.all(color: Colors.grey)),
-                  child: const Text(
-                    '+91',
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
+                    padding: const EdgeInsets.all(4),
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.grey)),
+                    child: const Text('+91', style: TextStyle(fontSize: 20))),
                 12.w,
                 Container(
                   padding: const EdgeInsets.all(4),
@@ -114,7 +128,6 @@ class _SecondPartState extends State<SecondPart> {
                     keyboardType: TextInputType.phone,
                     controller: _phoneController,
                     onFieldSubmitted: (_) {
-                      print(_phoneController.text);
                       _formKey.currentState!.validate();
                     },
                   ),
@@ -139,12 +152,12 @@ class _SecondPartState extends State<SecondPart> {
                           requestJson, _phoneController.text.trim(), context);
                     }
                   },
-                  child: Text(
-                    'Proceed',
-                    style: TextStyle(
-                        fontSize:
-                            Theme.of(context).textTheme.subtitle1!.fontSize),
-                  ))),
+                  child: Text('Proceed',
+                      style: TextStyle(
+                          fontSize: Theme.of(context)
+                              .textTheme
+                              .subtitle1!
+                              .fontSize)))),
           70.h,
         ],
       ),
