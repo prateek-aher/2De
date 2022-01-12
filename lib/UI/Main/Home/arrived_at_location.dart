@@ -1,6 +1,7 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/CommonWidget/custom_appbar.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
+import 'package:delivery/Providers/FindTaskProvider.dart';
 import 'package:delivery/Providers/TimeProvider.dart';
 import 'package:delivery/UI/Main/QRScanScreen.dart';
 import 'package:delivery/Utils/colors.dart';
@@ -19,19 +20,27 @@ class ArrivedAtLocation extends StatefulWidget {
 }
 
 class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
-  Address? address;
-  TaskType taskType = TaskType.none;
+  Result? currentTask; // data object of current ongoing task
 
   @override
   void initState() {
-    if (taskType == TaskType.pickup || taskType == TaskType.drop) {
+    super.initState();
+    loadData();
+  }
+
+  void loadData() {
+    currentTask = context.read<FindTaskProvider>().findTaskModel!.data!.result;
+    if (currentTask!.task!.taskType == TaskType.pickup ||
+        currentTask!.task!.taskType == TaskType.drop) {
       context.read<TimeProvider>().startTimer(Duration(minutes: 10));
     }
-    super.initState();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    final taskType = currentTask?.task?.taskType;
+    final address = currentTask?.task?.address;
     return Scaffold(
       appBar: CustomAppBar(),
       body: ListView(shrinkWrap: true, children: [

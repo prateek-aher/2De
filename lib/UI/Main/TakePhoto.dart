@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Providers/FindTaskProvider.dart';
-import 'package:delivery/UI/Main/Home/pickup_package.dart';
+import 'package:delivery/UI/Main/Home/go_to_pickup.dart';
 import 'package:delivery/Utils/enumerations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -95,7 +95,7 @@ class _TakePhotoScreenState extends State<TakePhotoScreen> {
                                     TaskType.drop;
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                        builder: (context) => PickupPackage()));
+                                        builder: (context) => GoToPickup()));
                               } else {
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(

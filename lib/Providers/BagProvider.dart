@@ -55,6 +55,7 @@ class BagProvider extends ChangeNotifier {
   Future<dynamic> getMyBag(BuildContext context) async {
     try {
       final response = await _apiProvider.get(MY_BAG);
+      print('MY_BAG');
       print(response);
       if (response != null) {
         if (response["status"] == 'success') {

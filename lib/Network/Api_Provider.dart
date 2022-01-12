@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:delivery/Exceptions/Custom_Excaption.dart';
 import 'package:delivery/Utils/constants/endpoints.dart';
 import 'package:http/http.dart' as http;
@@ -15,8 +17,8 @@ class ApiProvider {
     var responseJson;
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     String? token = _prefs.getString('token');
+    print(_baseUrl! + url);
     try {
-      print(token);
       //showLoading();
       final response = await http.get(Uri.parse(_baseUrl! + url), headers: {
         "Authorization": token!,
@@ -24,7 +26,6 @@ class ApiProvider {
         'Accept': 'application/json'
       });
       responseJson = _response(response);
-      print(_baseUrl! + url);
     } on SocketException {
       throw FetchDataException('No Internet connection');
     }
@@ -37,6 +38,7 @@ class ApiProvider {
     print(requestJson);
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     String? token = _prefs.getString('token');
+    print(_baseUrl! + url);
     try {
       final response = await http
           .post(Uri.parse(_baseUrl! + url), body: requestJson, headers: {
@@ -54,6 +56,7 @@ class ApiProvider {
 
   Future<dynamic> auth(String url, requestJson) async {
     var responseJson;
+    print(_baseUrl! + url);
     print(requestJson);
     try {
       final response = await http.post(Uri.parse(_baseUrl! + url),
@@ -101,13 +104,16 @@ class ApiProvider {
       case 400:
         throw BadRequestException(response.body.toString());
       case 401:
-
+        log('Error 401');
+        break;
       case 403:
         throw UnauthorisedException(response.body.toString());
       case 404:
-
+        log('Error 404');
+        break;
       case 500:
-
+        log('Error 401');
+        break;
       default:
         throw FetchDataException(
             'Error occured while Communication with Server with StatusCode : ${response.statusCode}');

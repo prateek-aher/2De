@@ -165,10 +165,10 @@ TaskType jsonToTaskType(json) {
       return TaskType.pickup;
     case 'drop':
       return TaskType.drop;
-    case 'hubdrop':
-      return TaskType.hubdrop;
-    case 'hubpickup':
-      return TaskType.hubpickup;
+    case 'hub_drop':
+      return TaskType.hubDrop;
+    case 'hub_pickup':
+      return TaskType.hubPickup;
     default:
       return TaskType.none;
   }
@@ -182,10 +182,10 @@ String? taskTypeToJson(TaskType type) {
       return 'pickup';
     case TaskType.drop:
       return 'drop';
-    case TaskType.hubpickup:
-      return 'hubpickup';
-    case TaskType.hubdrop:
-      return 'hubdrop';
+    case TaskType.hubPickup:
+      return 'hub_pickup';
+    case TaskType.hubDrop:
+      return 'hub_drop';
   }
 }
 

@@ -1,1 +1,1 @@
-enum TaskType { none, pickup, drop, hubpickup, hubdrop }
+enum TaskType { none, pickup, drop, hubPickup, hubDrop }
