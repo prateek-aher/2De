@@ -2,6 +2,8 @@
 //
 //     final welcome = welcomeFromJson(jsonString);
 
+import 'dart:io';
+
 import 'package:delivery/Utils/enumerations.dart';
 
 class FindTaskModel {
@@ -80,6 +82,10 @@ class Package {
     this.state,
     this.isCod,
     this.codAmount,
+
+    // for frontend use
+    this.barCode = '',
+    this.file,
   });
 
   int? deliveryId;
@@ -89,6 +95,10 @@ class Package {
   String? state;
   bool? isCod;
   int? codAmount;
+
+  //for frontend use
+  String barCode;
+  File? file;
 
   factory Package.fromJson(Map<String, dynamic> json) => Package(
         deliveryId: json["delivery_id"],

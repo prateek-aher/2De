@@ -202,7 +202,7 @@ class _GoToPickupState extends State<GoToPickup> {
               }
 
               if (sum == currentTask!.task!.schedules.length) {
-                Navigator.of(context).push(MaterialPageRoute(
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => ArrivedAtLocation()));
               }
             },
