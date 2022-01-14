@@ -6,7 +6,6 @@ import 'Providers/FindTaskProvider.dart';
 import 'Providers/LoginProvider.dart';
 import 'Providers/SendOtpProvider.dart';
 import 'Providers/TimeProvider.dart';
-import 'Providers/UpdateStatusProvider.dart';
 import 'Providers/user_Registration_Provider.dart';
 import 'UI/Onbording/splash_screen.dart';
 import 'Utils/colors.dart';
@@ -29,8 +28,8 @@ class MyApp extends StatelessWidget {
             create: (context) => LoginProvider()),
         ChangeNotifierProvider<FindTaskProvider>(
             create: (context) => FindTaskProvider()),
-        ChangeNotifierProvider<UpdateStatusProvider>(
-            create: (context) => UpdateStatusProvider()),
+        // ChangeNotifierProvider<UpdateStatusProvider>(
+        //     create: (context) => UpdateStatusProvider()),
         ChangeNotifierProvider<BagProvider>(create: (context) => BagProvider()),
       ],
       child: MaterialApp(

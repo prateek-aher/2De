@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
+import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/CommonWidget/custom_appbar.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
+import 'package:delivery/Models/update_delivery_status.dart' hide Result;
 import 'package:delivery/Providers/FindTaskProvider.dart';
 import 'package:delivery/UI/Main/Home/arrived_at_location.dart';
 import 'package:delivery/UI/Main/Home/cannot_accept_package.dart';
@@ -178,17 +180,31 @@ class _GoToPickupState extends State<GoToPickup> {
                   ? "Arrived at pickup location"
                   : 'Arrived at drop location',
               style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-                color: Colors.white,
-              ),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  color: Colors.white),
             ),
             activeThumbColor: Colors.white,
             activeTrackColor: Colors.green,
-            onSwipe: () {
-              // TODO: Update delivery status
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ArrivedAtLocation()));
+            onSwipe: () async {
+              UpdateDeliveryStatusModel? model;
+              int sum = 0;
+              for (var value in currentTask!.task!.schedules) {
+                model = await context.read<FindTaskProvider>().updateStatus({
+                  'delivery_id': value,
+                  'status': 'reachedPickup',
+                }, context);
+                if (model?.status?.toLowerCase() == 'success') {
+                  sum++;
+                } else {
+                  break;
+                }
+              }
+
+              if (sum == currentTask!.task!.schedules.length) {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ArrivedAtLocation()));
+              }
             },
           ),
         ),

@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
+import 'package:delivery/Models/update_delivery_status.dart';
 import 'package:delivery/Network/Api_Provider.dart';
 import 'package:delivery/UI/Main/Home/go_to_pickup.dart';
 import 'package:delivery/Utils/constants/endpoints.dart';
@@ -76,5 +78,31 @@ class FindTaskProvider extends ChangeNotifier {
 
   Future<void> onRefresh(context) async {
     findTask(context).then((_) => notifyListeners());
+  }
+
+  Future<UpdateDeliveryStatusModel?> updateStatus(
+      dynamic requestJson, context) async {
+    showLoading();
+    try {
+      UpdateDeliveryStatusModel? _updateStatusModel;
+      final response = await _apiProvider.post(
+          UPDATE_DELIVERY_STATUS, jsonEncode(requestJson));
+      print('UPDATE_DELIVERY_STATUS');
+      print(response);
+      if (response != null) {
+        if (response["status"].toString().toLowerCase() == "success") {
+          _updateStatusModel = UpdateDeliveryStatusModel.fromJson(response);
+        } else {
+          hideLoading();
+          showCustomSnackBar(context,
+              Text(response['message'] ?? "Something Went Wrong, Try Again!"));
+        }
+      }
+      hideLoading();
+      return _updateStatusModel;
+    } on Exception catch (e) {
+      print(e.toString());
+      hideLoading();
+    }
   }
 }
