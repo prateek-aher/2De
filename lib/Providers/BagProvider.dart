@@ -13,44 +13,44 @@ import 'package:flutter/material.dart';
 // }
 
 class BagProvider extends ChangeNotifier {
-  List<dynamic> _myBagItems = <dynamic>[];
+  List<BagItem> _myBagItems = <BagItem>[];
 
   // STATIC DATA -----
-  List<dynamic> _list = const <dynamic>[
-    {
-      'name': 'Hemant Sutar',
-      'id': 223212,
-      'url':
-          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg',
-    },
-    {
-      'name': 'Hemant Sutar',
-      'id': 223212,
-      'url':
-          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg',
-    },
-    {
-      'name': 'Hemant Sutar',
-      'id': 223212,
-      'url':
-          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg',
-    },
-    {
-      'name': 'Hemant Sutar',
-      'id': 223212,
-      'url':
-          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg',
-    },
-    {
-      'name': 'Hemant Sutar',
-      'id': 223212,
-      'url':
-          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg',
-    },
-  ];
+  // List<dynamic> _list = const <dynamic>[
+  //   {
+  //     'name': 'Hemant Sutar',
+  //     'id': 223212,
+  //     'url':
+  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg',
+  //   },
+  //   {
+  //     'name': 'Hemant Sutar',
+  //     'id': 223212,
+  //     'url':
+  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg',
+  //   },
+  //   {
+  //     'name': 'Hemant Sutar',
+  //     'id': 223212,
+  //     'url':
+  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg',
+  //   },
+  //   {
+  //     'name': 'Hemant Sutar',
+  //     'id': 223212,
+  //     'url':
+  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg',
+  //   },
+  //   {
+  //     'name': 'Hemant Sutar',
+  //     'id': 223212,
+  //     'url':
+  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2021/q1/P03110_FY20FDMLP_SignforPackagesImage_727x463.jpg',
+  //   },
+  // ];
   // ----- STATIC DATA
 
-  List<dynamic> get items => _myBagItems;
+  List<BagItem> get items => _myBagItems;
   ApiProvider _apiProvider = ApiProvider();
   Future<dynamic> getMyBag(BuildContext context) async {
     try {
@@ -61,7 +61,7 @@ class BagProvider extends ChangeNotifier {
         if (response["status"] == 'success') {
           MyBagModel _myBag = MyBagModel.fromJson(response);
           _myBagItems.clear();
-          _myBagItems.addAll(_myBag.data?.result ?? <dynamic>[]);
+          _myBagItems.addAll(_myBag.data?.result ?? <BagItem>[]);
 
           notifyListeners();
         } else {

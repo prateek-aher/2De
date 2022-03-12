@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/UI/Auth/enter_phone_number.dart';
@@ -14,10 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'ProfileDetails/change_password.dart';
-import 'ProfileDetails/my_profile.dart';
-import 'ProfileDetails/refer_and_earn.dart';
-import 'ProfileDetails/vehicle_details.dart';
+import 'change_password.dart';
+import 'my_profile.dart';
+import 'refer_and_earn.dart';
+import 'vehicle_details.dart';
 
 class ProfileDetails extends StatefulWidget {
   const ProfileDetails({Key? key}) : super(key: key);
@@ -208,7 +206,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             onTap: () async {
               await showDialog(
                   context: context,
-                  barrierColor: const Color(0xffF7F9FB).withOpacity(0.8),
+                  // barrierColor: const Color(0xffF7F9FB).withOpacity(0.8),
+                  barrierColor: Colors.black.withOpacity(0.5),
                   barrierDismissible: true,
                   builder: (context) => AlertDialog(
                         backgroundColor: Colors.white,

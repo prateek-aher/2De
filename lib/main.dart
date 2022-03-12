@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'app.dart';
 
 var getCamDescription;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final cameras = await availableCameras();

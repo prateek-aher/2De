@@ -1,14 +1,17 @@
 import 'dart:io';
 
 import 'package:delivery/CommonWidget/CommonWidget.dart';
+import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/UI/Main/TakePhoto.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+// ignore: must_be_immutable
 class QRScanScreen extends StatefulWidget {
-  const QRScanScreen({Key? key}) : super(key: key);
-
+  QRScanScreen({Key? key, required this.package, this.onRefresh})
+      : super(key: key);
+  final Package package;
+  VoidCallback? onRefresh;
   @override
   _QRScanScreenState createState() => _QRScanScreenState();
 }
@@ -60,72 +63,65 @@ class _QRScanScreenState extends State<QRScanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: 0.h,
-        backgroundColor: Colors.white,
-        title: Text(
-          "Scan QR",
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            children: [
-              12.h,
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.4,
-                child: QRView(key: _qrKey, onQRViewCreated: _onQRViewCreated),
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    24.h,
-                    Text(
-                      "Enter Code Manually",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-                    ),
-                    TextFormField(
-                      controller: _qrTextController,
-                      decoration: InputDecoration(
-                          hintText: 'Enter code here',
-                          hintStyle: TextStyle(
-                            fontSize: 20,
-                            color: Colors.grey[400],
-                          )),
-                    ),
-                    24.h,
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 16)),
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => TakePhotoScreen()));
-                        },
-                        child: Text(
-                          "Next",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        )),
-                    24.h
-                  ],
-                ),
-              )
-            ],
+        appBar: AppBar(
+          leading: 0.h,
+          backgroundColor: Colors.white,
+          title: Text(
+            "Scan QR",
+            style: TextStyle(color: Colors.black),
           ),
+          centerTitle: true,
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+            child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Column(children: [
+                  12.h,
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: QRView(
+                          key: _qrKey, onQRViewCreated: _onQRViewCreated)),
+                  Expanded(
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                        24.h,
+                        Text("Enter Code Manually",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 14)),
+                        TextFormField(
+                            controller: _qrTextController,
+                            decoration: InputDecoration(
+                                hintText: 'Enter code here',
+                                hintStyle: TextStyle(
+                                    fontSize: 20, color: Colors.grey[400]))),
+                        24.h,
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16)),
+                            onPressed: () {
+                              widget.package.barCode = _qrTextController.text;
+                              if (widget.onRefresh != null) {
+                                widget.onRefresh!();
+                              }
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => TakePhotoScreen(
+                                          barcode: _qrTextController.text,
+                                          package: widget.package,
+                                          onRefresh: widget.onRefresh)));
+                            },
+                            child: Text("Next",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500))),
+                        24.h
+                      ]))
+                ]))));
   }
 }

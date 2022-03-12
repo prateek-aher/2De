@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
-import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/CommonWidget/custom_appbar.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/Models/update_delivery_status.dart' hide Result;
@@ -78,7 +77,7 @@ class _GoToPickupState extends State<GoToPickup> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   12.h,
-                  Text('${address!.firstname} ${address.lastname}',
+                  Text('${address!.firstName} ${address.lastName}',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                   6.h,
@@ -129,7 +128,7 @@ class _GoToPickupState extends State<GoToPickup> {
                     OutlinedButton.icon(
                       onPressed: () async {
                         await launch(
-                            'tel:+91${currentTask!.task!.address!.phoneNo}');
+                            'tel:+91${currentTask!.task!.address!.phoneNumber}');
                       },
                       icon: Icon(Icons.call),
                       label: Text(

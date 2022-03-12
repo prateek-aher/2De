@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery/Providers/SosProvider.dart';
 import 'package:delivery/UI/Main/Home/help.dart';
-import 'package:delivery/UI/Main/PassBook.dart';
-import 'package:delivery/UI/Main/ProfileDetails.dart';
+import 'package:delivery/UI/Main/passbook/PassBook.dart';
+import 'package:delivery/UI/Main/ProfileDetails/ProfileDetails.dart';
 import 'package:delivery/Utils/constants/endpoints.dart';
 import 'package:delivery/Utils/constants/strings.dart';
 import 'package:flutter/material.dart';

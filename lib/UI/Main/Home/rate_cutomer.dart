@@ -1,7 +1,10 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/CommonWidget/custom_appbar.dart';
-import 'package:delivery/UI/Main/Homepage.dart';
+import 'package:delivery/Providers/FindTaskProvider.dart';
+import 'package:delivery/UI/Main/Home/Homepage.dart';
+import 'package:delivery/Utils/enumerations.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RateCustomer extends StatefulWidget {
   RateCustomer({Key? key}) : super(key: key);
@@ -15,6 +18,7 @@ class _RateCustomerState extends State<RateCustomer> {
 
   @override
   Widget build(BuildContext context) {
+    TaskType taskType = Provider.of<FindTaskProvider>(context).taskType;
     return Scaffold(
       appBar: CustomAppBar(),
       body: Column(
@@ -24,7 +28,7 @@ class _RateCustomerState extends State<RateCustomer> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
             child: Text(
-              'You successfully delivered a product.',
+              'You successfully ${taskType == TaskType.drop || taskType == TaskType.hubDrop ? 'delivered' : 'picked up'}  packages.',
               textAlign: TextAlign.start,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),

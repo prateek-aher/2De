@@ -60,6 +60,7 @@ class _HomepageState extends State<Homepage> {
     return Container(
         width: MediaQuery.of(context).size.width,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          // My Bag
           Expanded(
               flex: 4,
               child: Consumer<BagProvider>(
@@ -112,15 +113,16 @@ class _HomepageState extends State<Homepage> {
                                                           BorderRadius.circular(
                                                               12),
                                                       image: DecorationImage(
-                                                          image: NetworkImage(
-                                                              e['url']),
+                                                          image: NetworkImage(e
+                                                              .pickupImages
+                                                              .first),
                                                           fit: BoxFit.cover)),
                                                   height: 100,
                                                   width: 100),
-                                              Text(e['name'],
+                                              Text(e.productType ?? '',
                                                   style:
                                                       TextStyle(fontSize: 16)),
-                                              Text('#${e['id']}'),
+                                              Text('#${e.deliveryId}'),
                                             ])))
                                     .toList()))
                       ])))),

@@ -13,6 +13,7 @@ import 'Utils/colors.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
+  String mukesh = 'shfdh';
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,4 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class VehicleDetails extends StatelessWidget {

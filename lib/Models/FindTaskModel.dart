@@ -202,40 +202,43 @@ String? taskTypeToJson(TaskType type) {
 class Address {
   Address({
     this.street,
+    this.flatNumber,
     this.area,
     this.city,
     this.state,
     this.country,
     this.businessName,
-    this.firstname,
-    this.lastname,
-    this.phoneNo,
+    this.firstName,
+    this.lastName,
+    this.phoneNumber,
     this.landmark,
     this.pincode,
   });
 
   String? street;
+  String? flatNumber;
   String? area;
   String? city;
   String? state;
   String? country;
   String? businessName;
-  String? firstname;
-  String? lastname;
-  String? phoneNo;
+  String? firstName;
+  String? lastName;
+  String? phoneNumber;
   String? landmark;
   int? pincode;
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
         street: json["street"],
+        flatNumber: json["flat_no"],
         area: json["area"],
         city: json["city"],
         state: json["state"],
         country: json["country"],
         businessName: json["business_name"],
-        firstname: json["firstname"],
-        lastname: json["lastname"],
-        phoneNo: json["phone_no"],
+        firstName: json["firstname"],
+        lastName: json["lastname"],
+        phoneNumber: json["phone_no"],
         landmark: json["landmark"],
         pincode: json["pincode"],
       );
@@ -245,11 +248,12 @@ class Address {
         "area": area,
         "city": city,
         "state": state,
+        "flat_no": flatNumber,
         "country": country,
         "business_name": businessName,
-        "firstname": firstname,
-        "lastname": lastname,
-        "phone_no": phoneNo,
+        "firstname": firstName,
+        "lastname": lastName,
+        "phone_no": phoneNumber,
         "landmark": landmark,
         "pincode": pincode,
       };

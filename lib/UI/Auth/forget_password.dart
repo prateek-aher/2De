@@ -1,11 +1,7 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
-import 'package:delivery/Providers/SendOtpProvider.dart';
 import 'package:delivery/UI/Auth/enter_phone_number.dart';
 import 'package:delivery/Utils/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key, required this.phoneNumber}) : super(key: key);

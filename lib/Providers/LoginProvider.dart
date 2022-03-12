@@ -1,7 +1,7 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Network/Api_Provider.dart';
-import 'package:delivery/UI/Main/Homepage.dart';
+import 'package:delivery/UI/Main/Home/Homepage.dart';
 import 'package:delivery/Utils/constants/endpoints.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

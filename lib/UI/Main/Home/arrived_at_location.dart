@@ -4,7 +4,6 @@ import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/Providers/FindTaskProvider.dart';
 import 'package:delivery/Providers/TimeProvider.dart';
 import 'package:delivery/UI/Main/Home/scanned_items.dart';
-import 'package:delivery/UI/Main/QRScanScreen.dart';
 import 'package:delivery/Utils/colors.dart';
 import 'package:delivery/Utils/enumerations.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +73,7 @@ class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
               children: [
                 Text('To:', style: TextStyle(fontSize: 16, color: Colors.grey)),
                 8.h,
-                Text('${address?.firstname} ${address?.lastname}',
+                Text('${address?.firstName} ${address?.lastName}',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                 6.h,
@@ -130,7 +129,7 @@ class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
             ]),
             height: 100,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            child: taskType == TaskType.pickup
+            child: taskType == TaskType.pickup || taskType == TaskType.hubPickup
                 ? ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -178,9 +177,10 @@ class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 16)),
                             onPressed: () {
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => QRScanScreen()));
+                              // TODO: Drop procedure
+                              // Navigator.of(context).pushReplacement(
+                              //     MaterialPageRoute(
+                              //         builder: (context) => QRScanScreen()));
                             },
                             child: Text("Drop Now",
                                 style: TextStyle(

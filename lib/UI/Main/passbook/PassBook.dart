@@ -6,8 +6,8 @@ import 'package:delivery/UI/Main/passbook/pickup_details.dart';
 import 'package:delivery/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
-import 'passbook/drop_details.dart';
-import 'passbook/earning_history_filter.dart';
+import 'drop_details.dart';
+import 'earning_history_filter.dart';
 
 class Passbook extends StatefulWidget {
   const Passbook({Key? key}) : super(key: key);
