@@ -13,7 +13,6 @@ import 'Utils/colors.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
-  String mukesh = 'shfdh';
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
           primaryColor: PRIMARY_COLOR,
-          scaffoldBackgroundColor: const Color(0xffF7F9FB),
+          scaffoldBackgroundColor: SCAFFOLD_BACKGROUND_COLOR,
           appBarTheme: const AppBarTheme(
             backgroundColor: PRIMARY_COLOR,
             centerTitle: true,

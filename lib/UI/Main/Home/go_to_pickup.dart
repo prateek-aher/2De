@@ -33,6 +33,21 @@ class _GoToPickupState extends State<GoToPickup> {
   void loadData() {
     currentTask = context.read<FindTaskProvider>().findTaskModel!.data!.result;
     setState(() {});
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('OK'))
+                ],
+                content: Text(
+                    'You have ${currentTask!.task!.schedules.length} items for pickup'),
+              ));
+    });
   }
 
   @override
@@ -54,10 +69,7 @@ class _GoToPickupState extends State<GoToPickup> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                      taskType == TaskType.pickup
-                          ? 'Pickup package'
-                          : 'Drop package',
+                  Text('Go to Pickup',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                   IconButton(
@@ -88,14 +100,18 @@ class _GoToPickupState extends State<GoToPickup> {
                         fontWeight: FontWeight.w500,
                         color: GREY5),
                   ),
-                  Wrap(
-                      direction: Axis.horizontal,
-                      children: List.generate(
-                          currentTask!.task!.schedules.length,
-                          (index) => CachedNetworkImage(
-                              imageUrl:
-                                  'https://static9.depositphotos.com/1669785/1150/i/600/depositphotos_11506024-stock-photo-package.jpg',
-                              width: 125))),
+                  // Wrap(
+                  //     direction: Axis.horizontal,
+                  //     children: List.generate(
+                  //         currentTask!.task!.schedules.length,
+                  //         (index) => CachedNetworkImage(
+                  //             imageUrl:
+                  //                 'https://static9.depositphotos.com/1669785/1150/i/600/depositphotos_11506024-stock-photo-package.jpg',
+                  //             width: 125))),
+                  CachedNetworkImage(
+                      imageUrl:
+                          'https://static9.depositphotos.com/1669785/1150/i/600/depositphotos_11506024-stock-photo-package.jpg',
+                      width: 200),
                   20.h,
                   Text(
                     address.businessName ?? '',

@@ -19,6 +19,7 @@ class FindTaskProvider extends ChangeNotifier {
   bool postResponse = true;
 
   Future<dynamic> findTask(context) async {
+    changeWidget();
     try {
       final response = await _apiProvider.get(FIND_TASK);
       print('FIND_TASK');
@@ -40,14 +41,17 @@ class FindTaskProvider extends ChangeNotifier {
                 break;
               case TaskType.drop:
                 Navigator.of(context).pushReplacement(
+                    // TODO: Put "Go To Drop" page here
                     MaterialPageRoute(builder: (context) => GoToPickup()));
                 break;
               case TaskType.hubPickup:
                 Navigator.of(context).pushReplacement(
+                    // TODO: Put "Go To Hub pickup" page here
                     MaterialPageRoute(builder: (context) => GoToPickup()));
                 break;
               case TaskType.hubDrop:
                 Navigator.of(context).pushReplacement(
+                    // TODO: Put "Go To Hub drop" page here
                     MaterialPageRoute(builder: (context) => GoToPickup()));
                 break;
             }

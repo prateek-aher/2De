@@ -57,113 +57,107 @@ class _HomepageState extends State<Homepage> {
   }
 
   Widget idleWidget() {
-    return Container(
-        width: MediaQuery.of(context).size.width,
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          // My Bag
-          Expanded(
-              flex: 4,
-              child: Consumer<BagProvider>(
-                  builder: (context, bag, child) => Visibility(
-                      visible: bag.items.isNotEmpty,
-                      child: Column(mainAxisSize: MainAxisSize.min, children: [
-                        (MediaQuery.of(context).size.height * 0.07).h,
-                        Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            8.w,
-                            Text(
-                              'My Bag',
-                              style: TextStyle(
-                                fontSize: 26,
-                                fontFamily: 'WorkSans',
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Spacer(),
-                            Text(
-                              '${bag.items.length} Items',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: 'WorkSans',
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            8.w
-                          ],
+    return Column(children: [
+      // My Bag
+      Expanded(
+          flex: 4,
+          child: Consumer<BagProvider>(
+              builder: (context, bag, child) => Visibility(
+                  visible: bag.items.isNotEmpty,
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    (MediaQuery.of(context).size.height * 0.07).h,
+                    Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        8.w,
+                        Text(
+                          'My Bag',
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: 'WorkSans',
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                        12.h,
-                        SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                                children: bag.items
-                                    .map((e) => Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 2),
-                                        child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: Colors.grey),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              12),
-                                                      image: DecorationImage(
-                                                          image: NetworkImage(e
-                                                              .pickupImages
-                                                              .first),
-                                                          fit: BoxFit.cover)),
-                                                  height: 100,
-                                                  width: 100),
-                                              Text(e.productType ?? '',
-                                                  style:
-                                                      TextStyle(fontSize: 16)),
-                                              Text('#${e.deliveryId}'),
-                                            ])))
-                                    .toList()))
-                      ])))),
-          Text(
-            DateFormat('d MMMM y').format(DateTime.now()),
-            style: TextStyle(fontSize: 16),
-          ),
-          10.h,
-          Consumer<TimeProvider>(
-              builder: (context, timer, child) => Text(
-                    timer.currentTime,
-                    style: TextStyle(fontSize: 30),
-                  )),
-          Spacer(),
-          Container(
-              margin: const EdgeInsets.all(10),
-              height: 150,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Theme.of(context).primaryColor,
-                  boxShadow: [
-                    BoxShadow(
-                        offset: Offset(0, 0),
-                        color: Theme.of(context).primaryColor.withOpacity(0.7),
-                        blurRadius: 20,
-                        spreadRadius: 3)
-                  ]),
-              child: ElevatedButton(
-                  onPressed: () {
-                    context.read<FindTaskProvider>().changeWidget();
-                    context.read<FindTaskProvider>().findTask(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(), elevation: 0),
-                  child: Center(
-                      child: Text('Start',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 30))))),
-          Text('Click on Start To Get Task'),
-          Spacer(flex: 2)
-        ]));
+                        Spacer(),
+                        Text(
+                          '${bag.items.length} Items',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'WorkSans',
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        8.w
+                      ],
+                    ),
+                    12.h,
+                    SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                            children: bag.items
+                                .map((e) => Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 2),
+                                    child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.grey),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(
+                                                          e.pickupImages.first),
+                                                      fit: BoxFit.cover)),
+                                              height: 100,
+                                              width: 100),
+                                          Text(e.productType ?? '',
+                                              style: TextStyle(fontSize: 16)),
+                                          Text('#${e.deliveryId}'),
+                                        ])))
+                                .toList()))
+                  ])))),
+      Text(
+        DateFormat('d MMMM y').format(DateTime.now()),
+        style: TextStyle(fontSize: 16),
+      ),
+      10.h,
+      Consumer<TimeProvider>(
+          builder: (context, timer, child) => Text(
+                timer.currentTime,
+                style: TextStyle(fontSize: 30),
+              )),
+      Spacer(),
+      // Button
+      Container(
+          margin: const EdgeInsets.all(10),
+          height: 150,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Theme.of(context).primaryColor,
+              boxShadow: [
+                BoxShadow(
+                    offset: Offset(0, 0),
+                    color: Theme.of(context).primaryColor.withOpacity(0.7),
+                    blurRadius: 20,
+                    spreadRadius: 3)
+              ]),
+          child: ElevatedButton(
+              onPressed: () =>
+                  context.read<FindTaskProvider>().findTask(context),
+              style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(), elevation: 10),
+              child: Center(
+                  child: Text('Start',
+                      style: TextStyle(color: Colors.white, fontSize: 30))))),
+      Spacer(),
+      Text('Click on Start To Get Task'),
+      48.h,
+    ]);
   }
 
   Widget findingTaskWidget() {
