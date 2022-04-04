@@ -1,4 +1,6 @@
 import 'package:delivery/Providers/BagProvider.dart';
+import 'package:delivery/Providers/admin/dashboard_provider.dart';
+import 'package:delivery/Providers/admin/tasklist_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,19 +20,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<SendOtpProvider>(
-            create: (context) => SendOtpProvider()),
-        ChangeNotifierProvider<TimeProvider>(
-            create: (context) => TimeProvider()),
+        ChangeNotifierProvider<SendOtpProvider>(create: (context) => SendOtpProvider()),
+        ChangeNotifierProvider<TimeProvider>(create: (context) => TimeProvider()),
         ChangeNotifierProvider<UserRegistrationProvider>(
             create: (context) => UserRegistrationProvider()),
-        ChangeNotifierProvider<LoginProvider>(
-            create: (context) => LoginProvider()),
-        ChangeNotifierProvider<FindTaskProvider>(
-            create: (context) => FindTaskProvider()),
+        ChangeNotifierProvider<LoginProvider>(create: (context) => LoginProvider()),
+        ChangeNotifierProvider<FindTaskProvider>(create: (context) => FindTaskProvider()),
         // ChangeNotifierProvider<UpdateStatusProvider>(
         //     create: (context) => UpdateStatusProvider()),
         ChangeNotifierProvider<BagProvider>(create: (context) => BagProvider()),
+        ChangeNotifierProvider<TaskListProvider>(create: (context) => TaskListProvider()),
+        ChangeNotifierProvider<DashboardProvider>(create: (context) => DashboardProvider()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
@@ -48,12 +48,10 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Roboto',
           outlinedButtonTheme: OutlinedButtonThemeData(
               style: OutlinedButton.styleFrom(
-                  primary: PRIMARY_COLOR,
-                  side: BorderSide(color: PRIMARY_COLOR))),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(primary: PRIMARY_COLOR)),
-          textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(primary: PRIMARY_COLOR)),
+                  primary: PRIMARY_COLOR, side: BorderSide(color: PRIMARY_COLOR))),
+          elevatedButtonTheme:
+              ElevatedButtonThemeData(style: ElevatedButton.styleFrom(primary: PRIMARY_COLOR)),
+          textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(primary: PRIMARY_COLOR)),
         ),
         home: const SplashScreen(),
       ),

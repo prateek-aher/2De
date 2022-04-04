@@ -4,7 +4,7 @@ import 'package:delivery/CommonWidget/custom_appbar.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/Models/update_delivery_status.dart' hide Result;
 import 'package:delivery/Providers/FindTaskProvider.dart';
-import 'package:delivery/UI/Main/Home/arrived_at_location.dart';
+import 'package:delivery/UI/Main/Home/arrived_at_pickup_location.dart';
 import 'package:delivery/UI/Main/Home/cannot_accept_package.dart';
 import 'package:delivery/Utils/colors.dart';
 import 'package:delivery/Utils/enumerations.dart';
@@ -14,14 +14,16 @@ import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class GoToPickup extends StatefulWidget {
-  const GoToPickup({Key? key}) : super(key: key);
+import 'arrived_at_drop_location.dart';
+
+class GoToLocation extends StatefulWidget {
+  const GoToLocation({Key? key}) : super(key: key);
 
   @override
-  State<GoToPickup> createState() => _GoToPickupState();
+  State<GoToLocation> createState() => _GoToLocationState();
 }
 
-class _GoToPickupState extends State<GoToPickup> {
+class _GoToLocationState extends State<GoToLocation> {
   Result? currentTask; // data object of current ongoing task
 
   @override
@@ -69,7 +71,11 @@ class _GoToPickupState extends State<GoToPickup> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Go to Pickup',
+                  Text(
+                      taskType == TaskType.pickup ||
+                              taskType == TaskType.hubPickup
+                          ? "Go to Pickup location"
+                          : 'Go to Drop location',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                   IconButton(
@@ -191,9 +197,9 @@ class _GoToPickupState extends State<GoToPickup> {
                 Icon(Icons.double_arrow_rounded, color: Colors.green, size: 28),
             thumbPadding: EdgeInsets.all(5),
             child: Text(
-              taskType == TaskType.pickup
-                  ? "Arrived at pickup location"
-                  : 'Arrived at drop location',
+              taskType == TaskType.pickup || taskType == TaskType.hubPickup
+                  ? "Arrived at Pickup location"
+                  : 'Arrived at Drop location',
               style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
@@ -217,8 +223,15 @@ class _GoToPickupState extends State<GoToPickup> {
               }
 
               if (sum == currentTask!.task!.schedules.length) {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => ArrivedAtLocation()));
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: (context) {
+                  if (currentTask!.task!.taskType == TaskType.pickup ||
+                      currentTask!.task!.taskType == TaskType.hubPickup) {
+                    return ArrivedAtPickupLocation();
+                  } else {
+                    return ArrivedAtDropLocation();
+                  }
+                }));
               }
             },
           ),

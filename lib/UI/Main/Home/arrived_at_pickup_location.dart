@@ -12,14 +12,15 @@ import 'package:provider/provider.dart';
 import 'cannot_accept_package.dart';
 import 'no_show.dart';
 
-class ArrivedAtLocation extends StatefulWidget {
-  ArrivedAtLocation({Key? key}) : super(key: key);
+class ArrivedAtPickupLocation extends StatefulWidget {
+  ArrivedAtPickupLocation({Key? key}) : super(key: key);
 
   @override
-  State<ArrivedAtLocation> createState() => _ArrivedAtLocationState();
+  State<ArrivedAtPickupLocation> createState() =>
+      _ArrivedAtPickupLocationState();
 }
 
-class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
+class _ArrivedAtPickupLocationState extends State<ArrivedAtPickupLocation> {
   Result? currentTask; // data object of current ongoing task
 
   @override
@@ -50,7 +51,8 @@ class _ArrivedAtLocationState extends State<ArrivedAtLocation> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                        taskType == TaskType.pickup
+                        taskType == TaskType.pickup ||
+                                taskType == TaskType.hubPickup
                             ? 'Pickup package(s)'
                             : 'Drop package(s)',
                         style: TextStyle(

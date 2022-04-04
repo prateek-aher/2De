@@ -1,6 +1,7 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Network/Api_Provider.dart';
+import 'package:delivery/UI/AdminConsole/dashboard.dart';
 import 'package:delivery/UI/Main/Home/Homepage.dart';
 import 'package:delivery/Utils/constants/endpoints.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +26,20 @@ class LoginProvider extends ChangeNotifier {
               "name", "${response["data"]["result"]["name"]}");
           _preferences.setString(
               "phone_no", "${response["data"]["result"]["phone_no"]}");
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => Homepage()),
-              (route) => false);
+          _preferences.setString(
+              "role", "${response["data"]["result"]["role"]}");
+
+          if (response["data"]["result"]["role"] == "manager") {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => Dashboard()),
+                (route) => false);
+          } else {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => Homepage()),
+                (route) => false);
+          }
         } else if (response["status"] == "failed") {
           showCustomSnackBar(
               context, Text("${response["error"].toString().split(' || ')[1]}"),

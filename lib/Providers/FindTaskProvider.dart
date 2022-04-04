@@ -5,7 +5,7 @@ import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/Models/update_delivery_status.dart';
 import 'package:delivery/Network/Api_Provider.dart';
-import 'package:delivery/UI/Main/Home/go_to_pickup.dart';
+import 'package:delivery/UI/Main/Home/go_to_location.dart';
 import 'package:delivery/Utils/constants/endpoints.dart';
 import 'package:delivery/Utils/enumerations.dart';
 import 'package:flutter/material.dart';
@@ -32,29 +32,8 @@ class FindTaskProvider extends ChangeNotifier {
           postResponse = !postResponse;
           if (_findTaskModel?.message == "You have successfully Got Delivery" &&
               gotResponse) {
-            switch (taskType) {
-              case TaskType.none:
-                break;
-              case TaskType.pickup:
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => GoToPickup()));
-                break;
-              case TaskType.drop:
-                Navigator.of(context).pushReplacement(
-                    // TODO: Put "Go To Drop" page here
-                    MaterialPageRoute(builder: (context) => GoToPickup()));
-                break;
-              case TaskType.hubPickup:
-                Navigator.of(context).pushReplacement(
-                    // TODO: Put "Go To Hub pickup" page here
-                    MaterialPageRoute(builder: (context) => GoToPickup()));
-                break;
-              case TaskType.hubDrop:
-                Navigator.of(context).pushReplacement(
-                    // TODO: Put "Go To Hub drop" page here
-                    MaterialPageRoute(builder: (context) => GoToPickup()));
-                break;
-            }
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => GoToLocation()));
           }
           gotResponse = false;
           notifyListeners();

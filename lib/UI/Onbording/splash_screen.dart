@@ -1,3 +1,4 @@
+import 'package:delivery/UI/AdminConsole/dashboard.dart';
 import 'package:delivery/UI/Auth/enter_phone_number.dart';
 import 'package:delivery/UI/Main/Home/Homepage.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,14 @@ class _SplashScreenState extends State<SplashScreen> {
     String? token = _prefs.getString('token');
     if (token != null) {
       print('TOKEN: $token');
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Homepage()));
+      String? role = _prefs.getString('role');
+      if (role == 'manager') {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Dashboard()));
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Homepage()));
+      }
     } else {
       Navigator.pushReplacement(
           context,

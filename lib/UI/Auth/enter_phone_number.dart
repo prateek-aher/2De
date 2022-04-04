@@ -159,32 +159,6 @@ class _SecondPartState extends State<SecondPart> {
                               .textTheme
                               .subtitle1!
                               .fontSize)))),
-          10.h,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(padding: EdgeInsets.all(8), child: Text('or Login as')),
-              TextButton(
-                  style: TextButton.styleFrom(padding: EdgeInsets.all(0)),
-                  onPressed: () {
-                    FocusScope.of(context).unfocus();
-                    // if (_formKey.currentState!.validate()) {
-                    //   String requestJson = jsonEncode(
-                    //       {"phone_no": "${_phoneController.text.trim()}"});
-                    //   context.read<SendOtpProvider>().testCall(requestJson,
-                    //       _phoneController.text.trim(), context);
-                    // }
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => Dashboard()));
-                  },
-                  child: Text('Admin',
-                      style: TextStyle(
-                          fontSize: Theme.of(context)
-                              .textTheme
-                              .subtitle1!
-                              .fontSize))),
-            ],
-          ),
           70.h,
         ],
       ),
