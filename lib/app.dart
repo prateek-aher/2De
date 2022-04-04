@@ -1,5 +1,6 @@
 import 'package:delivery/Providers/BagProvider.dart';
 import 'package:delivery/Providers/Manager/manager_dashboard_provider.dart';
+import 'package:delivery/Providers/Manager/task_details_provider.dart';
 import 'package:delivery/Providers/Manager/tasklist_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         //     create: (context) => UpdateStatusProvider()),
         ChangeNotifierProvider<BagProvider>(create: (context) => BagProvider()),
         ChangeNotifierProvider<TaskListProvider>(create: (context) => TaskListProvider()),
+        ChangeNotifierProvider<TaskDetailsProvider>(create: (context) => TaskDetailsProvider()),
         ChangeNotifierProvider<DashboardProvider>(create: (context) => DashboardProvider()),
       ],
       child: MaterialApp(

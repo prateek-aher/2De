@@ -14,3 +14,4 @@ const String UPDATE_DELIVERY_STATUS = '/schedule/updatedeliverystatus';
 // Admin
 const String TASK_LIST = '/task/list';
 const String DASHBOARD = '/schedule/dashboard';
+const String TASK_DETAILS = '/task/details';
