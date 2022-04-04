@@ -8,10 +8,11 @@ import '../../Utils/constants/endpoints.dart';
 class TaskListProvider extends ChangeNotifier {
   ApiProvider _apiProvider = ApiProvider();
   List<Pickup> _pickupList = <Pickup>[];
-  // List<Drop> _dropList = <Drop>[];
+  List<Drop> _dropList = <Drop>[];
   List<Pickup> get pickupList => _pickupList;
+  List<Drop> get dropList => _dropList;
 
-  Future<Null> updateTaskList() async {
+  Future<Null> refreshTaskList() async {
     showLoading();
     try {
       final response = await _apiProvider.get(TASK_LIST);
@@ -21,7 +22,9 @@ class TaskListProvider extends ChangeNotifier {
       if (response != null && response['status'] == 'success') {
         TaskListModel _taskList = TaskListModel.fromJson(response);
         _pickupList.clear();
+        _dropList.clear();
         _pickupList.addAll(_taskList.data?.result?.pickups ?? <Pickup>[]);
+        _dropList.addAll(_taskList.data?.result?.drops ?? <Drop>[]);
       }
       notifyListeners();
     } on Exception catch (e) {

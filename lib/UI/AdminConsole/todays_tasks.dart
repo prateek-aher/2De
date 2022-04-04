@@ -1,4 +1,4 @@
-import 'package:delivery/Providers/admin/tasklist_provider.dart';
+import 'package:delivery/Providers/Manager/tasklist_provider.dart';
 import 'package:delivery/UI/AdminConsole/pickup_task_details.dart';
 import 'package:flutter/material.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
@@ -21,6 +21,7 @@ class _TodaysTasksState extends State<TodaysTasks> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text('Today\'s task'),
           centerTitle: false,
@@ -79,27 +80,32 @@ class _TodaysTasksState extends State<TodaysTasks> {
                         ]),
                     tabs: [
                       Tab(
-                        text: 'PICK UP (12)',
+                        text: 'PICK UP (${taskList.pickupList.length})',
                       ),
                       Tab(
-                        text: 'DROP (18)',
+                        text: 'DROP (${taskList.dropList.length})',
                       )
                     ]),
               ),
               12.h,
               Expanded(
                 child: TabBarView(children: [
-                  ListView(
-                    shrinkWrap: true,
-                    children: List.generate(
-                        taskList.pickupList.length,
-                        (index) => PickupBubble(
-                              pickup: taskList.pickupList[index],
-                            )),
+                  RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<TaskListProvider>().refreshTaskList();
+                    },
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: List.generate(
+                          taskList.pickupList.length,
+                          (index) => PickupBubble(
+                                pickup: taskList.pickupList[index],
+                              )),
+                    ),
                   ),
                   ListView(
                     shrinkWrap: true,
-                    children: List.generate(12, (index) => DropBubble()),
+                    children: List.generate(1, (index) => DropBubble()),
                   ),
                 ]),
               )
@@ -114,7 +120,7 @@ class _TodaysTasksState extends State<TodaysTasks> {
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<TaskListProvider>().updateTaskList();
+      context.read<TaskListProvider>().refreshTaskList();
     });
   }
 }

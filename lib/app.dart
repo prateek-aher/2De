@@ -1,6 +1,6 @@
 import 'package:delivery/Providers/BagProvider.dart';
-import 'package:delivery/Providers/admin/dashboard_provider.dart';
-import 'package:delivery/Providers/admin/tasklist_provider.dart';
+import 'package:delivery/Providers/Manager/manager_dashboard_provider.dart';
+import 'package:delivery/Providers/Manager/tasklist_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -7,8 +7,7 @@ import 'dart:convert';
 import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/Utils/enumerations.dart';
 
-TaskListModel welcomeFromJson(String str) =>
-    TaskListModel.fromJson(json.decode(str));
+TaskListModel welcomeFromJson(String str) => TaskListModel.fromJson(json.decode(str));
 
 String welcomeToJson(TaskListModel data) => json.encode(data.toJson());
 
@@ -62,18 +61,20 @@ class Result {
     this.pickups = const [],
   });
 
-  List<dynamic> drops;
+  List<Drop> drops;
   List<Pickup> pickups;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-        drops: json["drops"],
+        drops: json["drops"] == null
+            ? []
+            : List<Drop>.from(json["drops"].map((x) => Drop.fromJson(x))),
         pickups: json["pickups"] == null
             ? []
             : List<Pickup>.from(json["pickups"].map((x) => Pickup.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "drops": List<dynamic>.from(drops.map((x) => x)),
+        "drops": List<dynamic>.from(drops.map((x) => x.toJson())),
         "pickups": List<dynamic>.from(pickups.map((x) => x.toJson())),
       };
 }
@@ -103,11 +104,52 @@ class Pickup {
         taskId: json["task_id"] == null ? null : json["task_id"],
         teamId: json["team_id"] == null ? null : json["team_id"],
         taskType: jsonToTaskType(json),
-        schedules: json["schedules"] == null
-            ? []
-            : List<int>.from(json["schedules"].map((x) => x)),
-        address:
-            json["address"] == null ? null : Address.fromJson(json["address"]),
+        schedules: json["schedules"] == null ? [] : List<int>.from(json["schedules"].map((x) => x)),
+        address: json["address"] == null ? null : Address.fromJson(json["address"]),
+        status: json["status"],
+        team: json["team"] == null ? null : Team.fromJson(json["team"]),
+        id: json["id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "task_id": taskId == null ? null : taskId,
+        "team_id": teamId == null ? null : teamId,
+        "task_type": taskType == null ? null : taskTypeToJson(taskType!),
+        "schedules": List<dynamic>.from(schedules.map((x) => x)),
+        "address": address?.toJson(),
+        "status": status,
+        "team": team?.toJson(),
+        "id": id,
+      };
+}
+
+class Drop {
+  Drop({
+    this.taskId,
+    this.teamId,
+    this.taskType,
+    this.schedules = const [],
+    this.address,
+    this.status,
+    this.team,
+    this.id,
+  });
+
+  int? taskId;
+  int? teamId;
+  TaskType? taskType;
+  List<int> schedules;
+  Address? address;
+  String? status;
+  Team? team;
+  dynamic id;
+
+  factory Drop.fromJson(Map<String, dynamic> json) => Drop(
+        taskId: json["task_id"] == null ? null : json["task_id"],
+        teamId: json["team_id"] == null ? null : json["team_id"],
+        taskType: jsonToTaskType(json),
+        schedules: json["schedules"] == null ? [] : List<int>.from(json["schedules"].map((x) => x)),
+        address: json["address"] == null ? null : Address.fromJson(json["address"]),
         status: json["status"],
         team: json["team"] == null ? null : Team.fromJson(json["team"]),
         id: json["id"],
