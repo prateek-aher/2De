@@ -1,5 +1,7 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
+import 'package:delivery/Models/team_status_change_model.dart';
 import 'package:delivery/Network/Api_Provider.dart';
+import 'package:delivery/Utils/enumerations.dart';
 import 'package:flutter/material.dart';
 
 import '../../Models/team_list_model.dart';
@@ -27,6 +29,25 @@ class TeamListProvider extends ChangeNotifier {
         _listAll.addAll(_teamListModel.data?.result ?? []);
       }
       notifyListeners();
+    } on Exception catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<Null> changeTeamStatus({required String teamId, required Status status}) async {
+    TeamStatusChangeModel _change = TeamStatusChangeModel();
+    // showLoading();
+    try {
+      final response = await _apiProvider.get(
+          (status == Status.enable ? TEAM_STATUS_ENABLE : TEAM_STATUS_DISABLE) +
+              '?team_id=$teamId');
+      print(status == Status.enable ? 'TEAM_STATUS_ENABLE' : 'TEAM_STATUS_DISABLE');
+      print(response);
+      // hideLoading();
+      if (response != null && response['status'] == 'success') {
+        await getTeamList();
+        notifyListeners();
+      }
     } on Exception catch (e) {
       print(e.toString());
     }

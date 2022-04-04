@@ -1,5 +1,6 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Providers/Manager/team_list_provider.dart';
+import 'package:delivery/Utils/enumerations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -55,24 +56,38 @@ class _MyTeamState extends State<MyTeam> {
             Expanded(
                 child: TabBarView(children: [
               Consumer<TeamListProvider>(builder: (context, listProvider, _) {
-                return ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: listProvider.listBikes.length,
-                  separatorBuilder: (BuildContext context, int index) => 22.h,
-                  itemBuilder: (BuildContext context, int index) => DeliveryBoyTile(
-                    name: listProvider.listBikes[index].name ?? '',
-                    // area: listProvider.listBikes[index].area??'',
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    context.read<TeamListProvider>().getTeamList();
+                  },
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: listProvider.listBikes.length,
+                    separatorBuilder: (BuildContext context, int index) => 22.h,
+                    itemBuilder: (BuildContext context, int index) => DeliveryBoyTile(
+                      name: listProvider.listBikes[index].name ?? '',
+                      // area: listProvider.listBikes[index].area??'',
+                      status: listProvider.listBikes[index].status ?? false,
+                      teamId: listProvider.listBikes[index].teamId!,
+                    ),
                   ),
                 );
               }),
               Consumer<TeamListProvider>(builder: (context, listProvider, _) {
-                return ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: listProvider.listCars.length,
-                  separatorBuilder: (BuildContext context, int index) => 22.h,
-                  itemBuilder: (BuildContext context, int index) => DeliveryBoyTile(
-                    name: listProvider.listCars[index].name ?? '',
-                    // area: listProvider.listCars[index].area??'',
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    context.read<TeamListProvider>().getTeamList();
+                  },
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: listProvider.listCars.length,
+                    separatorBuilder: (BuildContext context, int index) => 22.h,
+                    itemBuilder: (BuildContext context, int index) => DeliveryBoyTile(
+                      name: listProvider.listCars[index].name ?? '',
+                      // area: listProvider.listCars[index].area??'',
+                      status: listProvider.listCars[index].status ?? false,
+                      teamId: listProvider.listCars[index].teamId!,
+                    ),
                   ),
                 );
               })
@@ -93,9 +108,13 @@ class _MyTeamState extends State<MyTeam> {
 }
 
 class DeliveryBoyTile extends StatelessWidget {
-  const DeliveryBoyTile({Key? key, required this.name, this.area}) : super(key: key);
+  const DeliveryBoyTile(
+      {Key? key, required this.name, this.area, required this.status, required this.teamId})
+      : super(key: key);
   final String name;
   final String? area;
+  final bool status;
+  final int teamId;
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -116,7 +135,12 @@ class DeliveryBoyTile extends StatelessWidget {
           )
         ],
       ),
-      trailing: Switch(value: true, onChanged: (value) {}),
+      trailing: Switch(
+          value: status,
+          onChanged: (value) {
+            context.read<TeamListProvider>().changeTeamStatus(
+                teamId: teamId.toString(), status: value ? Status.enable : Status.disable);
+          }),
     );
   }
 }
