@@ -15,3 +15,4 @@ const String UPDATE_DELIVERY_STATUS = '/schedule/updatedeliverystatus';
 const String TASK_LIST = '/task/list';
 const String DASHBOARD = '/schedule/dashboard';
 const String TASK_DETAILS = '/task/details';
+const String TEAM_LIST = '/team/list';

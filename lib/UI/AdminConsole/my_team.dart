@@ -1,9 +1,16 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
+import 'package:delivery/Providers/Manager/team_list_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class MyTeam extends StatelessWidget {
+class MyTeam extends StatefulWidget {
   const MyTeam({Key? key}) : super(key: key);
 
+  @override
+  State<MyTeam> createState() => _MyTeamState();
+}
+
+class _MyTeamState extends State<MyTeam> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -17,9 +24,8 @@ class MyTeam extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8),
-              decoration: BoxDecoration(
-                  color: Color(0xfff4f3f8),
-                  borderRadius: BorderRadius.circular(12)),
+              decoration:
+                  BoxDecoration(color: Color(0xfff4f3f8), borderRadius: BorderRadius.circular(12)),
               child: TabBar(
                   padding: EdgeInsets.all(8),
                   labelColor: Theme.of(context).primaryColor,
@@ -48,87 +54,48 @@ class MyTeam extends StatelessWidget {
             12.h,
             Expanded(
                 child: TabBarView(children: [
-              ListView(
-                shrinkWrap: true,
-                children: [
-                  DeliveryBoyTile(
-                    name: 'Rajshekhar',
-                    area: 'Hadapsar area',
+              Consumer<TeamListProvider>(builder: (context, listProvider, _) {
+                return ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: listProvider.listBikes.length,
+                  separatorBuilder: (BuildContext context, int index) => 22.h,
+                  itemBuilder: (BuildContext context, int index) => DeliveryBoyTile(
+                    name: listProvider.listBikes[index].name ?? '',
+                    // area: listProvider.listBikes[index].area??'',
                   ),
-                  6.h,
-                  DeliveryBoyTile(
-                    name: 'Dhananjay',
-                    area: 'Yerwada area',
+                );
+              }),
+              Consumer<TeamListProvider>(builder: (context, listProvider, _) {
+                return ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: listProvider.listCars.length,
+                  separatorBuilder: (BuildContext context, int index) => 22.h,
+                  itemBuilder: (BuildContext context, int index) => DeliveryBoyTile(
+                    name: listProvider.listCars[index].name ?? '',
+                    // area: listProvider.listCars[index].area??'',
                   ),
-                  6.h,
-                  DeliveryBoyTile(
-                    name: 'Amrit',
-                    area: 'Bhosari area',
-                  ),
-                  6.h,
-                  DeliveryBoyTile(
-                    name: 'Vishal',
-                    area: 'Hinjewadi area',
-                  ),
-                  6.h,
-                  DeliveryBoyTile(
-                    name: 'Akshay',
-                    area: 'Pimpri area',
-                  ),
-                  6.h,
-                  DeliveryBoyTile(
-                    name: 'Aawhan',
-                    area: 'Chinchwad area',
-                  ),
-                ],
-              ),
-              ListView(
-                shrinkWrap: true,
-                children: [
-                  DeliveryBoyTile(
-                    name: 'Rajshekhar',
-                    area: 'Hadapsar area',
-                  ),
-                  6.h,
-                  DeliveryBoyTile(
-                    name: 'Dhananjay',
-                    area: 'Yerwada area',
-                  ),
-                  6.h,
-                  DeliveryBoyTile(
-                    name: 'Amrit',
-                    area: 'Bhosari area',
-                  ),
-                  6.h,
-                  DeliveryBoyTile(
-                    name: 'Vishal',
-                    area: 'Hinjewadi area',
-                  ),
-                  6.h,
-                  DeliveryBoyTile(
-                    name: 'Akshay',
-                    area: 'Pimpri area',
-                  ),
-                  6.h,
-                  DeliveryBoyTile(
-                    name: 'Aawhan',
-                    area: 'Chinchwad area',
-                  ),
-                ],
-              )
+                );
+              })
             ]))
           ],
         ),
       ),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<TeamListProvider>().getTeamList();
+    });
+  }
 }
 
 class DeliveryBoyTile extends StatelessWidget {
-  const DeliveryBoyTile({Key? key, required this.name, required this.area})
-      : super(key: key);
+  const DeliveryBoyTile({Key? key, required this.name, this.area}) : super(key: key);
   final String name;
-  final String area;
+  final String? area;
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -144,7 +111,7 @@ class DeliveryBoyTile extends StatelessWidget {
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Text(
-            area,
+            area ?? '',
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
           )
         ],
