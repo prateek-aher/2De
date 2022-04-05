@@ -1,8 +1,10 @@
-import 'package:delivery/CommonWidget/CommonWidget.dart';
+import 'dart:convert';
+
 import 'package:delivery/Models/task_list_model.dart';
 import 'package:delivery/Network/Api_Provider.dart';
 import 'package:flutter/material.dart';
 
+import '../../CommonWidget/CommonWidget.dart';
 import '../../Utils/constants/endpoints.dart';
 
 class TaskListProvider extends ChangeNotifier {
@@ -36,18 +38,14 @@ class TaskListProvider extends ChangeNotifier {
     // showLoading();
     try {
       final requestJson = {"task_id": taskId, "team_id": teamId};
-      final response = await _apiProvider.post(TASK_REASSIGN, requestJson);
+      final response = await _apiProvider.post(TASK_REASSIGN, jsonEncode(requestJson));
       print('TASK_REASSIGN');
       print(response);
       // hideLoading();
       if (response != null && response['status'] == 'success') {
-        TaskListModel _taskList = TaskListModel.fromJson(response);
-        _pickupList.clear();
-        _dropList.clear();
-        _pickupList.addAll(_taskList.data?.result?.pickups ?? <Pickup>[]);
-        _dropList.addAll(_taskList.data?.result?.drops ?? <Drop>[]);
+        await refreshTaskList();
+        notifyListeners();
       }
-      notifyListeners();
     } on Exception catch (e) {
       print(e.toString());
     }

@@ -217,17 +217,43 @@ class PickupBubble extends StatelessWidget {
                 TextButton(
                     onPressed: () {
                       showModalBottomSheet(
+                          constraints:
+                              BoxConstraints(maxWidth: 0.9 * MediaQuery.of(context).size.width),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(18), topRight: Radius.circular(18))),
                           context: context,
                           builder: (context) =>
                               Consumer<TeamListProvider>(builder: (context, listProvider, _) {
                                 return ListView.separated(
+                                    padding: EdgeInsets.all(18),
                                     shrinkWrap: true,
-                                    itemBuilder: (context, index) => RadioListTile(
-                                        value: false,
-                                        groupValue: true,
-                                        onChanged: (value) {},
-                                        title: Text(listProvider.listAll[index].name ?? '')),
-                                    separatorBuilder: (_, __) => 12.h,
+                                    itemBuilder: (context, index) => InkWell(
+                                          onTap: () async {
+                                            await context.read<TaskListProvider>().taskReassign(
+                                                taskId: pickup.taskId.toString(),
+                                                teamId:
+                                                    listProvider.listAll[index].teamId.toString());
+                                            Navigator.pop(context);
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Radio(
+                                                value: false,
+                                                groupValue: pickup.team!.teamId !=
+                                                    listProvider.listAll[index].teamId,
+                                                onChanged: (_) {},
+                                              ),
+                                              5.w,
+                                              Text(
+                                                listProvider.listAll[index].name ?? '',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500, fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                    separatorBuilder: (_, __) => 2.h,
                                     itemCount: listProvider.listAllActive.length);
                               }));
                     },
