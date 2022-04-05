@@ -102,7 +102,9 @@ class _MyTeamState extends State<MyTeam> {
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<TeamListProvider>().getTeamList();
+      if (context.read<TeamListProvider>().listAll.isEmpty) {
+        context.read<TeamListProvider>().getTeamList();
+      }
     });
   }
 }
@@ -139,7 +141,9 @@ class DeliveryBoyTile extends StatelessWidget {
           value: status,
           onChanged: (value) {
             context.read<TeamListProvider>().changeTeamStatus(
-                teamId: teamId.toString(), status: value ? Status.enable : Status.disable);
+                ctx: context,
+                teamId: teamId.toString(),
+                status: value ? Status.enable : Status.disable);
           }),
     );
   }

@@ -82,8 +82,8 @@ class TaskInfo {
   int drops;
 
   factory TaskInfo.fromJson(Map<String, dynamic> json) => TaskInfo(
-        pickups: json["pickups"] == null ? null : json["pickups"],
-        drops: json["drops"] == null ? null : json["drops"],
+        pickups: json["pickups"] ?? 0,
+        drops: json["drops"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -106,10 +106,10 @@ class TeamInfo {
   int carInactive;
 
   factory TeamInfo.fromJson(Map<String, dynamic> json) => TeamInfo(
-        bikeActive: json["bikeactive"] == null ? null : json["bikeactive"],
-        bikeInactive: json["bikeinactive"] == null ? null : json["bikeinactive"],
-        carActive: json["caractive"] == null ? null : json["caractive"],
-        carInactive: json["carinactive"] == null ? null : json["carinactive"],
+        bikeActive: json["bikeactive"] ?? 0,
+        bikeInactive: json["bikeinactive"] ?? 0,
+        carActive: json["caractive"] ?? 0,
+        carInactive: json["carinactive"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {

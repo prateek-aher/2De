@@ -1,5 +1,5 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
-import 'package:delivery/Providers/Manager/manager_dashboard_provider.dart';
+import 'package:delivery/Providers/Manager/dashboard_provider.dart';
 import 'package:delivery/UI/AdminConsole/todays_tasks.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

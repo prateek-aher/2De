@@ -1,4 +1,5 @@
 import 'package:delivery/Providers/Manager/tasklist_provider.dart';
+import 'package:delivery/Providers/Manager/team_list_provider.dart';
 import 'package:delivery/UI/AdminConsole/pickup_task_details.dart';
 import 'package:flutter/material.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
@@ -121,6 +122,9 @@ class _TodaysTasksState extends State<TodaysTasks> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<TaskListProvider>().refreshTaskList();
+      if (context.read<TeamListProvider>().listAll.isEmpty) {
+        context.read<TeamListProvider>().getTeamList();
+      }
     });
   }
 }
@@ -192,7 +196,24 @@ class PickupBubble extends StatelessWidget {
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
                 ),
                 5.w,
-                TextButton(onPressed: () {}, child: Text('Change')),
+                TextButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) =>
+                              Consumer<TeamListProvider>(builder: (context, listProvider, _) {
+                                return ListView.separated(
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) => RadioListTile(
+                                        value: false,
+                                        groupValue: true,
+                                        onChanged: (value) {},
+                                        title: Text(listProvider.listAllActive[index].name ?? '')),
+                                    separatorBuilder: (_, __) => 12.h,
+                                    itemCount: listProvider.listAllActive.length);
+                              }));
+                    },
+                    child: Text('Change')),
                 Spacer(),
                 Text(
                   '${pickup.schedules.length}',

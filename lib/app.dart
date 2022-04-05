@@ -1,5 +1,5 @@
 import 'package:delivery/Providers/BagProvider.dart';
-import 'package:delivery/Providers/Manager/manager_dashboard_provider.dart';
+import 'package:delivery/Providers/Manager/dashboard_provider.dart';
 import 'package:delivery/Providers/Manager/task_details_provider.dart';
 import 'package:delivery/Providers/Manager/tasklist_provider.dart';
 import 'package:delivery/Providers/Manager/team_list_provider.dart';

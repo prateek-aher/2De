@@ -31,4 +31,25 @@ class TaskListProvider extends ChangeNotifier {
       print(e.toString());
     }
   }
+
+  Future<Null> taskReassign({required String taskId, required String teamId}) async {
+    // showLoading();
+    try {
+      final requestJson = {"task_id": taskId, "team_id": teamId};
+      final response = await _apiProvider.post(TASK_REASSIGN, requestJson);
+      print('TASK_REASSIGN');
+      print(response);
+      // hideLoading();
+      if (response != null && response['status'] == 'success') {
+        TaskListModel _taskList = TaskListModel.fromJson(response);
+        _pickupList.clear();
+        _dropList.clear();
+        _pickupList.addAll(_taskList.data?.result?.pickups ?? <Pickup>[]);
+        _dropList.addAll(_taskList.data?.result?.drops ?? <Drop>[]);
+      }
+      notifyListeners();
+    } on Exception catch (e) {
+      print(e.toString());
+    }
+  }
 }

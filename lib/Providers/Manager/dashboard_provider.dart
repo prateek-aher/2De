@@ -1,4 +1,3 @@
-import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Models/dashboard_model.dart';
 import 'package:delivery/Network/Api_Provider.dart';
 import 'package:flutter/material.dart';
@@ -15,12 +14,12 @@ class DashboardProvider extends ChangeNotifier {
   int carInactive = 0;
 
   Future<Null> refreshDashboard() async {
-    showLoading();
+    // showLoading();
     try {
       final response = await _apiProvider.get(DASHBOARD);
       print('DASHBOARD');
       print(response);
-      hideLoading();
+      // hideLoading();
       if (response != null && response['status'] == 'success') {
         DashboardModel _dash = DashboardModel.fromJson(response);
         pickups = _dash.data?.result?.taskInfo?.pickups ?? 0;
@@ -29,8 +28,8 @@ class DashboardProvider extends ChangeNotifier {
         bikeInactive = _dash.data?.result?.teamInfo?.bikeInactive ?? 0;
         carActive = _dash.data?.result?.teamInfo?.carActive ?? 0;
         carInactive = _dash.data?.result?.teamInfo?.carInactive ?? 0;
+        notifyListeners();
       }
-      notifyListeners();
     } on Exception catch (e) {
       print(e.toString());
     }

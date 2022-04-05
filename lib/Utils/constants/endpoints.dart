@@ -18,3 +18,4 @@ const String TASK_DETAILS = '/task/details';
 const String TEAM_LIST = '/team/list';
 const String TEAM_STATUS_ENABLE = '/team/enable';
 const String TEAM_STATUS_DISABLE = '/team/disable';
+const String TASK_REASSIGN = '/task/reassign';
