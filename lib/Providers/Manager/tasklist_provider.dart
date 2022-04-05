@@ -13,20 +13,20 @@ class TaskListProvider extends ChangeNotifier {
   List<Drop> get dropList => _dropList;
 
   Future<Null> refreshTaskList() async {
-    showLoading();
+    // showLoading();
     try {
       final response = await _apiProvider.get(TASK_LIST);
       print('TASK_LIST');
       print(response);
-      hideLoading();
+      // hideLoading();
       if (response != null && response['status'] == 'success') {
         TaskListModel _taskList = TaskListModel.fromJson(response);
         _pickupList.clear();
         _dropList.clear();
         _pickupList.addAll(_taskList.data?.result?.pickups ?? <Pickup>[]);
         _dropList.addAll(_taskList.data?.result?.drops ?? <Drop>[]);
+        notifyListeners();
       }
-      notifyListeners();
     } on Exception catch (e) {
       print(e.toString());
     }

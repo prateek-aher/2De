@@ -1,11 +1,19 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../Providers/Manager/task_details_provider.dart';
 import 'my_team.dart';
 
-class DropTaskDetails extends StatelessWidget {
-  const DropTaskDetails({Key? key}) : super(key: key);
+class DropTaskDetails extends StatefulWidget {
+  const DropTaskDetails({Key? key, required this.taskId}) : super(key: key);
+  final int taskId;
 
+  @override
+  State<DropTaskDetails> createState() => _DropTaskDetailsState();
+}
+
+class _DropTaskDetailsState extends State<DropTaskDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,8 +24,7 @@ class DropTaskDetails extends StatelessWidget {
           VerticalDivider(color: Colors.white),
           TextButton(
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => MyTeam()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyTeam()));
               },
               child: Text(
                 'My Team',
@@ -31,8 +38,7 @@ class DropTaskDetails extends StatelessWidget {
         children: [
           Text(
             'Drop to',
-            style: TextStyle(
-                fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold),
           ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 8),
@@ -52,14 +58,12 @@ class DropTaskDetails extends StatelessWidget {
                   children: [
                     Text(
                       'Viraj Patil',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
                     Spacer(),
                     Text(
                       '02 items',
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -69,14 +73,12 @@ class DropTaskDetails extends StatelessWidget {
                   children: [
                     Text(
                       'Shiv Malhar Colony, Hadapsar, Pune',
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal, fontSize: 12),
+                      style: TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
                     ),
                     Spacer(),
                     Text(
                       'Picked up',
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
                     )
                   ],
                 ),
@@ -87,8 +89,7 @@ class DropTaskDetails extends StatelessWidget {
                   children: [
                     Text(
                       'Rajshekhar',
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.normal),
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
                     ),
                     5.w,
                     TextButton(onPressed: () {}, child: Text('Change')),
@@ -110,10 +111,7 @@ class DropTaskDetails extends StatelessWidget {
               5.w,
               Text(
                 'Out for delivery',
-                style: TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14),
+                style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 14),
               ),
               Spacer(),
               Text(
@@ -133,10 +131,7 @@ class DropTaskDetails extends StatelessWidget {
               5.w,
               Text(
                 'Reached for Delivery',
-                style: TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14),
+                style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 14),
               ),
               Spacer(),
               Text(
@@ -156,10 +151,7 @@ class DropTaskDetails extends StatelessWidget {
               5.w,
               Text(
                 'Delivered',
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14),
+                style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 14),
               ),
               Spacer(),
               Text(
@@ -173,6 +165,14 @@ class DropTaskDetails extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<TaskDetailsProvider>().getTaskDetails(taskId: widget.taskId.toString());
+    });
   }
 }
 

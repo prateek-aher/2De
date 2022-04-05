@@ -42,6 +42,7 @@ class _TodaysTasksState extends State<TodaysTasks> {
           builder: (context, taskList, _) => Column(
             children: [
               // search
+              // TODO: Implement search here
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: TextFormField(
@@ -92,8 +93,9 @@ class _TodaysTasksState extends State<TodaysTasks> {
               Expanded(
                 child: TabBarView(children: [
                   RefreshIndicator(
+                    displacement: 20,
                     onRefresh: () async {
-                      context.read<TaskListProvider>().refreshTaskList();
+                      await context.read<TaskListProvider>().refreshTaskList();
                     },
                     child: ListView(
                       shrinkWrap: true,
@@ -104,9 +106,19 @@ class _TodaysTasksState extends State<TodaysTasks> {
                               )),
                     ),
                   ),
-                  ListView(
-                    shrinkWrap: true,
-                    children: List.generate(1, (index) => DropBubble()),
+                  RefreshIndicator(
+                    displacement: 20,
+                    onRefresh: () async {
+                      await context.read<TaskListProvider>().refreshTaskList();
+                    },
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: List.generate(
+                          taskList.dropList.length,
+                          (index) => DropBubble(
+                                drop: taskList.dropList[index],
+                              )),
+                    ),
                   ),
                 ]),
               )
@@ -158,7 +170,11 @@ class PickupBubble extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('<seller name>', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                Text(pickup.creatorName,
+                    style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14)),
                 Spacer(),
                 Icon(
                   Icons.access_time_rounded,
@@ -166,7 +182,7 @@ class PickupBubble extends StatelessWidget {
                   size: 12,
                 ),
                 Text(
-                  '----',
+                  ' ----',
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                 )
               ],
@@ -176,7 +192,9 @@ class PickupBubble extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  (pickup.address?.landmark ?? '') + ', ' + (pickup.address?.area ?? ''),
+                  // TODO: Ask short address to be given here
+                  '',
+                  // (pickup.address?.landmark ?? '') + ', ' + (pickup.address?.area ?? ''),
                   style: TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
                 ),
                 Spacer(),
@@ -193,7 +211,7 @@ class PickupBubble extends StatelessWidget {
               children: [
                 Text(
                   pickup.team?.name ?? '----',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                 ),
                 5.w,
                 TextButton(
@@ -208,16 +226,19 @@ class PickupBubble extends StatelessWidget {
                                         value: false,
                                         groupValue: true,
                                         onChanged: (value) {},
-                                        title: Text(listProvider.listAllActive[index].name ?? '')),
+                                        title: Text(listProvider.listAll[index].name ?? '')),
                                     separatorBuilder: (_, __) => 12.h,
                                     itemCount: listProvider.listAllActive.length);
                               }));
                     },
-                    child: Text('Change')),
+                    child: Text(
+                      'Change',
+                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                    )),
                 Spacer(),
                 Text(
-                  '${pickup.schedules.length}',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                  '${pickup.schedules.length} items',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 )
               ],
             )
@@ -229,13 +250,16 @@ class PickupBubble extends StatelessWidget {
 }
 
 class DropBubble extends StatelessWidget {
-  const DropBubble({Key? key}) : super(key: key);
-
+  const DropBubble({Key? key, required this.drop}) : super(key: key);
+  final Drop drop;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => DropTaskDetails()));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => DropTaskDetails(
+                  taskId: drop.taskId!,
+                )));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8),
