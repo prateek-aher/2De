@@ -19,8 +19,8 @@ class TaskDetailsProvider extends ChangeNotifier {
       hideLoading();
       if (response != null && response['status'] == 'success') {
         _taskDetails = TaskDetailsModel.fromJson(response);
+        notifyListeners();
       }
-      notifyListeners();
     } on Exception catch (e) {
       print(e.toString());
     }
