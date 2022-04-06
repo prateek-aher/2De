@@ -39,15 +39,22 @@ class _GoToLocationState extends State<GoToLocation> {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('OK'))
-                ],
-                content: Text(
-                    'You have ${currentTask!.task!.schedules.length} items for pickup'),
+                titlePadding: const EdgeInsets.only(left: 36, right: 36, top: 36, bottom: 9),
+                contentPadding: const EdgeInsets.only(left: 36, right: 36, bottom: 36, top: 9),
+                title: Text(
+                    'You have to collect ${currentTask!.task!.schedules.length} package(s) from this seller',
+                    style: TextStyle(fontSize: 20),
+                    textAlign: TextAlign.center),
+                content: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 18)),
+                    child: Text(
+                      'I Understand',
+                      style: TextStyle(fontSize: 16),
+                    )),
               ));
     });
   }
@@ -72,16 +79,14 @@ class _GoToLocationState extends State<GoToLocation> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                      taskType == TaskType.pickup ||
-                              taskType == TaskType.hubPickup
+                      taskType == TaskType.pickup || taskType == TaskType.hubPickup
                           ? "Go to Pickup location"
                           : 'Go to Drop location',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                   IconButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CannotAcceptPackage()));
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) => CannotAcceptPackage()));
                       },
                       icon: Icon(Icons.close))
                 ],
@@ -96,15 +101,11 @@ class _GoToLocationState extends State<GoToLocation> {
                 children: [
                   12.h,
                   Text('${address!.firstName} ${address.lastName}',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                   6.h,
                   Text(
                     '#' + (currentTask?.task?.taskId).toString(),
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: GREY5),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: GREY5),
                   ),
                   // Wrap(
                   //     direction: Axis.horizontal,
@@ -126,10 +127,8 @@ class _GoToLocationState extends State<GoToLocation> {
                   16.h,
                   Text(
                     'Flat, Floor, Building Name',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black45),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black45),
                   ),
                   4.h,
                   Text(
@@ -138,10 +137,8 @@ class _GoToLocationState extends State<GoToLocation> {
                   16.h,
                   Text(
                     'Landmark',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black45),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black45),
                   ),
                   4.h,
                   Text('${address.landmark}', style: TextStyle(fontSize: 16)),
@@ -149,17 +146,14 @@ class _GoToLocationState extends State<GoToLocation> {
                   Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                     OutlinedButton.icon(
                       onPressed: () async {
-                        await launch(
-                            'tel:+91${currentTask!.task!.address!.phoneNumber}');
+                        await launch('tel:+91${currentTask!.task!.address!.phoneNumber}');
                       },
                       icon: Icon(Icons.call),
                       label: Text(
                         'Call',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w500),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                       ),
-                      style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.all(16)),
+                      style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(16)),
                     ),
                     12.w,
                     OutlinedButton.icon(
@@ -169,10 +163,8 @@ class _GoToLocationState extends State<GoToLocation> {
                       },
                       icon: Icon(Icons.navigation),
                       label: Text('Navigate',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500)),
-                      style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.all(16)),
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                      style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(16)),
                     )
                   ]),
                   16.h,
@@ -184,26 +176,18 @@ class _GoToLocationState extends State<GoToLocation> {
         ),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(color: Colors.white, boxShadow: [
-            BoxShadow(
-                color: GREY7,
-                offset: Offset(0, -4),
-                blurRadius: 10,
-                spreadRadius: 0)
+            BoxShadow(color: GREY7, offset: Offset(0, -4), blurRadius: 10, spreadRadius: 0)
           ]),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: SwipeButton.expand(
             height: 68,
-            thumb:
-                Icon(Icons.double_arrow_rounded, color: Colors.green, size: 28),
+            thumb: Icon(Icons.double_arrow_rounded, color: Colors.green, size: 28),
             thumbPadding: EdgeInsets.all(5),
             child: Text(
               taskType == TaskType.pickup || taskType == TaskType.hubPickup
                   ? "Arrived at Pickup location"
                   : 'Arrived at Drop location',
-              style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: Colors.white),
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
             ),
             activeThumbColor: Colors.white,
             activeTrackColor: Colors.green,
@@ -223,8 +207,7 @@ class _GoToLocationState extends State<GoToLocation> {
               }
 
               if (sum == currentTask!.task!.schedules.length) {
-                Navigator.of(context)
-                    .pushReplacement(MaterialPageRoute(builder: (context) {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
                   if (currentTask!.task!.taskType == TaskType.pickup ||
                       currentTask!.task!.taskType == TaskType.hubPickup) {
                     return ArrivedAtPickupLocation();

@@ -40,19 +40,18 @@ class MyBagModel {
 
 class Data {
   Data({
-    this.count = 0,
+    this.count,
     this.result = const <BagItem>[],
   });
 
-  int count;
+  int? count;
   List<BagItem> result;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         count: json["count"],
         result: json["result"] == null
             ? []
-            : List<BagItem>.from(
-                json["result"].map((x) => BagItem.fromJson(x))),
+            : List<BagItem>.from(json["result"].map((x) => BagItem.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -105,28 +104,20 @@ class BagItem {
         projectId: json["project_id"],
         paymentId: json["payment_id"],
         teamId: json["team_id"],
-        pickupAddress: json["pickup_address"] == null
-            ? null
-            : Address.fromJson(json["pickup_address"]),
-        dropAddress: json["drop_address"] == null
-            ? null
-            : Address.fromJson(json["drop_address"]),
+        pickupAddress:
+            json["pickup_address"] == null ? null : Address.fromJson(json["pickup_address"]),
+        dropAddress: json["drop_address"] == null ? null : Address.fromJson(json["drop_address"]),
         productType: json["product_type"],
         weight: json["weight"],
-        pickupTime: json["pickup_time"] == null
-            ? null
-            : DateTime.parse(json["pickup_time"]),
-        dropTime: json["drop_time"] == null
-            ? null
-            : DateTime.parse(json["drop_time"]),
+        pickupTime: json["pickup_time"] == null ? null : DateTime.parse(json["pickup_time"]),
+        dropTime: json["drop_time"] == null ? null : DateTime.parse(json["drop_time"]),
         pickupImages: json["pickup_images"] == null
             ? []
             : List<String>.from(json["pickup_images"].map((x) => x)),
         state: json["state"],
         id: json["id"],
         exData: json["exData"] == null ? null : DateTime.parse(json["exData"]),
-        exData1:
-            json["exData1"] == null ? null : DateTime.parse(json["exData1"]),
+        exData1: json["exData1"] == null ? null : DateTime.parse(json["exData1"]),
         dropDate: json["drop_date"],
         dropSlot: json["drop_slot"],
       );
@@ -142,9 +133,7 @@ class BagItem {
         "weight": weight,
         "pickup_time": pickupTime?.toIso8601String(),
         "drop_time": dropTime?.toIso8601String(),
-        "pickup_images": pickupImages == []
-            ? null
-            : List<dynamic>.from(pickupImages.map((x) => x)),
+        "pickup_images": pickupImages == [] ? null : List<dynamic>.from(pickupImages.map((x) => x)),
         "state": state,
         "id": id,
         "exData": exData?.toIso8601String(),
