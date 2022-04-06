@@ -4,7 +4,7 @@ import 'package:delivery/CommonWidget/custom_appbar.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
 import 'package:delivery/Models/update_delivery_status.dart' hide Result;
 import 'package:delivery/Providers/FindTaskProvider.dart';
-import 'package:delivery/UI/Main/Home/arrived_at_pickup_location.dart';
+import 'package:delivery/UI/Main/Home/pickup_package.dart';
 import 'package:delivery/UI/Main/Home/cannot_accept_package.dart';
 import 'package:delivery/Utils/colors.dart';
 import 'package:delivery/Utils/enumerations.dart';
@@ -37,6 +37,7 @@ class _GoToLocationState extends State<GoToLocation> {
     setState(() {});
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) => AlertDialog(
                 titlePadding: const EdgeInsets.only(left: 36, right: 36, top: 36, bottom: 9),
@@ -104,7 +105,7 @@ class _GoToLocationState extends State<GoToLocation> {
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                   6.h,
                   Text(
-                    '#' + (currentTask?.task?.taskId).toString(),
+                    '${currentTask?.task?.schedules.length} item(s)',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: GREY5),
                   ),
                   // Wrap(
@@ -192,30 +193,7 @@ class _GoToLocationState extends State<GoToLocation> {
             activeThumbColor: Colors.white,
             activeTrackColor: Colors.green,
             onSwipe: () async {
-              UpdateDeliveryStatusModel? model;
-              int sum = 0;
-              for (var value in currentTask!.task!.schedules) {
-                model = await context.read<FindTaskProvider>().updateStatus({
-                  'delivery_id': value,
-                  'status': 'reachedPickup',
-                }, context);
-                if (model?.status?.toLowerCase() == 'success') {
-                  sum++;
-                } else {
-                  break;
-                }
-              }
-
-              if (sum == currentTask!.task!.schedules.length) {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-                  if (currentTask!.task!.taskType == TaskType.pickup ||
-                      currentTask!.task!.taskType == TaskType.hubPickup) {
-                    return ArrivedAtPickupLocation();
-                  } else {
-                    return ArrivedAtDropLocation();
-                  }
-                }));
-              }
+              await context.read<FindTaskProvider>().reachedPickup(context);
             },
           ),
         ),

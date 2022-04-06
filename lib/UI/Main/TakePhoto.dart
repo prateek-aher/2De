@@ -9,11 +9,11 @@ import 'package:image_picker/image_picker.dart';
 
 class TakePhotoScreen extends StatefulWidget {
   const TakePhotoScreen(
-      {Key? key, required this.package, this.onRefresh, required this.barcode})
+      {Key? key, required this.package, /* this.onRefresh,*/ required this.barcode})
       : super(key: key);
   final String barcode;
   final Package package;
-  final VoidCallback? onRefresh;
+  // final VoidCallback? onRefresh;
   @override
   _TakePhotoScreenState createState() => _TakePhotoScreenState();
 }
@@ -61,57 +61,49 @@ class _TakePhotoScreenState extends State<TakePhotoScreen> {
             centerTitle: true),
         body: Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  xImage != null ? Image.file(xImage!) : Container(),
-                  12.h,
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Expanded(
-                        child: OutlinedButton(
-                            onPressed: () async {
-                              await pickImage();
-                              // setState(() {});
-                            },
-                            child: Text('Click again',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w500)),
-                            style: OutlinedButton.styleFrom(
-                                padding: const EdgeInsets.all(16)))),
-                    12.w,
-                    Expanded(
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16)),
-                            onPressed: () async {
-                              // if (taskType == TaskType.pickup) {
-                              //   context.read<FindTaskProvider>().taskType =
-                              //       TaskType.drop;
-                              //   Navigator.of(context).pushReplacement(
-                              //       MaterialPageRoute(
-                              //           builder: (context) => GoToPickup()));
-                              // } else {
-                              //   Navigator.of(context).pushReplacement(
-                              //       MaterialPageRoute(
-                              //           builder: (context) => RateCustomer()));
-                              // }
-                              // TODO: Upload barcode and image here
-                              await UploadService.send(
-                                  deliveryId:
-                                      widget.package.deliveryId.toString(),
-                                  barcode: widget.barcode,
-                                  file: xImage!);
-                              if (widget.onRefresh != null) {
-                                widget.onRefresh!();
-                              }
-                              Navigator.pop(context);
-                            },
-                            child: Text("Proceed",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500))))
-                  ])
-                ])));
+            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              xImage != null ? Image.file(xImage!) : Container(),
+              12.h,
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Expanded(
+                    child: OutlinedButton(
+                        onPressed: () async {
+                          await pickImage();
+                          // setState(() {});
+                        },
+                        child: Text('Click again',
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                        style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(16)))),
+                12.w,
+                Expanded(
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16)),
+                        onPressed: () async {
+                          // if (taskType == TaskType.pickup) {
+                          //   context.read<FindTaskProvider>().taskType =
+                          //       TaskType.drop;
+                          //   Navigator.of(context).pushReplacement(
+                          //       MaterialPageRoute(
+                          //           builder: (context) => GoToPickup()));
+                          // } else {
+                          //   Navigator.of(context).pushReplacement(
+                          //       MaterialPageRoute(
+                          //           builder: (context) => RateCustomer()));
+                          // }
+                          // TODO: Upload barcode and image here
+                          await UploadService.send(
+                              deliveryId: widget.package.deliveryId.toString(),
+                              barcode: widget.barcode,
+                              file: xImage!);
+                          // if (widget.onRefresh != null) {
+                          //   widget.onRefresh!();
+                          // }
+                          Navigator.pop(context, true);
+                        },
+                        child: Text("Proceed",
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))))
+              ])
+            ])));
   }
 }

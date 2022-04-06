@@ -21,8 +21,7 @@ class _ScannedItemsState extends State<ScannedItems> {
   @override
   void initState() {
     super.initState();
-    packages =
-        context.read<FindTaskProvider>().findTaskModel!.data!.result!.packages;
+    packages = context.read<FindTaskProvider>().findTaskModel!.data!.result!.packages;
   }
 
   @override
@@ -44,9 +43,9 @@ class _ScannedItemsState extends State<ScannedItems> {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => QRScanScreen(
                                     package: packages[index],
-                                    onRefresh: () {
-                                      setState(() {});
-                                    },
+                                    // onRefresh: () {
+                                    //   setState(() {});
+                                    // },
                                   )));
                         },
                   child: Container(
@@ -57,8 +56,7 @@ class _ScannedItemsState extends State<ScannedItems> {
                           ? Icon(Icons.add_photo_alternate,
                               size: 48, color: Colors.blueGrey.withOpacity(0.8))
                           : FittedBox(
-                              fit: BoxFit.contain,
-                              child: Image.file(packages[index].file!))))),
+                              fit: BoxFit.contain, child: Image.file(packages[index].file!))))),
           childAspectRatio: 1,
           shrinkWrap: true,
           mainAxisSpacing: 16,
@@ -67,11 +65,7 @@ class _ScannedItemsState extends State<ScannedItems> {
       ),
       bottomNavigationBar: Container(
           decoration: BoxDecoration(color: Colors.white, boxShadow: [
-            BoxShadow(
-                color: GREY7,
-                offset: Offset(0, -4),
-                blurRadius: 10,
-                spreadRadius: 0)
+            BoxShadow(color: GREY7, offset: Offset(0, -4), blurRadius: 10, spreadRadius: 0)
           ]),
           height: 100,
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
@@ -103,18 +97,15 @@ class _ScannedItemsState extends State<ScannedItems> {
                               ElevatedButton(
                                   onPressed: () async {
                                     Navigator.of(context).pop();
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                RateCustomer()));
+                                    Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder: (context) => RateCustomer()));
                                   },
                                   child: Text('YES')),
                             ],
                           ));
                 } else {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => RateCustomer()));
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (context) => RateCustomer()));
                 }
               },
               child: Text(

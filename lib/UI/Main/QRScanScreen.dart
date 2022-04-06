@@ -8,10 +8,13 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 // ignore: must_be_immutable
 class QRScanScreen extends StatefulWidget {
-  QRScanScreen({Key? key, required this.package, this.onRefresh})
-      : super(key: key);
+  QRScanScreen({
+    Key? key,
+    required this.package,
+    /*this.onRefresh*/
+  }) : super(key: key);
   final Package package;
-  VoidCallback? onRefresh;
+  // VoidCallback? onRefresh;
   @override
   _QRScanScreenState createState() => _QRScanScreenState();
 }
@@ -67,7 +70,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
           leading: 0.h,
           backgroundColor: Colors.white,
           title: Text(
-            "Scan QR",
+            "Scan QR Code",
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
@@ -81,8 +84,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
                   12.h,
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 0.4,
-                      child: QRView(
-                          key: _qrKey, onQRViewCreated: _onQRViewCreated)),
+                      child: QRView(key: _qrKey, onQRViewCreated: _onQRViewCreated)),
                   Expanded(
                       child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -91,35 +93,35 @@ class _QRScanScreenState extends State<QRScanScreen> {
                           children: [
                         24.h,
                         Text("Enter Code Manually",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 14)),
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                         TextFormField(
                             controller: _qrTextController,
                             decoration: InputDecoration(
                                 hintText: 'Enter code here',
-                                hintStyle: TextStyle(
-                                    fontSize: 20, color: Colors.grey[400]))),
+                                hintStyle: TextStyle(fontSize: 20, color: Colors.grey[400]))),
                         24.h,
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16)),
-                            onPressed: () {
+                                padding: const EdgeInsets.symmetric(vertical: 16)),
+                            onPressed: () async {
                               widget.package.barCode = _qrTextController.text;
-                              if (widget.onRefresh != null) {
-                                widget.onRefresh!();
+                              // if (widget.onRefresh != null) {
+                              //   widget.onRefresh!();
+                              // }
+                              bool isScanSuccessful =
+                                  (await Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (context) => TakePhotoScreen(
+                                                barcode: _qrTextController.text,
+                                                package:
+                                                    widget.package, /*onRefresh: widget.onRefresh*/
+                                              )))) ??
+                                      false;
+                              if (isScanSuccessful) {
+                                Navigator.pop(context, true);
                               }
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => TakePhotoScreen(
-                                          barcode: _qrTextController.text,
-                                          package: widget.package,
-                                          onRefresh: widget.onRefresh)));
                             },
                             child: Text("Next",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500))),
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
                         24.h
                       ]))
                 ]))));
