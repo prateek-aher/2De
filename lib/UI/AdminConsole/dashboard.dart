@@ -1,9 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Providers/Manager/dashboard_provider.dart';
+import 'package:delivery/UI/AdminConsole/profile.dart';
 import 'package:delivery/UI/AdminConsole/todays_tasks.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../Utils/constants/endpoints.dart';
+import '../../Utils/constants/strings.dart';
 import 'my_team.dart';
 
 class Dashboard extends StatefulWidget {
@@ -14,6 +19,14 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  String? avatarUrl;
+
+  loadAvatar() async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    avatarUrl = _pref.getString('avatar');
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -30,11 +43,15 @@ class _DashboardState extends State<Dashboard> {
             toolbarHeight: 80,
             leading: IconButton(
               onPressed: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => ProfileDetails()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
               },
               icon: ClipOval(
-                child: Image.asset('assets/dummy_user.png'),
+                child: CachedNetworkImage(
+                  imageUrl: (avatarUrl?.contains('no-image') ?? true)
+                      ? DUMMY_USER_AVATAR_URL
+                      : BASE_URL + (avatarUrl ?? '/'),
+                  errorWidget: (_, __, ___) => Image.asset('assets/dummy_user.png'),
+                ),
               ),
             ),
             title: Text('Welcome!'),
@@ -326,6 +343,7 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<DashboardProvider>().refreshDashboard();
+      loadAvatar();
     });
   }
 }
