@@ -17,6 +17,14 @@ class PickupTaskDetails extends StatefulWidget {
 
 class _PickupTaskDetailsState extends State<PickupTaskDetails> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<TaskDetailsProvider>().getTaskDetails(taskId: widget.taskId.toString());
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -66,15 +74,14 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Consumer<TaskDetailsProvider>(builder: (context, details, _) {
-                        return Flexible(
-                          // fit: FlexFit.tight,
-                          child: Text(
-                            details.taskDetails.data?.result?.task?.creatorName ?? '',
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                          ),
-                        );
-                      }),
+                      Flexible(
+                          child: Consumer<TaskDetailsProvider>(
+                              builder: (context, detailsProvider, _) => Text(
+                                    detailsProvider.taskDetails.data?.result?.task?.creatorName ??
+                                        '',
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                                  ))),
+
                       // Spacer(),
                       Consumer<TaskDetailsProvider>(builder: (context, taskDetail, _) {
                         return Text(
@@ -288,14 +295,6 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
       ),
     );
   }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<TaskDetailsProvider>().getTaskDetails(taskId: widget.taskId.toString());
-    });
-  }
 }
 
 class ProductBubble extends StatelessWidget {
@@ -385,7 +384,7 @@ class ProductBubble extends StatelessWidget {
           ),
           6.h,
           Text(
-            'Standard \u20b9${schedule.projectDetails?.totals?.toJson().values.reduce((value, element) => value + element)}/-',
+            'Standard \u20b9${schedule.projectDetails?.totals?.toJson().values.reduce((value, element) => value + element) ?? 0}/-',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           )
         ],

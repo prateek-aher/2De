@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Providers/Manager/dashboard_provider.dart';
-import 'package:delivery/UI/AdminConsole/profile.dart';
-import 'package:delivery/UI/AdminConsole/todays_tasks.dart';
+import 'package:delivery/UI/Admin/profile.dart';
+import 'package:delivery/UI/Admin/todays_tasks.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

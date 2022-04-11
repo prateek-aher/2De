@@ -1,7 +1,7 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Network/Api_Provider.dart';
-import 'package:delivery/UI/AdminConsole/dashboard.dart';
+import 'package:delivery/UI/Admin/dashboard.dart';
 import 'package:delivery/UI/Main/Home/Homepage.dart';
 import 'package:delivery/Utils/constants/endpoints.dart';
 import 'package:flutter/material.dart';
@@ -18,35 +18,24 @@ class LoginProvider extends ChangeNotifier {
       if (response != null) {
         hideLoading();
         if (response["status"] == "success") {
-          _preferences.setString(
-              "token", "${response["data"]["result"]["token"]}");
-          _preferences.setString(
-              "avatar", "${response["data"]["result"]["avatar"]}");
-          _preferences.setString(
-              "name", "${response["data"]["result"]["name"]}");
-          _preferences.setString(
-              "phone_no", "${response["data"]["result"]["phone_no"]}");
-          _preferences.setString(
-              "role", "${response["data"]["result"]["role"]}");
+          _preferences.setString("token", "${response["data"]["result"]["token"]}");
+          _preferences.setString("avatar", "${response["data"]["result"]["avatar"]}");
+          _preferences.setString("name", "${response["data"]["result"]["name"]}");
+          _preferences.setString("phone_no", "${response["data"]["result"]["phone_no"]}");
+          _preferences.setString("role", "${response["data"]["result"]["role"]}");
 
           if (response["data"]["result"]["role"] == "manager") {
             Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => Dashboard()),
-                (route) => false);
+                context, MaterialPageRoute(builder: (context) => Dashboard()), (route) => false);
           } else {
             Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => Homepage()),
-                (route) => false);
+                context, MaterialPageRoute(builder: (context) => Homepage()), (route) => false);
           }
         } else if (response["status"] == "failed") {
-          showCustomSnackBar(
-              context, Text("${response["error"].toString().split(' || ')[1]}"),
-              backgroundColor:
-                  response["error"].toString().toLowerCase().contains('error')
-                      ? Colors.red
-                      : Theme.of(context).primaryColor);
+          showCustomSnackBar(context, Text("${response["error"].toString().split(' || ')[1]}"),
+              backgroundColor: response["error"].toString().toLowerCase().contains('error')
+                  ? Colors.red
+                  : Theme.of(context).primaryColor);
         }
       }
     } on Exception catch (e) {

@@ -12,7 +12,7 @@ import 'package:delivery/Utils/enumerations.dart';
 import 'package:delivery/app.dart';
 import 'package:flutter/material.dart';
 
-import '../UI/Main/Home/arrived_at_drop_location.dart';
+import '../UI/Main/Home/drop_package.dart';
 import '../UI/Main/Home/pickup_package.dart';
 
 class FindTaskProvider extends ChangeNotifier {
@@ -66,7 +66,7 @@ class FindTaskProvider extends ChangeNotifier {
     findTask(context).then((_) => notifyListeners());
   }
 
-  Future<Null> reachedPickup(BuildContext context) async {
+  Future<Null> reachedLocation(BuildContext context) async {
     UpdateDeliveryStatusModel? model;
     int sum = 0;
     for (var value in findTaskModel!.data!.result!.task!.schedules) {
@@ -74,9 +74,9 @@ class FindTaskProvider extends ChangeNotifier {
         'delivery_id': value,
         'status': taskType == TaskType.pickup
             ? 'reachedPickup'
-            : taskType == TaskType.hubPickup
+            : taskType == TaskType.hubPickup || taskType == TaskType.hubDrop
                 ? 'reachedHub'
-                : null,
+                : 'reachedDrop',
       });
       if (model?.status?.toLowerCase() == 'success') {
         sum++;
@@ -84,41 +84,43 @@ class FindTaskProvider extends ChangeNotifier {
         break;
       }
     }
-    print('-----Reached Pickup-----');
+    print('----- ${taskType.toString()} -----');
     if (sum == findTaskModel!.data!.result!.task!.schedules.length) {
-      // if (taskType == TaskType.pickup || taskType == TaskType.hubPickup) {
-      //   findTaskModel?.data?.result?.packages.asMap().entries.map((e) async {
-      //     await Navigator.push(
-      //         context,
-      //         MaterialPageRoute(
-      //             builder: (context) => PickupPackage(
-      //                   package: e.value,
-      //                   index: e.key,
-      //                 )));
-      //   });
-      // }
-      // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-      //   if (taskType == TaskType.pickup || taskType == TaskType.hubPickup) {
-      //     return PickupPackageRoot();
-      //   } else {
-      //     return ArrivedAtDropLocation();
-      //   }
-      // }));
-      for (int i = 0; i < findTaskModel!.data!.result!.packages.length; i++) {
-        await Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    PickupPackage(package: findTaskModel!.data!.result!.packages[i], index: i)));
+      // if pickup or hubPickup
+      if (taskType == TaskType.pickup || taskType == TaskType.hubPickup) {
+        for (int i = 0; i < findTaskModel!.data!.result!.packages.length; i++) {
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      PickupPackage(package: findTaskModel!.data!.result!.packages[i], index: i)));
+        }
+      } else
+
+      // if drop or hubDrop
+      if (taskType == TaskType.drop || taskType == TaskType.hubDrop) {
+        for (int i = 0; i < findTaskModel!.data!.result!.packages.length; i++) {
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      DropPackage(package: findTaskModel!.data!.result!.packages[i], index: i)));
+        }
       }
+
+      // TODO: Integrate service for completing a task
+      showLoading();
+      await taskComplete(context);
+      hideLoading();
+
       Navigator.pushAndRemoveUntil(
           context, MaterialPageRoute(builder: (context) => Homepage()), (route) => false);
     }
   }
 
   Future<UpdateDeliveryStatusModel?> updateStatus(dynamic requestJson /*, context*/) async {
-    showLoading();
     try {
+      showLoading();
       UpdateDeliveryStatusModel? _updateStatusModel;
       final response = await _apiProvider.post(UPDATE_DELIVERY_STATUS, jsonEncode(requestJson));
       print('UPDATE_DELIVERY_STATUS');
@@ -136,7 +138,17 @@ class FindTaskProvider extends ChangeNotifier {
       return _updateStatusModel;
     } on Exception catch (e) {
       print(e.toString());
-      hideLoading();
+    }
+  }
+
+  Future<Null> taskComplete(BuildContext context) async {
+    ApiProvider _apiProvider = ApiProvider();
+    showLoading();
+    final response = await _apiProvider
+        .get(TASK_COMPLETED + '?task_id=${_findTaskModel?.data?.result?.task?.taskId}');
+    hideLoading();
+    if (response['status'] == 'success') {
+      await showCustomSnackBar(context, Text('Task completed'));
     }
   }
 }

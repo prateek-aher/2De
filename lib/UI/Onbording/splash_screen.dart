@@ -1,4 +1,4 @@
-import 'package:delivery/UI/AdminConsole/dashboard.dart';
+import 'package:delivery/UI/Admin/dashboard.dart';
 import 'package:delivery/UI/Auth/enter_phone_number.dart';
 import 'package:delivery/UI/Main/Home/Homepage.dart';
 import 'package:flutter/material.dart';
@@ -24,11 +24,9 @@ class _SplashScreenState extends State<SplashScreen> {
       print('TOKEN: $token');
       String? role = _prefs.getString('role');
       if (role == 'manager') {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Dashboard()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Dashboard()));
       } else {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Homepage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Homepage()));
       }
     } else {
       Navigator.pushReplacement(
@@ -76,8 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Container(
                     alignment: Alignment.bottomCenter,
                     height: MediaQuery.of(context).size.height / 2,
-                    width: double
-                        .infinity, //MediaQuery.of(context).size.width * 0.8,
+                    width: double.infinity, //MediaQuery.of(context).size.width * 0.8,
                     child: Image.asset('assets/splash.png')),
                 Positioned(
                     left: mq.width * 0.33,

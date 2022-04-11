@@ -12,17 +12,17 @@ import '../QRScanScreen.dart';
 import 'cannot_accept_package.dart';
 import 'no_show.dart';
 
-// TODO: Add changes for hubPickup
+// TODO: Add changes for hubDrop
 
-class PickupPackage extends StatefulWidget {
-  PickupPackage({Key? key, required this.package, required this.index}) : super(key: key);
+class DropPackage extends StatefulWidget {
+  DropPackage({Key? key, required this.package, required this.index}) : super(key: key);
   final Package package;
   final int index;
   @override
-  State<PickupPackage> createState() => _PickupPackageState();
+  State<DropPackage> createState() => _DropPackageState();
 }
 
-class _PickupPackageState extends State<PickupPackage> {
+class _DropPackageState extends State<DropPackage> {
   Result? currentTask; // data object of current ongoing task
 
   @override
@@ -35,6 +35,7 @@ class _PickupPackageState extends State<PickupPackage> {
 
   void loadData() {
     currentTask = context.read<FindTaskProvider>().findTaskModel!.data!.result;
+    context.read<TimeProvider>().startTimer(Duration(minutes: 10));
     setState(() {});
   }
 
@@ -52,7 +53,7 @@ class _PickupPackageState extends State<PickupPackage> {
             Container(
                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  Text('Pickup package ${widget.index + 1} of ${currentTask?.packages.length}',
+                  Text('Pickup package ${widget.index + 1} of ${currentTask!.packages.length}',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                   IconButton(
                       icon: Icon(Icons.close),
@@ -123,7 +124,7 @@ class _PickupPackageState extends State<PickupPackage> {
                           Navigator.pop(context);
                         }
                       },
-                      child: Text('Pick-up Now',
+                      child: Text('Drop Now',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)))
                   : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       Expanded(child: Consumer<TimeProvider>(builder: (context, timer, child) {
@@ -155,11 +156,17 @@ class _PickupPackageState extends State<PickupPackage> {
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(vertical: 16)),
-                              onPressed: () {
+                              onPressed: () async {
                                 // TODO: Drop procedure
-                                // Navigator.of(context).pushReplacement(
-                                //     MaterialPageRoute(
-                                //         builder: (context) => QRScanScreen()));
+                                bool isScanSuccessful = (await Navigator.of(context).push<bool>(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              QRScanScreen(package: widget.package)),
+                                    )) ??
+                                    false;
+                                if (isScanSuccessful) {
+                                  Navigator.pop(context);
+                                }
                               },
                               child: Text("Drop Now",
                                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))))

@@ -10,6 +10,7 @@ const String MY_PROFILE = '/team/myprofile';
 const String MY_BAG = '/schedule/mybag';
 const String CHANGE_PASSWORD = '/team/changepassword?';
 const String UPDATE_DELIVERY_STATUS = '/schedule/updatedeliverystatus';
+const String TASK_COMPLETED = '/task/completed';
 
 // Admin
 const String TASK_LIST = '/task/list';

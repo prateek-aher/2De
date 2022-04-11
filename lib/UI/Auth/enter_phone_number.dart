@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/CommonWidget/Snackbar.dart';
 import 'package:delivery/Providers/SendOtpProvider.dart';
-import 'package:delivery/UI/AdminConsole/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -27,13 +26,6 @@ class EnterPhoneNumber extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Press again to exit'),
-                  // InkWell(
-                  //     onTap: () {
-                  //       Navigator.of(context).pop();
-                  //     },
-                  //     child: Theme(
-                  //         data: ThemeData(primaryColor: Colors.amber),
-                  //         child: Text('EXIT')))
                 ],
               ));
           return false;
@@ -87,12 +79,10 @@ class _SecondPartState extends State<SecondPart> {
                   fontSize: Theme.of(context).textTheme.headline3!.fontSize,
                   fontWeight: FontWeight.bold)),
           Text('Welcome to 2De.',
-              style: TextStyle(
-                  fontSize: Theme.of(context).textTheme.headline6!.fontSize)),
+              style: TextStyle(fontSize: Theme.of(context).textTheme.headline6!.fontSize)),
           30.h,
           Text('Enter Your Phone Number',
-              style: TextStyle(
-                  fontSize: Theme.of(context).textTheme.subtitle1!.fontSize)),
+              style: TextStyle(fontSize: Theme.of(context).textTheme.subtitle1!.fontSize)),
           10.h,
           Form(
             key: _formKey,
@@ -100,8 +90,7 @@ class _SecondPartState extends State<SecondPart> {
               children: [
                 Container(
                     padding: const EdgeInsets.all(4),
-                    decoration:
-                        BoxDecoration(border: Border.all(color: Colors.grey)),
+                    decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
                     child: const Text('+91', style: TextStyle(fontSize: 20))),
                 12.w,
                 Container(
@@ -142,23 +131,20 @@ class _SecondPartState extends State<SecondPart> {
               width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          Theme.of(context).primaryColor)),
+                      backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)),
                   onPressed: () {
                     FocusScope.of(context).unfocus();
                     if (_formKey.currentState!.validate()) {
-                      String requestJson = jsonEncode(
-                          {"phone_no": "${_phoneController.text.trim()}"});
-                      context.read<SendOtpProvider>().testCall(
-                          requestJson, _phoneController.text.trim(), context);
+                      String requestJson =
+                          jsonEncode({"phone_no": "${_phoneController.text.trim()}"});
+                      context
+                          .read<SendOtpProvider>()
+                          .testCall(requestJson, _phoneController.text.trim(), context);
                     }
                   },
                   child: Text('Proceed',
-                      style: TextStyle(
-                          fontSize: Theme.of(context)
-                              .textTheme
-                              .subtitle1!
-                              .fontSize)))),
+                      style:
+                          TextStyle(fontSize: Theme.of(context).textTheme.subtitle1!.fontSize)))),
           70.h,
         ],
       ),

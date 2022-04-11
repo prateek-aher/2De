@@ -24,6 +24,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
   final GlobalKey _qrKey = GlobalKey(
     debugLabel: 'QR',
   );
+  final _codeKey = GlobalKey<FormState>();
   Barcode? qrResultCode;
   QRViewController? controller;
 
@@ -94,30 +95,38 @@ class _QRScanScreenState extends State<QRScanScreen> {
                         24.h,
                         Text("Enter Code Manually",
                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                        TextFormField(
-                            controller: _qrTextController,
-                            decoration: InputDecoration(
-                                hintText: 'Enter code here',
-                                hintStyle: TextStyle(fontSize: 20, color: Colors.grey[400]))),
+                        Form(
+                          key: _codeKey,
+                          child: TextFormField(
+                              validator: (v) {
+                                if (v?.isEmpty ?? false) {
+                                  return 'Package code needed';
+                                }
+                              },
+                              controller: _qrTextController,
+                              textCapitalization: TextCapitalization.characters,
+                              decoration: InputDecoration(
+                                  hintText: 'Enter code here',
+                                  hintStyle: TextStyle(fontSize: 20, color: Colors.grey[400]))),
+                        ),
                         24.h,
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.symmetric(vertical: 16)),
                             onPressed: () async {
-                              widget.package.barCode = _qrTextController.text;
-                              // if (widget.onRefresh != null) {
-                              //   widget.onRefresh!();
-                              // }
-                              bool isScanSuccessful =
-                                  (await Navigator.of(context).push(MaterialPageRoute(
-                                          builder: (context) => TakePhotoScreen(
-                                                barcode: _qrTextController.text,
-                                                package:
-                                                    widget.package, /*onRefresh: widget.onRefresh*/
-                                              )))) ??
-                                      false;
-                              if (isScanSuccessful) {
-                                Navigator.pop(context, true);
+                              if (_codeKey.currentState?.validate() ?? false) {
+                                widget.package.barCode = _qrTextController.text;
+                                bool isScanSuccessful =
+                                    (await Navigator.of(context).push(MaterialPageRoute(
+                                            builder: (context) => TakePhotoScreen(
+                                                  barcode: _qrTextController.text,
+                                                  package: widget
+                                                      .package, /*onRefresh: widget.onRefresh*/
+                                                )))) ??
+                                        false;
+                                if (isScanSuccessful) {
+                                  Navigator.pop(context, true);
+                                }
                               }
                             },
                             child: Text("Next",

@@ -87,7 +87,7 @@ class Schedule {
     // this.dropReachedTime,
     this.state = '',
     this.projectDetails,
-    this.id,
+    // this.id,
   });
 
   int? deliveryId;
@@ -95,7 +95,7 @@ class Schedule {
   PickupAddress? pickupAddress;
   DropAddress? dropAddress;
   String productType;
-  int weight;
+  double weight;
   // DateTime? pickupTime;
   // DateTime? dropTime;
   bool? hasLeftForPickup;
@@ -108,7 +108,7 @@ class Schedule {
   // DateTime? dropReachedTime;
   String state;
   ProjectDetails? projectDetails;
-  dynamic id;
+  // dynamic id;
 
   factory Schedule.fromJson(Map<String, dynamic> json) => Schedule(
         deliveryId: json["delivery_id"] == null ? null : json["delivery_id"],
@@ -117,8 +117,8 @@ class Schedule {
             json["pickup_address"] == null ? null : PickupAddress.fromJson(json["pickup_address"]),
         dropAddress:
             json["drop_address"] == null ? null : DropAddress.fromJson(json["drop_address"]),
-        productType: json["product_type"] == null ? null : json["product_type"],
-        weight: json["weight"] == null ? null : json["weight"],
+        productType: json["product_type"] == null ? '' : json["product_type"],
+        weight: json["weight"] == null ? null : json["weight"].toDouble(),
         // pickupTime: json["pickup_time"] == null ? null : json["pickup_time"],
         // dropTime: json["drop_time"] == null ? null : json["drop_time"],
         hasLeftForPickup: json["has_left_for_pickup"] == null ? null : json["has_left_for_pickup"],
@@ -130,11 +130,11 @@ class Schedule {
         // dropLeftForTime: json["drop_left_for_time"] == null ? null : json["drop_left_for_time"],
         hasReachedDrop: json["has_reached_drop"] == null ? null : json["has_reached_drop"],
         // dropReachedTime: json["drop_reached_time"] == null ? null : json["drop_reached_time"],
-        state: json["state"] == null ? null : json["state"],
+        state: json["state"] == null ? '' : json["state"],
         projectDetails: json["project_details"] == null
             ? null
             : ProjectDetails.fromJson(json["project_details"]),
-        id: json["id"],
+        // id: json["id"],
       );
 
   // Map<String, dynamic> toJson() => {
@@ -170,7 +170,7 @@ class DropAddress {
     this.city = '',
     this.landmark = '',
     this.country = '',
-    this.pincode,
+    this.pincode = '',
     this.phoneNo = '',
   });
 
@@ -182,34 +182,34 @@ class DropAddress {
   String city;
   String landmark;
   String country;
-  int? pincode;
+  String pincode;
   String phoneNo;
 
   factory DropAddress.fromJson(Map<String, dynamic> json) => DropAddress(
-        firstname: json["firstname"] == null ? null : json["firstname"],
-        lastname: json["lastname"] == null ? null : json["lastname"],
-        flatNo: json["flat_no"] == null ? null : json["flat_no"],
-        street: json["street"] == null ? null : json["street"],
-        area: json["area"] == null ? null : json["area"],
-        city: json["city"] == null ? null : json["city"],
-        landmark: json["landmark"] == null ? null : json["landmark"],
-        country: json["country"] == null ? null : json["country"],
-        pincode: json["pincode"] == null ? null : json["pincode"],
-        phoneNo: json["phone_no"] == null ? null : json["phone_no"],
+        firstname: json["firstname"] == null ? '' : json["firstname"],
+        lastname: json["lastname"] == null ? '' : json["lastname"],
+        flatNo: json["flat_no"] == null ? '' : json["flat_no"],
+        street: json["street"] == null ? '' : json["street"],
+        area: json["area"] == null ? '' : json["area"],
+        city: json["city"] == null ? '' : json["city"],
+        landmark: json["landmark"] == null ? '' : json["landmark"],
+        country: json["country"] == null ? '' : json["country"],
+        pincode: json["pincode"] == null ? '' : json["pincode"].toString(),
+        phoneNo: json["phone_no"] == null ? '' : json["phone_no"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "firstname": firstname == null ? null : firstname,
-        "lastname": lastname == null ? null : lastname,
-        "flat_no": flatNo == null ? null : flatNo,
-        "street": street == null ? null : street,
-        "area": area == null ? null : area,
-        "city": city == null ? null : city,
-        "landmark": landmark == null ? null : landmark,
-        "country": country == null ? null : country,
-        "pincode": pincode == null ? null : pincode,
-        "phone_no": phoneNo == null ? null : phoneNo,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "firstname": firstname == null ? null : firstname,
+  //       "lastname": lastname == null ? null : lastname,
+  //       "flat_no": flatNo == null ? null : flatNo,
+  //       "street": street == null ? null : street,
+  //       "area": area == null ? null : area,
+  //       "city": city == null ? null : city,
+  //       "landmark": landmark == null ? null : landmark,
+  //       "country": country == null ? null : country,
+  //       "pincode": pincode == null ? null : pincode,
+  //       "phone_no": phoneNo == null ? null : phoneNo,
+  //     };
 }
 
 class PickupAddress {
@@ -221,7 +221,8 @@ class PickupAddress {
     this.city = '',
     this.state = '',
     this.country = '',
-    this.pincode,
+    // TODO: pincode sometimes is of type string and sometimes int. See if Ravi sir has fixed this
+    this.pincode = '',
     this.latitude,
     this.longitude,
     this.businessName = '',
@@ -237,7 +238,7 @@ class PickupAddress {
   String city;
   String state;
   String country;
-  int? pincode;
+  String pincode;
   double? latitude;
   double? longitude;
   String businessName;
@@ -246,38 +247,38 @@ class PickupAddress {
   String phoneNo;
 
   factory PickupAddress.fromJson(Map<String, dynamic> json) => PickupAddress(
-        flatNo: json["flat_no"] == null ? null : json["flat_no"],
-        street: json["street"] == null ? null : json["street"],
-        landmark: json["landmark"] == null ? null : json["landmark"],
-        area: json["area"] == null ? null : json["area"],
-        city: json["city"] == null ? null : json["city"],
-        state: json["state"] == null ? null : json["state"],
-        country: json["country"] == null ? null : json["country"],
-        pincode: json["pincode"] == null ? null : json["pincode"],
+        flatNo: json["flat_no"] == null ? '' : json["flat_no"],
+        street: json["street"] == null ? '' : json["street"],
+        landmark: json["landmark"] == null ? '' : json["landmark"],
+        area: json["area"] == null ? '' : json["area"],
+        city: json["city"] == null ? '' : json["city"],
+        state: json["state"] == null ? '' : json["state"],
+        country: json["country"] == null ? '' : json["country"],
+        pincode: json["pincode"] == null ? '' : json["pincode"].toString(),
         latitude: json["latitude"] == null ? null : json["latitude"].toDouble(),
         longitude: json["longitude"] == null ? null : json["longitude"].toDouble(),
-        businessName: json["business_name"] == null ? null : json["business_name"],
-        firstname: json["firstname"] == null ? null : json["firstname"],
-        lastname: json["lastname"] == null ? null : json["lastname"],
-        phoneNo: json["phone_no"] == null ? null : json["phone_no"],
+        businessName: json["business_name"] == null ? '' : json["business_name"],
+        firstname: json["firstname"] == null ? '' : json["firstname"],
+        lastname: json["lastname"] == null ? '' : json["lastname"],
+        phoneNo: json["phone_no"] == null ? '' : json["phone_no"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "flat_no": flatNo == null ? null : flatNo,
-        "street": street == null ? null : street,
-        "landmark": landmark == null ? null : landmark,
-        "area": area == null ? null : area,
-        "city": city == null ? null : city,
-        "state": state == null ? null : state,
-        "country": country == null ? null : country,
-        "pincode": pincode == null ? null : pincode,
-        "latitude": latitude == null ? null : latitude,
-        "longitude": longitude == null ? null : longitude,
-        "business_name": businessName == null ? null : businessName,
-        "firstname": firstname == null ? null : firstname,
-        "lastname": lastname == null ? null : lastname,
-        "phone_no": phoneNo == null ? null : phoneNo,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "flat_no": flatNo == null ? null : flatNo,
+  //       "street": street == null ? null : street,
+  //       "landmark": landmark == null ? null : landmark,
+  //       "area": area == null ? null : area,
+  //       "city": city == null ? null : city,
+  //       "state": state == null ? null : state,
+  //       "country": country == null ? null : country,
+  //       "pincode": pincode == null ? null : pincode,
+  //       "latitude": latitude == null ? null : latitude,
+  //       "longitude": longitude == null ? null : longitude,
+  //       "business_name": businessName == null ? null : businessName,
+  //       "firstname": firstname == null ? null : firstname,
+  //       "lastname": lastname == null ? null : lastname,
+  //       "phone_no": phoneNo == null ? null : phoneNo,
+  //     };
 }
 
 class ProjectDetails {
@@ -298,7 +299,7 @@ class ProjectDetails {
   int? projectId;
   String name;
   int? quantity;
-  int weight;
+  double weight;
   Address? address;
   String firstname;
   String lastname;
@@ -311,29 +312,29 @@ class ProjectDetails {
         projectId: json["project_id"] == null ? null : json["project_id"],
         name: json["name"] == null ? null : json["name"],
         quantity: json["quantity"] == null ? null : json["quantity"],
-        weight: json["weight"] == null ? null : json["weight"],
+        weight: json["weight"] == null ? null : json["weight"].toDouble(),
         address: json["address"] == null ? null : Address.fromJson(json["address"]),
         firstname: json["firstname"] == null ? null : json["firstname"],
         lastname: json["lastname"] == null ? null : json["lastname"],
         phoneNo: json["phone_no"] == null ? null : json["phone_no"],
         id: json["_id"] == null ? null : json["_id"],
         totals: json["totals"] == null ? null : Totals.fromJson(json["totals"]),
-        projectDetailsId: json["id"] == null ? null : json["id"],
+        projectDetailsId: json["id"] == null ? '' : json["id"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "project_id": projectId == null ? null : projectId,
-        "name": name == null ? null : name,
-        "quantity": quantity == null ? null : quantity,
-        "weight": weight == null ? null : weight,
-        "address": address?.toJson(),
-        "firstname": firstname == null ? null : firstname,
-        "lastname": lastname == null ? null : lastname,
-        "phone_no": phoneNo == null ? null : phoneNo,
-        "_id": id == null ? null : id,
-        "totals": totals?.toJson(),
-        "id": projectDetailsId == null ? null : projectDetailsId,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "project_id": projectId == null ? null : projectId,
+  //       "name": name == null ? null : name,
+  //       "quantity": quantity == null ? null : quantity,
+  //       "weight": weight == null ? null : weight,
+  //       "address": address?.toJson(),
+  //       "firstname": firstname == null ? null : firstname,
+  //       "lastname": lastname == null ? null : lastname,
+  //       "phone_no": phoneNo == null ? null : phoneNo,
+  //       "_id": id == null ? null : id,
+  //       "totals": totals?.toJson(),
+  //       "id": projectDetailsId == null ? null : projectDetailsId,
+  //     };
 }
 
 class Address {
@@ -360,36 +361,36 @@ class Address {
   double? latitude;
   double? longitude;
   String pincode;
-  String location;
+  String? location;
   String landmark;
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-        flatNo: json["flat_no"] == null ? null : json["flat_no"],
-        street: json["street"] == null ? null : json["street"],
-        area: json["area"] == null ? null : json["area"],
-        city: json["city"] == null ? null : json["city"],
-        state: json["state"] == null ? null : json["state"],
-        country: json["country"] == null ? null : json["country"],
+        flatNo: json["flat_no"] == null ? '' : json["flat_no"],
+        street: json["street"] == null ? '' : json["street"],
+        area: json["area"] == null ? '' : json["area"],
+        city: json["city"] == null ? '' : json["city"],
+        state: json["state"] == null ? '' : json["state"],
+        country: json["country"] == null ? '' : json["country"],
         latitude: json["latitude"] == null ? null : json["latitude"].toDouble(),
         longitude: json["longitude"] == null ? null : json["longitude"].toDouble(),
-        pincode: json["pincode"] == null ? null : json["pincode"],
-        location: json["location"] == null ? null : json["location"],
-        landmark: json["landmark"] == null ? null : json["landmark"],
+        pincode: json["pincode"] == null ? '' : json["pincode"].toString(),
+        location: json["location"] == null ? '' : json["location"],
+        landmark: json["landmark"] == null ? '' : json["landmark"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "flat_no": flatNo == null ? null : flatNo,
-        "street": street == null ? null : street,
-        "area": area == null ? null : area,
-        "city": city == null ? null : city,
-        "state": state == null ? null : state,
-        "country": country == null ? null : country,
-        "latitude": latitude == null ? null : latitude,
-        "longitude": longitude == null ? null : longitude,
-        "pincode": pincode == null ? null : pincode,
-        "location": location == null ? null : location,
-        "landmark": landmark == null ? null : landmark,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "flat_no": flatNo == null ? null : flatNo,
+  //       "street": street == null ? null : street,
+  //       "area": area == null ? null : area,
+  //       "city": city == null ? null : city,
+  //       "state": state == null ? null : state,
+  //       "country": country == null ? null : country,
+  //       "latitude": latitude == null ? null : latitude,
+  //       "longitude": longitude == null ? null : longitude,
+  //       "pincode": pincode == null ? null : pincode,
+  //       "location": location == null ? null : location,
+  //       "landmark": landmark == null ? null : landmark,
+  //     };
 }
 
 class Totals {
@@ -406,17 +407,17 @@ class Totals {
   int tax;
 
   factory Totals.fromJson(Map<String, dynamic> json) => Totals(
-        product: json["product"] == null ? null : json["product"],
-        shipping: json["shipping"] == null ? null : json["shipping"],
-        discount: json["discount"] == null ? null : json["discount"],
-        tax: json["tax"] == null ? null : json["tax"],
+        product: json["product"] == null ? 0 : json["product"],
+        shipping: json["shipping"] == null ? 0 : json["shipping"],
+        discount: json["discount"] == null ? 0 : json["discount"],
+        tax: json["tax"] == null ? 0 : json["tax"],
       );
 
   Map<String, dynamic> toJson() => {
-        "product": product == null ? null : product,
-        "shipping": shipping == null ? null : shipping,
-        "discount": discount == null ? null : discount,
-        "tax": tax == null ? null : tax,
+        "product": product,
+        "shipping": shipping,
+        "discount": discount,
+        "tax": tax,
       };
 }
 
@@ -432,7 +433,7 @@ class Task {
     this.status = '',
     this.creatorPhone = '',
     this.team,
-    this.id,
+    // this.id,
   });
 
   int? taskId;
@@ -445,7 +446,7 @@ class Task {
   String status;
   String creatorPhone;
   Team? team;
-  dynamic id;
+  // dynamic id;
 
   factory Task.fromJson(Map<String, dynamic> json) => Task(
         taskId: json["task_id"],
@@ -459,22 +460,22 @@ class Task {
         status: json["status"],
         creatorPhone: json["creator_phone"],
         team: json["team"] == null ? null : Team.fromJson(json["team"]),
-        id: json["id"],
+        // id: json["id"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "task_id": taskId,
-        "team_id": teamId,
-        "task_type": taskTypeToJson(taskType),
-        "schedules": List<dynamic>.from(schedules.map((x) => x)),
-        "creator_name": creatorName,
-        "customer_name": customerName,
-        "customer_phone": customerPhone,
-        "status": status,
-        "creator_phone": creatorPhone,
-        "team": team?.toJson(),
-        "id": id,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "task_id": taskId,
+  //       "team_id": teamId,
+  //       "task_type": taskTypeToJson(taskType),
+  //       "schedules": List<dynamic>.from(schedules.map((x) => x)),
+  //       "creator_name": creatorName,
+  //       "customer_name": customerName,
+  //       "customer_phone": customerPhone,
+  //       "status": status,
+  //       "creator_phone": creatorPhone,
+  //       "team": team?.toJson(),
+  //       "id": id,
+  //     };
 }
 
 class Team {
@@ -500,11 +501,11 @@ class Team {
         // teamId: json["id"] == null ? null : json["id"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "team_id": teamId,
-        "name": name,
-        "type": type,
-        // "_id": id == null ? null : id,
-        // "id": teamId == null ? null : teamId,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "team_id": teamId,
+  //       "name": name,
+  //       "type": type,
+  //       // "_id": id == null ? null : id,
+  //       // "id": teamId == null ? null : teamId,
+  //     };
 }

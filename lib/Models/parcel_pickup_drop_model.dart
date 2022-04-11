@@ -4,13 +4,13 @@
 
 import 'dart:convert';
 
-ParcelPickupModel welcomeFromJson(String str) =>
-    ParcelPickupModel.fromJson(json.decode(str));
+ParcelPickupDropModel welcomeFromJson(String str) =>
+    ParcelPickupDropModel.fromJson(json.decode(str));
 
-String welcomeToJson(ParcelPickupModel data) => json.encode(data.toJson());
+String welcomeToJson(ParcelPickupDropModel data) => json.encode(data.toJson());
 
-class ParcelPickupModel {
-  ParcelPickupModel({
+class ParcelPickupDropModel {
+  ParcelPickupDropModel({
     this.status,
     this.message,
     this.error,
@@ -22,8 +22,7 @@ class ParcelPickupModel {
   dynamic error;
   Data? data;
 
-  factory ParcelPickupModel.fromJson(Map<String, dynamic> json) =>
-      ParcelPickupModel(
+  factory ParcelPickupDropModel.fromJson(Map<String, dynamic> json) => ParcelPickupDropModel(
         status: json["status"] == null ? null : json["status"],
         message: json["message"] == null ? null : json["message"],
         error: json["error"],

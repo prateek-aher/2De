@@ -29,7 +29,7 @@ class _TakePhotoScreenState extends State<TakePhotoScreen> {
           source: ImageSource.camera,
           preferredCameraDevice: CameraDevice.rear);
       if (image == null) {
-        Navigator.pop(context);
+        Navigator.pop(context, false);
         return;
       }
       final capturedImage = File(image.path);
@@ -80,25 +80,11 @@ class _TakePhotoScreenState extends State<TakePhotoScreen> {
                         style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16)),
                         onPressed: () async {
-                          // if (taskType == TaskType.pickup) {
-                          //   context.read<FindTaskProvider>().taskType =
-                          //       TaskType.drop;
-                          //   Navigator.of(context).pushReplacement(
-                          //       MaterialPageRoute(
-                          //           builder: (context) => GoToPickup()));
-                          // } else {
-                          //   Navigator.of(context).pushReplacement(
-                          //       MaterialPageRoute(
-                          //           builder: (context) => RateCustomer()));
-                          // }
-                          // TODO: Upload barcode and image here
                           await UploadService.send(
+                              context: context,
                               deliveryId: widget.package.deliveryId.toString(),
                               barcode: widget.barcode,
                               file: xImage!);
-                          // if (widget.onRefresh != null) {
-                          //   widget.onRefresh!();
-                          // }
                           Navigator.pop(context, true);
                         },
                         child: Text("Proceed",

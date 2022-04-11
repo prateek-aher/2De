@@ -39,8 +39,7 @@ class ApiProvider {
     String? token = _prefs.getString('token');
     print(_baseUrl + url);
     try {
-      final response = await http
-          .post(Uri.parse(_baseUrl + url), body: requestJson, headers: {
+      final response = await http.post(Uri.parse(_baseUrl + url), body: requestJson, headers: {
         "Authorization": token!,
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -60,10 +59,7 @@ class ApiProvider {
     try {
       final response = await http.post(Uri.parse(_baseUrl + url),
           body: requestJson,
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          });
+          headers: {'Content-Type': 'application/json', 'Accept': 'application/json'});
 
       responseJson = _response(response);
     } on SocketException {
@@ -106,8 +102,7 @@ class ApiProvider {
     //String token = await getToken();
     print(_baseUrl + url);
     try {
-      final response = await http
-          .put(Uri.parse(_baseUrl + url), body: requestJson, headers: {
+      final response = await http.put(Uri.parse(_baseUrl + url), body: requestJson, headers: {
         //"Authorization": token,
         'Content-Type': 'application/json',
         'Accept': 'application/json'
