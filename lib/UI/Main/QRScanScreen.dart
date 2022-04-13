@@ -21,12 +21,15 @@ class QRScanScreen extends StatefulWidget {
 
 class _QRScanScreenState extends State<QRScanScreen> {
   late final TextEditingController _qrTextController;
+  bool showScanner = true;
   final GlobalKey _qrKey = GlobalKey(
     debugLabel: 'QR',
   );
   final _codeKey = GlobalKey<FormState>();
   Barcode? qrResultCode;
   QRViewController? controller;
+
+  bool enterManually = false;
 
   @override
   void initState() {
@@ -59,6 +62,8 @@ class _QRScanScreenState extends State<QRScanScreen> {
         // TODO: Implement to accept not just any code
         if (qrResultCode != null) {
           _qrTextController.text = qrResultCode?.code ?? '';
+          widget.package.barCode = _qrTextController.text;
+          showScanner = false;
         }
       });
     });
@@ -80,59 +85,168 @@ class _QRScanScreenState extends State<QRScanScreen> {
             child: Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                // padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Column(children: [
-                  12.h,
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      child: QRView(key: _qrKey, onQRViewCreated: _onQRViewCreated)),
-                  Expanded(
+                  24.h,
+                  Visibility(
+                    visible: showScanner,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Place The QR Code Inside The Area',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        6.h,
+                        Text(
+                          'Scanning Will Start Automatically',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                        ),
+                        12.h,
+                        Stack(
+                          children: [
+                            SizedBox(
+                                height: MediaQuery.of(context).size.width * 0.99,
+                                width: MediaQuery.of(context).size.width * 0.99,
+                                child: QRView(
+                                  key: _qrKey,
+                                  onQRViewCreated: _onQRViewCreated,
+                                  overlay: QrScannerOverlayShape(
+                                      overlayColor: Colors.black.withOpacity(0.5)),
+                                )),
+                            Positioned(
+                              top: MediaQuery.of(context).size.width * 0.29 / 2,
+                              // bottom: 0,
+                              left: MediaQuery.of(context).size.width * 0.29 / 2,
+                              // right: 0,
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        top: BorderSide(color: Colors.blue, width: 4),
+                                        left: BorderSide(color: Colors.blue, width: 4))),
+                              ),
+                            ),
+                            Positioned(
+                              top: MediaQuery.of(context).size.width * 0.29 / 2,
+                              // bottom: 0,
+                              right: MediaQuery.of(context).size.width * 0.29 / 2,
+                              // right: 0,
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        top: BorderSide(color: Colors.blue, width: 4),
+                                        right: BorderSide(color: Colors.blue, width: 4))),
+                              ),
+                            ),
+                            Positioned(
+                              right: MediaQuery.of(context).size.width * 0.29 / 2,
+                              // bottom: 0,
+                              bottom: MediaQuery.of(context).size.width * 0.29 / 2,
+                              // right: 0,
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        right: BorderSide(color: Colors.blue, width: 4),
+                                        bottom: BorderSide(color: Colors.blue, width: 4))),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: MediaQuery.of(context).size.width * 0.29 / 2,
+                              // bottom: 0,
+                              left: MediaQuery.of(context).size.width * 0.29 / 2,
+                              // right: 0,
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(color: Colors.blue, width: 4),
+                                        left: BorderSide(color: Colors.blue, width: 4))),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Visibility(
+                    visible: !showScanner,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
                       child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                        24.h,
-                        Text("Enter Code Manually",
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                        Form(
-                          key: _codeKey,
-                          child: TextFormField(
-                              validator: (v) {
-                                if (v?.isEmpty ?? false) {
-                                  return 'Package code needed';
-                                }
-                              },
-                              controller: _qrTextController,
-                              textCapitalization: TextCapitalization.characters,
-                              decoration: InputDecoration(
-                                  hintText: 'Enter code here',
-                                  hintStyle: TextStyle(fontSize: 20, color: Colors.grey[400]))),
-                        ),
-                        24.h,
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 16)),
-                            onPressed: () async {
-                              if (_codeKey.currentState?.validate() ?? false) {
-                                widget.package.barCode = _qrTextController.text;
-                                bool isScanSuccessful =
-                                    (await Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (context) => TakePhotoScreen(
-                                                  barcode: _qrTextController.text,
-                                                  package: widget
-                                                      .package, /*onRefresh: widget.onRefresh*/
-                                                )))) ??
-                                        false;
-                                if (isScanSuccessful) {
-                                  Navigator.pop(context, true);
-                                }
-                              }
-                            },
-                            child: Text("Next",
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
-                        24.h
-                      ]))
+                            Text("Package code",
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                            12.h,
+                            Visibility(
+                              visible: !enterManually,
+                              child: Text(
+                                widget.package.barCode,
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 48),
+                              ),
+                            ),
+                            CheckboxListTile(
+                                controlAffinity: ListTileControlAffinity.leading,
+                                value: enterManually,
+                                onChanged: (value) {
+                                  setState(() {
+                                    enterManually = value!;
+                                  });
+                                },
+                                title: Text('Enter manually')),
+                            Visibility(
+                              visible: enterManually,
+                              child: Form(
+                                key: _codeKey,
+                                child: TextFormField(
+                                    validator: (v) {
+                                      if (v?.isEmpty ?? false) {
+                                        return 'Package code needed';
+                                      }
+                                    },
+                                    controller: _qrTextController,
+                                    textCapitalization: TextCapitalization.characters,
+                                    decoration: InputDecoration(
+                                        hintText: 'Enter code here',
+                                        hintStyle:
+                                            TextStyle(fontSize: 20, color: Colors.grey[400]))),
+                              ),
+                            ),
+                            24.h,
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(vertical: 16)),
+                                onPressed: () async {
+                                  if (_codeKey.currentState?.validate() ?? false) {
+                                    widget.package.barCode = _qrTextController.text;
+                                    bool isScanSuccessful =
+                                        (await Navigator.of(context).push(MaterialPageRoute(
+                                                builder: (context) => TakePhotoScreen(
+                                                      barcode: _qrTextController.text,
+                                                      package: widget
+                                                          .package, /*onRefresh: widget.onRefresh*/
+                                                    )))) ??
+                                            false;
+                                    if (isScanSuccessful) {
+                                      Navigator.pop(context, true);
+                                    }
+                                  }
+                                },
+                                child: Text("Next",
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
+                            24.h
+                          ]),
+                    ),
+                  )
                 ]))));
   }
 }
