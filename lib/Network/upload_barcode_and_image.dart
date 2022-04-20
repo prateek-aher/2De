@@ -21,7 +21,7 @@ class UploadService {
     required File file,
   }) async {
     ParcelPickupDropModel? model;
-    TaskType taskType = context.read<FindTaskProvider>().taskType;
+    TaskType taskType = context.read<TaskProvider>().taskType;
     try {
       showLoading();
       final response = await _apiProvider.multiPart(

@@ -34,7 +34,7 @@ class _DropPackageState extends State<DropPackage> {
   }
 
   void loadData() {
-    currentTask = context.read<FindTaskProvider>().findTaskModel!.data!.result;
+    currentTask = context.read<TaskProvider>().findTaskModel!.data!.result;
     context.read<TimeProvider>().startTimer(Duration(minutes: 10));
     setState(() {});
   }

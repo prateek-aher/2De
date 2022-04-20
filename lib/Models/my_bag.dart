@@ -108,7 +108,7 @@ class BagItem {
             json["pickup_address"] == null ? null : Address.fromJson(json["pickup_address"]),
         dropAddress: json["drop_address"] == null ? null : Address.fromJson(json["drop_address"]),
         productType: json["product_type"],
-        weight: json["weight"],
+        weight: json["weight"].toDouble(),
         pickupTime: json["pickup_time"] == null ? null : DateTime.parse(json["pickup_time"]),
         dropTime: json["drop_time"] == null ? null : DateTime.parse(json["drop_time"]),
         pickupImages: json["pickup_images"] == null

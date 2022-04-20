@@ -18,7 +18,7 @@ class _RateCustomerState extends State<RateCustomer> {
 
   @override
   Widget build(BuildContext context) {
-    TaskType taskType = Provider.of<FindTaskProvider>(context).taskType;
+    TaskType taskType = Provider.of<TaskProvider>(context).taskType;
     return Scaffold(
       appBar: CustomAppBar(),
       body: Column(
@@ -61,11 +61,7 @@ class _RateCustomerState extends State<RateCustomer> {
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(color: Colors.white, boxShadow: [
-          BoxShadow(
-              color: Colors.black26,
-              offset: Offset(0, -8),
-              blurRadius: 20,
-              spreadRadius: 0)
+          BoxShadow(color: Colors.black26, offset: Offset(0, -8), blurRadius: 20, spreadRadius: 0)
         ]),
         height: 90,
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
@@ -75,8 +71,7 @@ class _RateCustomerState extends State<RateCustomer> {
               : () {
                   //TODO:  upload customer rating
                   Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => Homepage()),
-                      (route) => false);
+                      MaterialPageRoute(builder: (context) => Homepage()), (route) => false);
                 },
           child: Text(
             'Finish',

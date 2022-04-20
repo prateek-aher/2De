@@ -29,7 +29,7 @@ class _GoToLocationState extends State<GoToLocation> {
   }
 
   void loadData() {
-    currentTask = context.read<FindTaskProvider>().findTaskModel!.data!.result;
+    currentTask = context.read<TaskProvider>().findTaskModel!.data!.result;
     setState(() {});
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       showDialog(
@@ -63,8 +63,6 @@ class _GoToLocationState extends State<GoToLocation> {
     return WillPopScope(
       onWillPop: () async {
         return Future.value(false);
-        // await Future.delayed(Duration.zero, () {});
-        // return false;
       },
       child: Scaffold(
         appBar: CustomAppBar(),
@@ -100,9 +98,16 @@ class _GoToLocationState extends State<GoToLocation> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   12.h,
-                  Text('${address?.firstName} ${address?.lastName}',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-                  6.h,
+                  Visibility(
+                    visible: address?.firstName != null && address?.lastName != null,
+                    child: Column(
+                      children: [
+                        Text('${address?.firstName ?? ''} ${address?.lastName ?? ''}',
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                        6.h,
+                      ],
+                    ),
+                  ),
                   Text(
                     '${currentTask?.task?.schedules.length} item(s)',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: GREY5),
@@ -127,39 +132,75 @@ class _GoToLocationState extends State<GoToLocation> {
                   ),
                   4.h,
                   Text(
-                      '${address?.street}, ${address?.city}, ${address?.state}, ${address?.country}, ${address?.pincode}',
+                      [
+                        address?.flatNumber,
+                        address?.street,
+                        address?.area,
+                        address?.city,
+                        address?.state,
+                        address?.country,
+                        address?.pincode,
+                      ].takeWhile((value) => value != null).join(', '),
+                      // '${address?.flatNumber ?? ''}, ${address?.street??''}, ${address?.area ?? ''}, ${address?.city ?? ''}, ${address?.state ?? ''}, ${address?.country ?? ''}, ${address?.pincode ?? ''}',
                       style: TextStyle(fontSize: 16)),
                   16.h,
-                  Text(
-                    'Landmark',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black45),
+                  Visibility(
+                    visible: address?.landmark != null,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Landmark',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black45),
+                        ),
+                        4.h,
+                        Text('${address?.landmark}', style: TextStyle(fontSize: 16)),
+                        16.h,
+                      ],
+                    ),
                   ),
-                  4.h,
-                  Text('${address?.landmark}', style: TextStyle(fontSize: 16)),
-                  16.h,
                   Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                     OutlinedButton.icon(
-                      onPressed: () async {
-                        await launch('tel:+91${currentTask?.task?.address?.phoneNumber}');
-                      },
+                      onPressed: currentTask?.task?.address?.phoneNumber == null
+                          ? null
+                          : () async {
+                              await launch('tel:+91${currentTask?.task?.address?.phoneNumber}');
+                            },
                       icon: Icon(Icons.call),
                       label: Text(
                         'Call',
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                       ),
-                      style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(16)),
+                      style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.all(16),
+                          side: BorderSide(
+                              color: currentTask?.task?.address?.phoneNumber == null
+                                  ? Colors.grey
+                                  : Theme.of(context).primaryColor)),
                     ),
                     12.w,
                     OutlinedButton.icon(
-                      onPressed: () async {
-                        await launch(addressToDirectionURL(
-                            '${address?.street}, ${address?.city}, ${address?.state}, ${address?.country}, ${address?.pincode}'));
-                      },
+                      onPressed: (currentTask?.task?.latitude == null ||
+                              currentTask?.task?.longitude == null)
+                          ? null
+                          : () async {
+                              print(
+                                  'location is ${currentTask?.task?.latitude}, ${currentTask?.task?.longitude}');
+                              await launch(addressToDirectionURL(
+                                  latitude: (currentTask?.task?.latitude ?? '').toString(),
+                                  longitude: (currentTask?.task?.longitude ?? '').toString()));
+                            },
                       icon: Icon(Icons.navigation),
                       label: Text('Navigate',
                           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                      style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(16)),
+                      style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.all(16),
+                          side: BorderSide(
+                              color: (currentTask?.task?.latitude == null ||
+                                      currentTask?.task?.longitude == null)
+                                  ? Colors.grey
+                                  : Theme.of(context).primaryColor)),
                     )
                   ]),
                   16.h,
@@ -192,7 +233,7 @@ class _GoToLocationState extends State<GoToLocation> {
             activeThumbColor: Colors.white,
             activeTrackColor: Colors.green,
             onSwipe: () async {
-              await context.read<FindTaskProvider>().reachedLocation(context);
+              await context.read<TaskProvider>().reachedLocation(context);
             },
           ),
         ),

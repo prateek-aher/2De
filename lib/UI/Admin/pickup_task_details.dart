@@ -339,7 +339,7 @@ class ProductBubble extends StatelessWidget {
           ),
           6.h,
           Text(
-            '#4${schedule.deliveryId}',
+            '#${schedule.deliveryId}',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
           ),
           6.h,

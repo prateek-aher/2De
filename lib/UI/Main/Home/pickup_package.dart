@@ -34,7 +34,7 @@ class _PickupPackageState extends State<PickupPackage> {
   }
 
   void loadData() {
-    currentTask = context.read<FindTaskProvider>().findTaskModel!.data!.result;
+    currentTask = context.read<TaskProvider>().findTaskModel!.data!.result;
     setState(() {});
   }
 

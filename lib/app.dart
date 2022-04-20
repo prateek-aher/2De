@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<UserRegistrationProvider>(
             create: (context) => UserRegistrationProvider()),
         ChangeNotifierProvider<LoginProvider>(create: (context) => LoginProvider()),
-        ChangeNotifierProvider<FindTaskProvider>(create: (context) => FindTaskProvider()),
+        ChangeNotifierProvider<TaskProvider>(create: (context) => TaskProvider()),
         // ChangeNotifierProvider<UpdateStatusProvider>(
         //     create: (context) => UpdateStatusProvider()),
         ChangeNotifierProvider<BagProvider>(create: (context) => BagProvider()),

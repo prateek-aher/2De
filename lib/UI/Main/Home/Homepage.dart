@@ -43,7 +43,7 @@ class _HomepageState extends State<Homepage> {
       },
       child: Scaffold(
           appBar: CustomAppBar(),
-          body: Consumer<FindTaskProvider>(
+          body: Consumer<TaskProvider>(
             builder: (context, findTask, _) {
               return findTask.gotResponse ? findingTaskWidget() : idleWidget();
             },
@@ -96,27 +96,21 @@ class _HomepageState extends State<Homepage> {
                         child: Row(
                             children: bag.items
                                 .map((e) => Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 2),
+                                    margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                     child: Column(
                                         mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                               decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: Colors.grey),
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
+                                                  border: Border.all(color: Colors.grey),
+                                                  borderRadius: BorderRadius.circular(12),
                                                   image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          e.pickupImages.first),
+                                                      image: NetworkImage(e.pickupImages.first),
                                                       fit: BoxFit.cover)),
                                               height: 100,
                                               width: 100),
-                                          Text(e.productType ?? '',
-                                              style: TextStyle(fontSize: 16)),
+                                          Text(e.productType ?? '', style: TextStyle(fontSize: 16)),
                                           Text('#${e.deliveryId}'),
                                         ])))
                                 .toList()))
@@ -147,13 +141,10 @@ class _HomepageState extends State<Homepage> {
                     spreadRadius: 3)
               ]),
           child: ElevatedButton(
-              onPressed: () =>
-                  context.read<FindTaskProvider>().findTask(context),
-              style: ElevatedButton.styleFrom(
-                  shape: CircleBorder(), elevation: 10),
+              onPressed: () => context.read<TaskProvider>().findTask(context),
+              style: ElevatedButton.styleFrom(shape: CircleBorder(), elevation: 10),
               child: Center(
-                  child: Text('Start',
-                      style: TextStyle(color: Colors.white, fontSize: 30))))),
+                  child: Text('Start', style: TextStyle(color: Colors.white, fontSize: 30))))),
       Spacer(),
       Text('Click on Start To Get Task'),
       48.h,
@@ -171,9 +162,8 @@ class _HomepageState extends State<Homepage> {
             glowColor: Theme.of(context).primaryColor,
             child: Container(
               height: 180,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Theme.of(context).primaryColor),
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, color: Theme.of(context).primaryColor),
               child: Center(
                 child: Text(
                   'Finding Task',
@@ -185,15 +175,13 @@ class _HomepageState extends State<Homepage> {
           20.h,
           OutlinedButton(
               onPressed: () {
-                context.read<FindTaskProvider>().changeWidget();
+                context.read<TaskProvider>().changeWidget();
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "Stop Search",
-                  style: TextStyle(
-                      fontSize:
-                          Theme.of(context).textTheme.subtitle1!.fontSize),
+                  style: TextStyle(fontSize: Theme.of(context).textTheme.subtitle1!.fontSize),
                 ),
               ))
         ],

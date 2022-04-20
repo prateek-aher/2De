@@ -1,5 +1,6 @@
 import 'dart:convert';
 
-String addressToDirectionURL(String address) =>
+String addressToDirectionURL({required String latitude, required String longitude}) =>
     'https://www.google.com/maps/dir/?api=1&destination=' +
-    jsonEncode(address + '&output=classic');
+    jsonEncode('$latitude, $longitude') +
+    '&output=classic';

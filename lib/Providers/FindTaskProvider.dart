@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import '../UI/Main/Home/drop_package.dart';
 import '../UI/Main/Home/pickup_package.dart';
 
-class FindTaskProvider extends ChangeNotifier {
+class TaskProvider extends ChangeNotifier {
   ApiProvider _apiProvider = ApiProvider();
   FindTaskModel? _findTaskModel;
   TaskType taskType = TaskType.none;
