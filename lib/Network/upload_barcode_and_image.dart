@@ -27,7 +27,9 @@ class UploadService {
       final response = await _apiProvider.multiPart(
           status: taskType == TaskType.pickup || taskType == TaskType.hubPickup
               ? 'pickedUp'
-              : 'delivered',
+              : taskType == TaskType.hubDrop
+                  ? 'reachedHub'
+                  : 'delivered',
           barcode: barcode,
           deliveryId: deliveryId,
           file: file,

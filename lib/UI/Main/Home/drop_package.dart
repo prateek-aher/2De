@@ -53,7 +53,7 @@ class _DropPackageState extends State<DropPackage> {
             Container(
                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  Text('Pickup package ${widget.index + 1} of ${currentTask!.packages.length}',
+                  Text('Drop package ${widget.index + 1} of ${currentTask!.packages.length}',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                   IconButton(
                       icon: Icon(Icons.close),
@@ -71,9 +71,16 @@ class _DropPackageState extends State<DropPackage> {
                 children: [
                   // Text('To:', style: TextStyle(fontSize: 16, color: Colors.grey)),
                   // 8.h,
-                  Text('${address?.firstName} ${address?.lastName}',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-                  8.h,
+                  Visibility(
+                    visible: address?.firstName != null || address?.lastName != null,
+                    child: Column(
+                      children: [
+                        Text('${address?.firstName} ${address?.lastName}',
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                        8.h,
+                      ],
+                    ),
+                  ),
                   Text('#${widget.package.deliveryId}',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                   12.h,
@@ -81,23 +88,46 @@ class _DropPackageState extends State<DropPackage> {
                       'https://static9.depositphotos.com/1669785/1150/i/600/depositphotos_11506024-stock-photo-package.jpg',
                       height: MediaQuery.of(context).size.height * 0.2),
                   12.h,
-                  Text(address?.businessName ?? '',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                  Text(
+                    (currentTask?.task?.taskType == TaskType.hubDrop)
+                        ? 'Hub'
+                        : address?.businessName ?? '',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
                   20.h,
                   Text('Flat, Floor, Building Name',
                       style: TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black26)),
                   6.h,
                   Text(
-                      '${address?.street}, ${address?.city}, ${address?.state}, ${address?.country}, ${address?.pincode}',
+                      [
+                        address?.flatNumber,
+                        address?.street,
+                        address?.area,
+                        address?.city,
+                        address?.state,
+                        address?.country,
+                        currentTask?.task?.pincode ?? address?.pincode,
+                      ].takeWhile((value) => value != null).join(', '),
+                      // '${address?.flatNumber ?? ''}, ${address?.street??''}, ${address?.area ?? ''}, ${address?.city ?? ''}, ${address?.state ?? ''}, ${address?.country ?? ''}, ${address?.pincode ?? ''}',
                       style: TextStyle(fontSize: 16)),
                   20.h,
-                  Text('Landmark',
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black26)),
-                  6.h,
-                  Text('${address?.landmark}', style: TextStyle(fontSize: 16)),
-                  12.h,
+                  Visibility(
+                    visible: address?.landmark != null,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Landmark',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black45),
+                        ),
+                        4.h,
+                        Text('${address?.landmark}', style: TextStyle(fontSize: 16)),
+                        16.h,
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
@@ -112,65 +142,49 @@ class _DropPackageState extends State<DropPackage> {
               ),
               height: 100,
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-              child: taskType == TaskType.pickup || taskType == TaskType.hubPickup
-                  ? ElevatedButton(
-                      onPressed: () async {
-                        bool isScanSuccessful = (await Navigator.of(context).push<bool>(
-                              MaterialPageRoute(
-                                  builder: (context) => QRScanScreen(package: widget.package)),
-                            )) ??
-                            false;
-                        if (isScanSuccessful) {
-                          Navigator.pop(context);
-                        }
-                      },
-                      child: Text('Drop Now',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)))
-                  : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Expanded(child: Consumer<TimeProvider>(builder: (context, timer, child) {
-                        return timer.timerRunning
-                            ? Text(
-                                'Waiting: ${(timer.seconds / 60).floor()} :${timer.seconds.remainder(60)}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18,
-                                  color: timer.seconds < 180 ? Colors.red : Colors.black,
-                                ))
-                            : ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.red,
-                                    padding: const EdgeInsets.symmetric(vertical: 16)),
-                                onPressed: () {
-                                  Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(builder: (context) => NoShow()));
-                                },
-                                child: Text("No Show",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                    )));
-                      })),
-                      12.w,
-                      Expanded(
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(vertical: 16)),
-                              onPressed: () async {
-                                // TODO: Drop procedure
-                                bool isScanSuccessful = (await Navigator.of(context).push<bool>(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              QRScanScreen(package: widget.package)),
-                                    )) ??
-                                    false;
-                                if (isScanSuccessful) {
-                                  Navigator.pop(context);
-                                }
-                              },
-                              child: Text("Drop Now",
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))))
-                    ]))),
+              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Expanded(child: Consumer<TimeProvider>(builder: (context, timer, child) {
+                  return timer.timerRunning
+                      ? Text(
+                          'Waiting: ${(timer.seconds / 60).floor()} :${timer.seconds.remainder(60)}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                            color: timer.seconds < 180 ? Colors.red : Colors.black,
+                          ))
+                      : ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.red,
+                              padding: const EdgeInsets.symmetric(vertical: 16)),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(builder: (context) => NoShow()));
+                          },
+                          child: Text("No Show",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              )));
+                })),
+                12.w,
+                Expanded(
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16)),
+                        onPressed: () async {
+                          bool isScanSuccessful = (await Navigator.of(context).push<bool>(
+                                MaterialPageRoute(
+                                    builder: (context) => QRScanScreen(package: widget.package)),
+                              )) ??
+                              false;
+                          if (isScanSuccessful) {
+                            Navigator.pop(context);
+                          }
+                        },
+                        child: Text("Drop Now",
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))))
+              ]))),
     );
   }
 }

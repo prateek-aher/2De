@@ -29,7 +29,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
   Barcode? qrResultCode;
   QRViewController? controller;
 
-  bool enterManually = false;
+  bool scannerResult = false;
 
   @override
   void initState() {
@@ -58,12 +58,13 @@ class _QRScanScreenState extends State<QRScanScreen> {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       setState(() {
-        qrResultCode = scanData;
+        // qrResultCode = scanData;
         // TODO: Implement to accept not just any code
-        if (qrResultCode != null) {
-          _qrTextController.text = qrResultCode?.code ?? '';
+        if (scanData != null) {
+          _qrTextController.text = scanData.code ?? '';
           widget.package.barCode = _qrTextController.text;
           showScanner = false;
+          scannerResult = true;
         }
       });
     });
@@ -112,7 +113,9 @@ class _QRScanScreenState extends State<QRScanScreen> {
                                   key: _qrKey,
                                   onQRViewCreated: _onQRViewCreated,
                                   overlay: QrScannerOverlayShape(
-                                      overlayColor: Colors.black.withOpacity(0.5)),
+                                    borderColor: Colors.white,
+                                    overlayColor: Colors.black.withOpacity(0.5),
+                                  ),
                                 )),
                             Positioned(
                               top: MediaQuery.of(context).size.width * 0.29 / 2,
@@ -172,6 +175,14 @@ class _QRScanScreenState extends State<QRScanScreen> {
                             ),
                           ],
                         ),
+                        24.h,
+                        TextButton(
+                            onPressed: () {
+                              setState(() {
+                                showScanner = false;
+                              });
+                            },
+                            child: Text('Enter code manually')),
                       ],
                     ),
                   ),
@@ -184,27 +195,22 @@ class _QRScanScreenState extends State<QRScanScreen> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text("Package code",
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                            12.h,
                             Visibility(
-                              visible: !enterManually,
-                              child: Text(
-                                widget.package.barCode,
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 48),
+                              visible: scannerResult,
+                              child: Column(
+                                children: [
+                                  Text("Package code",
+                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                  12.h,
+                                  Text(
+                                    widget.package.barCode,
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 48),
+                                  ),
+                                ],
                               ),
                             ),
-                            CheckboxListTile(
-                                controlAffinity: ListTileControlAffinity.leading,
-                                value: enterManually,
-                                onChanged: (value) {
-                                  setState(() {
-                                    enterManually = value!;
-                                  });
-                                },
-                                title: Text('Enter manually')),
                             Visibility(
-                              visible: enterManually,
+                              visible: !scannerResult,
                               child: Form(
                                 key: _codeKey,
                                 child: TextFormField(
@@ -226,7 +232,19 @@ class _QRScanScreenState extends State<QRScanScreen> {
                                 style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(vertical: 16)),
                                 onPressed: () async {
-                                  if (_codeKey.currentState?.validate() ?? false) {
+                                  if (scannerResult) {
+                                    bool isScanSuccessful =
+                                        (await Navigator.of(context).push(MaterialPageRoute(
+                                                builder: (context) => TakePhotoScreen(
+                                                      barcode: _qrTextController.text,
+                                                      package: widget
+                                                          .package, /*onRefresh: widget.onRefresh*/
+                                                    )))) ??
+                                            false;
+                                    if (isScanSuccessful) {
+                                      Navigator.pop(context, true);
+                                    }
+                                  } else if (_codeKey.currentState?.validate() ?? false) {
                                     widget.package.barCode = _qrTextController.text;
                                     bool isScanSuccessful =
                                         (await Navigator.of(context).push(MaterialPageRoute(
