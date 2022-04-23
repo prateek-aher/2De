@@ -1,6 +1,7 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../Providers/Manager/task_details_provider.dart';
 import 'my_team.dart';
@@ -50,38 +51,41 @@ class _DropTaskDetailsState extends State<DropTaskDetails> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Viraj Patil',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                    ),
+                    Consumer<TaskDetailsProvider>(builder: (context, provider, _) {
+                      return Text(
+                        provider.taskDetails.data?.result?.task?.customerName ?? '',
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                      );
+                    }),
                     Spacer(),
-                    Text(
-                      '02 items',
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                    )
+                    Consumer<TaskDetailsProvider>(builder: (context, provider, _) {
+                      return Text(
+                        '${provider.taskDetails.data?.result?.schedules.length} items',
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      );
+                    })
                   ],
                 ),
-                6.h,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Shiv Malhar Colony, Hadapsar, Pune',
-                      style: TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
+                // 6.h,
+                Consumer<TaskDetailsProvider>(builder: (context, provider, _) {
+                  return TextButton(
+                    onPressed: () async {
+                      await launch(
+                          'tel:+91${provider.taskDetails.data?.result?.task?.customerPhone}');
+                    },
+                    child: Text(
+                      'Contact customer',
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                     ),
-                    Spacer(),
-                    Text(
-                      'Picked up',
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
-                    )
-                  ],
-                ),
+                  );
+                }),
                 6.h,
                 divider(),
                 // 6.h,

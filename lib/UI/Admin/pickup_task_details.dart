@@ -3,6 +3,7 @@ import 'package:delivery/Models/TaskDetailsModel.dart';
 import 'package:delivery/Providers/Manager/task_details_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../Providers/Manager/tasklist_provider.dart';
 import '../../Providers/Manager/team_list_provider.dart';
@@ -69,6 +70,7 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,8 +83,6 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
                                         '',
                                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                                   ))),
-
-                      // Spacer(),
                       Consumer<TaskDetailsProvider>(builder: (context, taskDetail, _) {
                         return Text(
                           '${taskDetail.taskDetails.data?.result?.schedules.length} items',
@@ -91,7 +91,19 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
                       })
                     ],
                   ),
-                  6.h,
+                  // 6.h,
+                  Consumer<TaskDetailsProvider>(builder: (context, provider, _) {
+                    return TextButton(
+                      onPressed: () async {
+                        await launch(
+                            'tel:+91${provider.taskDetails.data?.result?.task?.creatorPhone}');
+                      },
+                      child: Text(
+                        'Contact Seller',
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  }),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.end,
                   //   children: [
@@ -112,7 +124,7 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
                   // ),
                   // 6.h,
                   divider(),
-                  // 6.h,
+                  // 12.h,
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -199,7 +211,7 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
                 ],
               ),
             ),
-            12.h,
+            // 12.h,
             // Row(
             //   children: [
             //     Icon(
@@ -219,7 +231,7 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
             //     )
             //   ],
             // ),
-            6.h,
+            // 6.h,
             // Row(
             //   children: [
             //     Icon(
@@ -239,7 +251,7 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
             //     )
             //   ],
             // ),
-            6.h,
+            // 6.h,
             // Row(
             //   children: [
             //     Icon(
@@ -259,7 +271,7 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
             //     )
             //   ],
             // ),
-            6.h,
+            // 6.h,
             // Row(
             //   children: [
             //     Icon(
@@ -322,15 +334,17 @@ class ProductBubble extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                schedule.projectDetails?.name ?? '',
-                style: TextStyle(
-                    // color: Colors.green,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16),
+              Flexible(
+                child: Text(
+                  schedule.projectDetails?.name ?? '',
+                  style: TextStyle(
+                      // color: Colors.green,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16),
+                ),
               ),
-              Spacer(),
               Text(
                 '(${itemNumber + 1} of $totalItems)',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
@@ -342,18 +356,19 @@ class ProductBubble extends StatelessWidget {
             '#${schedule.deliveryId}',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
           ),
-          6.h,
+          12.h,
           Text(
             'Customer name',
             style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.normal),
           ),
+          6.h,
           Text(
             '${schedule.projectDetails?.firstname} ${schedule.projectDetails?.lastname}',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           6.h,
           divider(),
-          6.h,
+          12.h,
           Text(
             'Delivery address',
             style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.normal),
@@ -365,7 +380,7 @@ class ProductBubble extends StatelessWidget {
           ),
           6.h,
           divider(),
-          6.h,
+          12.h,
           Text(
             'Weight',
             style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.normal),
@@ -377,16 +392,45 @@ class ProductBubble extends StatelessWidget {
           ),
           6.h,
           divider(),
-          6.h,
+          12.h,
           Text(
             'Delivery cost',
             style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.normal),
           ),
           6.h,
           Text(
-            'Standard \u20b9${schedule.projectDetails?.totals?.toJson().values.reduce((value, element) => value + element) ?? 0}/-',
+            'Standard \u20b9${schedule.projectDetails?.totals?.shipping ?? 0}/-',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          )
+          ),
+          6.h,
+          divider(),
+          12.h,
+          Text(
+            'Product type',
+            style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.normal),
+          ),
+          6.h,
+          Text(
+            '${schedule.productType}',
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+          6.h,
+          divider(),
+          12.h,
+          Text(
+            'State',
+            style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.normal),
+          ),
+          6.h,
+          Text(
+            '${schedule.state}',
+            style: TextStyle(
+                color:
+                    schedule.state.toLowerCase().contains('finished') ? Colors.green : Colors.red,
+                fontSize: 14,
+                fontWeight: FontWeight.bold),
+          ),
+          6.h,
         ],
       ),
     );

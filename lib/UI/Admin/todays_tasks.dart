@@ -297,8 +297,9 @@ class PickupBubble extends StatelessWidget {
 }
 
 class DropBubble extends StatelessWidget {
-  const DropBubble({Key? key, required this.drop}) : super(key: key);
+  DropBubble({Key? key, required this.drop}) : super(key: key);
   final Drop drop;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -324,19 +325,25 @@ class DropBubble extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Viraj Patil',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                Flexible(
+                  child: Text(drop.customerName,
+                      style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14)),
                 ),
-                Spacer(),
-                Icon(
-                  Icons.access_time_rounded,
-                  color: Colors.black,
-                  size: 12,
-                ),
-                Text(
-                  '12 hrs',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.access_time_rounded,
+                      color: Colors.black,
+                      size: 12,
+                    ),
+                    Text(
+                      ' ----',
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 )
               ],
             ),
@@ -345,13 +352,22 @@ class DropBubble extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Shiv Malhar Colony, Hadapsar, Pune',
+                  // TODO: Ask short address to be given here
+                  '',
+                  // (pickup.address?.landmark ?? '') + ', ' + (pickup.address?.area ?? ''),
                   style: TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
                 ),
                 Spacer(),
                 Text(
-                  'Picked up',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+                  drop.status ?? '---',
+                  style: TextStyle(
+                      color: drop.status == 'completed'
+                          ? Colors.green
+                          : drop.status == 'unassigned'
+                              ? Colors.red
+                              : Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.normal),
                 )
               ],
             ),
@@ -361,15 +377,65 @@ class DropBubble extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Rajshekhar',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                  drop.team?.name ?? '----',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                 ),
                 5.w,
-                TextButton(onPressed: () {}, child: Text('Change')),
+                TextButton(
+                    onPressed: () async {
+                      if (context.read<TeamListProvider>().listAllActive.isNotEmpty) {
+                        await showModalBottomSheet(
+                            constraints:
+                                BoxConstraints(maxWidth: 0.9 * MediaQuery.of(context).size.width),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(18), topRight: Radius.circular(18))),
+                            context: context,
+                            builder: (context) =>
+                                Consumer<TeamListProvider>(builder: (context, listProvider, _) {
+                                  return ListView.separated(
+                                      padding: EdgeInsets.all(18),
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) => InkWell(
+                                            onTap: () async {
+                                              await context.read<TaskListProvider>().taskReassign(
+                                                  taskId: drop.taskId.toString(),
+                                                  teamId: listProvider.listAll[index].teamId
+                                                      .toString());
+                                              Navigator.pop(context);
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Radio(
+                                                  value: false,
+                                                  groupValue: drop.team?.teamId !=
+                                                      listProvider.listAllActive[index].teamId,
+                                                  onChanged: (_) {},
+                                                ),
+                                                5.w,
+                                                Text(
+                                                  listProvider.listAllActive[index].name ?? '',
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.w500, fontSize: 16),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                      separatorBuilder: (_, __) => 2.h,
+                                      itemCount: listProvider.listAllActive.length);
+                                }));
+                      } else {
+                        await showCustomSnackBar(context, Text('No delivery partners available'));
+                      }
+                    },
+                    child: Text(
+                      'Change',
+                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                    )),
                 Spacer(),
                 Text(
-                  '02 items',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                  '${drop.schedules.length} items',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 )
               ],
             )

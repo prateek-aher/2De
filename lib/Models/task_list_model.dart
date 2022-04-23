@@ -56,7 +56,9 @@ class Result {
   List<Pickup> pickups;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-        drops: json["drops"] == null ? <Drop>[] : List<Drop>.from(json["drops"].map((x) => x)),
+        drops: json["drops"] == null
+            ? <Drop>[]
+            : List<Drop>.from(json["drops"].map((x) => Drop.fromJson(x))),
         pickups: json["pickups"] == null
             ? <Pickup>[]
             : List<Pickup>.from(json["pickups"].map((x) => Pickup.fromJson(x))),
@@ -78,9 +80,8 @@ class Pickup {
     this.customerName = '',
     this.customerPhone = '',
     this.status,
-    this.creatorPhone = '',
+    this.creatorPhone,
     this.team,
-    this.id,
   });
 
   int? taskId;
@@ -91,9 +92,8 @@ class Pickup {
   String customerName;
   String customerPhone;
   String? status;
-  String creatorPhone;
+  String? creatorPhone;
   Team? team;
-  dynamic id;
 
   factory Pickup.fromJson(Map<String, dynamic> json) => Pickup(
         taskId: json["task_id"],
@@ -107,7 +107,6 @@ class Pickup {
         status: json["status"],
         creatorPhone: json["creator_phone"],
         team: json["team"] == null ? null : Team.fromJson(json["team"]),
-        id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -121,7 +120,6 @@ class Pickup {
         "status": status,
         "creator_phone": creatorPhone,
         "team": team?.toJson(),
-        "id": id,
       };
 }
 
@@ -137,7 +135,6 @@ class Drop {
     this.status,
     this.creatorPhone = '',
     this.team,
-    this.id,
   });
 
   int? taskId;
@@ -148,9 +145,8 @@ class Drop {
   String customerName;
   String customerPhone;
   String? status;
-  String creatorPhone;
+  String? creatorPhone;
   Team? team;
-  dynamic id;
 
   factory Drop.fromJson(Map<String, dynamic> json) => Drop(
         taskId: json["task_id"] == null ? null : json["task_id"],
@@ -164,7 +160,6 @@ class Drop {
         status: json["status"],
         creatorPhone: json["creator_phone"],
         team: json["team"] == null ? null : Team.fromJson(json["team"]),
-        id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -178,7 +173,6 @@ class Drop {
         "status": status,
         "creator_phone": creatorPhone,
         "team": team?.toJson(),
-        "id": id,
       };
 }
 
@@ -187,29 +181,21 @@ class Team {
     this.teamId,
     this.name = '',
     this.type,
-    // this.id,
-    this.id,
   });
 
   int? teamId;
   String name;
   String? type;
-  // String id;
-  String? id;
 
   factory Team.fromJson(Map<String, dynamic> json) => Team(
         teamId: json["team_id"] == null ? null : json["team_id"],
         name: json["name"] == null ? null : json["name"],
         type: json["type"] == null ? null : json["type"],
-        // id: json["_id"] == null ? null : json["_id"],
-        id: json["id"] == null ? null : json["id"],
       );
 
   Map<String, dynamic> toJson() => {
         "team_id": teamId == null ? null : teamId,
         "name": name == null ? null : name,
         "type": type == null ? null : type,
-        // "_id": id == null ? null : id,
-        "id": id == null ? null : id,
       };
 }

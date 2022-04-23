@@ -61,7 +61,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
         // qrResultCode = scanData;
         // TODO: Implement to accept not just any code
         if (scanData != null) {
-          _qrTextController.text = scanData.code ?? '';
+          _qrTextController.text = scanData.code;
           widget.package.barCode = _qrTextController.text;
           showScanner = false;
           scannerResult = true;
