@@ -304,10 +304,8 @@ class DropBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => DropTaskDetails(
-                  taskId: drop.taskId!,
-                )));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => DropTaskDetails(drop: drop)));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8),

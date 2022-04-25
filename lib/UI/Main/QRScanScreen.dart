@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
+import 'package:delivery/Providers/Manager/task_details_provider.dart';
 import 'package:delivery/UI/Main/TakePhoto.dart';
+import 'package:delivery/Utils/enumerations.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 // ignore: must_be_immutable
@@ -30,10 +33,14 @@ class _QRScanScreenState extends State<QRScanScreen> {
   QRViewController? controller;
 
   bool scannerResult = false;
+  late final TaskType _taskType;
 
   @override
   void initState() {
     _qrTextController = TextEditingController();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _taskType = context.read<TaskDetailsProvider>().taskType;
+    });
     super.initState();
   }
 
@@ -60,12 +67,10 @@ class _QRScanScreenState extends State<QRScanScreen> {
       setState(() {
         // qrResultCode = scanData;
         // TODO: Implement to accept not just any code
-        if (scanData != null) {
-          _qrTextController.text = scanData.code;
-          widget.package.barCode = _qrTextController.text;
-          showScanner = false;
-          scannerResult = true;
-        }
+        _qrTextController.text = scanData.code;
+        widget.package.barCode = _qrTextController.text;
+        showScanner = false;
+        scannerResult = true;
       });
     });
   }
@@ -218,6 +223,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
                                       if (v?.isEmpty ?? false) {
                                         return 'Package code needed';
                                       }
+                                      return null;
                                     },
                                     controller: _qrTextController,
                                     textCapitalization: TextCapitalization.characters,

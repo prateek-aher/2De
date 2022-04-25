@@ -78,20 +78,17 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
                     children: [
                       Flexible(
                           child: Consumer<TaskDetailsProvider>(
-                              builder: (context, detailsProvider, _) => Text(
-                                    detailsProvider.taskDetails.data?.result?.task?.creatorName ??
-                                        '',
+                              builder: (context, provider, _) => Text(
+                                    provider.taskDetails.data?.result?.task?.creatorName ?? '',
                                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                                   ))),
-                      Consumer<TaskDetailsProvider>(builder: (context, taskDetail, _) {
-                        return Text(
-                          '${taskDetail.taskDetails.data?.result?.schedules.length} items',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                        );
-                      })
+                      Consumer<TaskDetailsProvider>(
+                          builder: (context, taskDetail, _) => Text(
+                                '${taskDetail.taskDetails.data?.result?.schedules.length} items',
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                              ))
                     ],
                   ),
-                  // 6.h,
                   Consumer<TaskDetailsProvider>(builder: (context, provider, _) {
                     return TextButton(
                       onPressed: () async {
@@ -104,25 +101,44 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
                       ),
                     );
                   }),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.end,
-                  //   children: [
-                  //     Consumer<TaskDetailsProvider>(
-                  //         builder: (context, taskDetail, _){
-                  //         return Text(
-                  //           '<Shiv Malhar Colony, Hadapsar, Pune>',
-                  //           style: TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
-                  //         );
-                  //       }
-                  //     ),
-                  //     Spacer(),
-                  //     Text(
-                  //       '<Picked up>',
-                  //       style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
-                  //     )
-                  //   ],
-                  // ),
-                  // 6.h,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Flexible(
+                        child: Consumer<TaskDetailsProvider>(builder: (context, taskDetail, _) {
+                          PickupAddress? address =
+                              taskDetail.taskDetails.data?.result?.schedules.first.pickupAddress;
+                          return Text(
+                            [
+                              address?.flatNo,
+                              address?.street,
+                              address?.area,
+                              address?.landmark,
+                              address?.city,
+                              address?.state,
+                              address?.country,
+                              address?.pincode
+                            ].takeWhile((value) => value != null).join(', '),
+                            style: TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
+                          );
+                        }),
+                      ),
+                      10.w,
+                      Consumer<TaskDetailsProvider>(builder: (context, provider, _) {
+                        String? status = provider.taskDetails.data?.result?.task?.status;
+                        return Text(
+                          status?.toUpperCase() ?? '',
+                          style: TextStyle(
+                              color: (status?.toLowerCase().contains('completed') ?? false)
+                                  ? Colors.green
+                                  : Colors.red,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        );
+                      })
+                    ],
+                  ),
+                  6.h,
                   divider(),
                   // 12.h,
 
@@ -296,7 +312,7 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
               return Column(
                 children: List.generate(
                     details.taskDetails.data?.result?.schedules.length ?? 0,
-                    (index) => ProductBubble(
+                    (index) => PickupItemBubble(
                         schedule: details.taskDetails.data!.result!.schedules[index],
                         itemNumber: index,
                         totalItems: details.taskDetails.data?.result?.schedules.length ?? 0)),
@@ -309,8 +325,8 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
   }
 }
 
-class ProductBubble extends StatelessWidget {
-  ProductBubble({Key? key, this.itemNumber = 0, this.totalItems = 0, required this.schedule})
+class PickupItemBubble extends StatelessWidget {
+  PickupItemBubble({Key? key, this.itemNumber = 0, this.totalItems = 0, required this.schedule})
       : super(key: key);
   final int itemNumber;
   final int totalItems;
@@ -353,7 +369,7 @@ class ProductBubble extends StatelessWidget {
           ),
           6.h,
           Text(
-            '#${schedule.deliveryId}',
+            '#${schedule.projectId}',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
           ),
           12.h,
@@ -375,7 +391,15 @@ class ProductBubble extends StatelessWidget {
           ),
           6.h,
           Text(
-            '${schedule.dropAddress?.flatNo}',
+            [
+              schedule.dropAddress?.flatNo,
+              schedule.dropAddress?.street,
+              schedule.dropAddress?.area,
+              schedule.dropAddress?.landmark,
+              schedule.dropAddress?.city,
+              schedule.dropAddress?.country,
+              schedule.dropAddress?.pincode,
+            ].takeWhile((value) => value != null).join(', '), // '${schedule.dropAddress?.flatNo}',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           6.h,
@@ -423,7 +447,7 @@ class ProductBubble extends StatelessWidget {
           ),
           6.h,
           Text(
-            '${schedule.state}',
+            '${schedule.state.toUpperCase()}',
             style: TextStyle(
                 color:
                     schedule.state.toLowerCase().contains('finished') ? Colors.green : Colors.red,

@@ -440,11 +440,11 @@ class Task {
   int? teamId;
   TaskType taskType;
   List<int> schedules;
-  String creatorName;
-  String customerName;
-  String customerPhone;
-  String status;
-  String creatorPhone;
+  String? creatorName;
+  String? customerName;
+  String? customerPhone;
+  String? status;
+  String? creatorPhone;
   Team? team;
   // dynamic id;
 

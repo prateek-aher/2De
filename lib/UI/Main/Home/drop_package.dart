@@ -81,7 +81,7 @@ class _DropPackageState extends State<DropPackage> {
                       ],
                     ),
                   ),
-                  Text('#${widget.package.deliveryId}',
+                  Text('#${widget.package.orderId}',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                   12.h,
                   Image.network(

@@ -4,11 +4,13 @@ import 'package:delivery/Network/Api_Provider.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../Utils/constants/endpoints.dart';
+import '../../Utils/enumerations.dart';
 
 class TaskDetailsProvider extends ChangeNotifier {
   ApiProvider _apiProvider = ApiProvider();
   TaskDetailsModel _taskDetails = TaskDetailsModel();
   TaskDetailsModel get taskDetails => _taskDetails;
+  TaskType get taskType => _taskDetails.data!.result!.task!.taskType;
 
   Future<Null> getTaskDetails({required String taskId}) async {
     showLoading();

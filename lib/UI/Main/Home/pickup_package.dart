@@ -80,7 +80,7 @@ class _PickupPackageState extends State<PickupPackage> {
                       ],
                     ),
                   ),
-                  Text('#${widget.package.deliveryId}',
+                  Text('#${widget.package.orderId}',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                   12.h,
                   Image.network(
