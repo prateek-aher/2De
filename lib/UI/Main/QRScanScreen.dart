@@ -1,12 +1,11 @@
 import 'dart:io';
 
 import 'package:delivery/CommonWidget/CommonWidget.dart';
+import 'package:delivery/CommonWidget/CustomSnackBar.dart';
 import 'package:delivery/Models/FindTaskModel.dart';
-import 'package:delivery/Providers/Manager/task_details_provider.dart';
 import 'package:delivery/UI/Main/TakePhoto.dart';
 import 'package:delivery/Utils/enumerations.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 // ignore: must_be_immutable
@@ -14,9 +13,11 @@ class QRScanScreen extends StatefulWidget {
   QRScanScreen({
     Key? key,
     required this.package,
+    required this.taskType,
     /*this.onRefresh*/
   }) : super(key: key);
   final Package package;
+  final TaskType taskType;
   // VoidCallback? onRefresh;
   @override
   _QRScanScreenState createState() => _QRScanScreenState();
@@ -32,16 +33,14 @@ class _QRScanScreenState extends State<QRScanScreen> {
   QRViewController? controller;
 
   bool isObtainedFromScanner = false;
-  late final TaskType _taskType;
 
   String? barCode;
+
+  bool goodToGo = false;
 
   @override
   void initState() {
     _qrTextController = TextEditingController();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      _taskType = context.read<TaskDetailsProvider>().taskType;
-    });
     super.initState();
   }
 
@@ -66,8 +65,6 @@ class _QRScanScreenState extends State<QRScanScreen> {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       setState(() {
-        // qrResultCode = scanData;
-        // TODO: Implement to accept not just any code
         barCode = scanData.code;
         _qrTextController.text = barCode!;
         showScanner = false;
@@ -227,6 +224,11 @@ class _QRScanScreenState extends State<QRScanScreen> {
                                       if (v?.isEmpty ?? false) {
                                         return 'Package code needed';
                                       }
+                                      if (widget.taskType == TaskType.hubDrop ||
+                                          widget.taskType == TaskType.drop) {
+                                        if (v != widget.package.barCode)
+                                          return "Code doesn't match with code scanned at pickup";
+                                      }
                                       return null;
                                     },
                                     controller: _qrTextController,
@@ -245,19 +247,27 @@ class _QRScanScreenState extends State<QRScanScreen> {
                                     padding: const EdgeInsets.symmetric(vertical: 16)),
                                 onPressed: () async {
                                   if (isObtainedFromScanner) {
-                                    bool isScanSuccessful =
-                                        (await Navigator.of(context).push(MaterialPageRoute(
-                                                builder: (context) => TakePhotoScreen(
-                                                      barcode: _qrTextController.text,
-                                                      package: widget
-                                                          .package, /*onRefresh: widget.onRefresh*/
-                                                    )))) ??
-                                            false;
-                                    if (isScanSuccessful) {
-                                      Navigator.pop(context, true);
+                                    if (widget.taskType == TaskType.hubDrop ||
+                                        widget.taskType == TaskType.drop) {
+                                      if (barCode == widget.package.barCode) {
+                                        goodToGo = true;
+                                      } else {
+                                        showCustomSnackBar(
+                                            context,
+                                            Text(
+                                                'Package code doesn\'t match previously scanned code at the time of Pickup'));
+                                        goodToGo = false;
+                                      }
+                                    } else {
+                                      goodToGo = true;
                                     }
                                   } else if (_codeKey.currentState?.validate() ?? false) {
-                                    widget.package.barCode = _qrTextController.text;
+                                    goodToGo = true;
+                                  } else {
+                                    goodToGo = false;
+                                  }
+
+                                  if (goodToGo) {
                                     bool isScanSuccessful =
                                         (await Navigator.of(context).push(MaterialPageRoute(
                                                 builder: (context) => TakePhotoScreen(

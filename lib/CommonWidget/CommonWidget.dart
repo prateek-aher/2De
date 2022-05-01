@@ -1,4 +1,4 @@
-import 'package:delivery/CommonWidget/Snackbar.dart';
+import 'package:delivery/CommonWidget/CustomSnackBar.dart';
 import 'package:delivery/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +13,7 @@ void showLoading() {
             height: 40,
             width: 40,
             padding: EdgeInsets.all(8),
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
             child: CircularProgressIndicator(
               strokeWidth: 2,
               color: PRIMARY_COLOR,
@@ -40,8 +39,7 @@ extension SizedBoxExtension on num {
   SizedBox get w => SizedBox(width: this.toDouble());
 }
 
-EdgeInsetsGeometry containerPadding() =>
-    const EdgeInsets.symmetric(horizontal: 15, vertical: 20);
+EdgeInsetsGeometry containerPadding() => const EdgeInsets.symmetric(horizontal: 15, vertical: 20);
 
 OutlinedButton goBackButton(BuildContext context) => OutlinedButton(
     onPressed: () {

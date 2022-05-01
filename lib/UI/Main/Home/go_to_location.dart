@@ -133,16 +133,16 @@ class _GoToLocationState extends State<GoToLocation> {
                   4.h,
                   Text(
                       [
-                        address?.flatNumber,
-                        // address?.street,
-                        address?.area,
-                        // address?.city,
+                        // address?.flatNumber,
+                        address?.street,
+                        // address?.area,
+                        address?.city,
                         // address?.state,
                         // address?.country,
                         address?.pincode,
                       ].takeWhile((value) => value != null).join(', '),
                       // '${address?.flatNumber ?? ''}, ${address?.street??''}, ${address?.area ?? ''}, ${address?.city ?? ''}, ${address?.state ?? ''}, ${address?.country ?? ''}, ${address?.pincode ?? ''}',
-                      style: TextStyle(fontSize: 16)),
+                      style: TextStyle(color: Colors.black, fontSize: 16)),
                   16.h,
                   Visibility(
                     visible: address?.landmark != null,

@@ -105,12 +105,12 @@ class _DropPackageState extends State<DropPackage> {
                         address?.street,
                         address?.area,
                         address?.city,
-                        address?.state,
-                        address?.country,
+                        // address?.state,
+                        // address?.country,
                         currentTask?.task?.pincode ?? address?.pincode,
                       ].takeWhile((value) => value != null).join(', '),
                       // '${address?.flatNumber ?? ''}, ${address?.street??''}, ${address?.area ?? ''}, ${address?.city ?? ''}, ${address?.state ?? ''}, ${address?.country ?? ''}, ${address?.pincode ?? ''}',
-                      style: TextStyle(fontSize: 16)),
+                      style: TextStyle(color: Colors.black, fontSize: 16)),
                   20.h,
                   Visibility(
                     visible: address?.landmark != null,
@@ -175,7 +175,10 @@ class _DropPackageState extends State<DropPackage> {
                         onPressed: () async {
                           bool isScanSuccessful = (await Navigator.of(context).push<bool>(
                                 MaterialPageRoute(
-                                    builder: (context) => QRScanScreen(package: widget.package)),
+                                    builder: (context) => QRScanScreen(
+                                          package: widget.package,
+                                          taskType: taskType!,
+                                        )),
                               )) ??
                               false;
                           if (isScanSuccessful) {

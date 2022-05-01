@@ -1,5 +1,5 @@
 import 'package:delivery/CommonWidget/CommonWidget.dart';
-import 'package:delivery/CommonWidget/Snackbar.dart';
+import 'package:delivery/CommonWidget/CustomSnackBar.dart';
 import 'package:delivery/Network/Api_Provider.dart';
 import 'package:delivery/UI/Auth/NewAccount/enter_name.dart';
 import 'package:delivery/UI/Auth/enter_otp.dart';
@@ -36,12 +36,9 @@ class SendOtpProvider extends ChangeNotifier {
               hideLoading();
               if (!resend) {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EnterOtp(number: number)));
+                    context, MaterialPageRoute(builder: (context) => EnterOtp(number: number)));
               } else {
-                showCustomSnackBar(
-                    context, Text('An OTP has been sent to $number'));
+                showCustomSnackBar(context, Text('An OTP has been sent to $number'));
               }
             }
           }
@@ -52,9 +49,7 @@ class SendOtpProvider extends ChangeNotifier {
       } else if (response['status'] == "success") {
         hideLoading();
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => EnterPassword(number: _phoneNumber!)));
+            context, MaterialPageRoute(builder: (context) => EnterPassword(number: _phoneNumber!)));
       }
     } catch (e) {
       showLoading();
@@ -76,9 +71,7 @@ class SendOtpProvider extends ChangeNotifier {
                       )));
         } else {
           print(response);
-          showMessage(response['message'] ??
-              response['data']['result']['Error'] ??
-              'Error');
+          showMessage(response['message'] ?? response['data']['result']['Error'] ?? 'Error');
         }
       }
     } on Exception catch (e) {

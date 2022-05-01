@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:delivery/CommonWidget/CommonWidget.dart';
-import 'package:delivery/CommonWidget/Snackbar.dart';
+import 'package:delivery/CommonWidget/CustomSnackBar.dart';
 import 'package:delivery/Providers/SendOtpProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

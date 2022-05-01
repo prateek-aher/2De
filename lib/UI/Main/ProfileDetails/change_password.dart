@@ -1,4 +1,4 @@
-import 'package:delivery/CommonWidget/Snackbar.dart';
+import 'package:delivery/CommonWidget/CustomSnackBar.dart';
 import 'package:delivery/Models/change_password_model.dart';
 import 'package:delivery/Network/change_password.dart';
 import 'package:flutter/material.dart';
@@ -71,17 +71,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                       Text(
                         'Current Password',
                         style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[500],
-                            fontWeight: FontWeight.bold),
+                            fontSize: 14, color: Colors.grey[500], fontWeight: FontWeight.bold),
                       ),
                       TextFormField(
                         controller: _currentPassword,
                         maxLength: 50,
                         validator: (v) {
-                          return (v?.isEmpty ?? true)
-                              ? 'Insert Current password'
-                              : null;
+                          return (v?.isEmpty ?? true) ? 'Insert Current password' : null;
                         },
                         textInputAction: TextInputAction.next,
                         onEditingComplete: () {
@@ -91,9 +87,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                             suffix: InkWell(
-                              child: Icon(!isCurrentVisible
-                                  ? Icons.visibility_off
-                                  : Icons.visibility),
+                              child:
+                                  Icon(!isCurrentVisible ? Icons.visibility_off : Icons.visibility),
                               onTap: () {
                                 setState(() {
                                   isCurrentVisible = !isCurrentVisible;
@@ -106,9 +101,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       12.h,
                       Text('New Password',
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[500],
-                              fontWeight: FontWeight.bold)),
+                              fontSize: 14, color: Colors.grey[500], fontWeight: FontWeight.bold)),
                       TextFormField(
                         controller: _newPassword,
                         focusNode: _newPassNode,
@@ -130,9 +123,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         obscureText: !isNewVisible,
                         decoration: InputDecoration(
                             suffix: InkWell(
-                              child: Icon(!isNewVisible
-                                  ? Icons.visibility_off
-                                  : Icons.visibility),
+                              child: Icon(!isNewVisible ? Icons.visibility_off : Icons.visibility),
                               onTap: () {
                                 setState(() {
                                   isNewVisible = !isNewVisible;
@@ -148,9 +139,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       Text(
                         'Confirm Password',
                         style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[500],
-                            fontWeight: FontWeight.bold),
+                            fontSize: 14, color: Colors.grey[500], fontWeight: FontWeight.bold),
                       ),
                       TextFormField(
                         controller: _confirmPassword,
@@ -164,8 +153,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           if (_newPassword.text.isEmpty) {
                             return 'Insert new password first';
                           }
-                          if (_confirmPassword.text.trim() !=
-                              _newPassword.text.trim()) {
+                          if (_confirmPassword.text.trim() != _newPassword.text.trim()) {
                             return 'Passwords don\'t match';
                           }
                           return null;
@@ -178,9 +166,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                             color: Colors.grey[400],
                           ),
                           suffix: InkWell(
-                            child: Icon(!isConfirmVisible
-                                ? Icons.visibility_off
-                                : Icons.visibility),
+                            child:
+                                Icon(!isConfirmVisible ? Icons.visibility_off : Icons.visibility),
                             onTap: () {
                               setState(() {
                                 isConfirmVisible = !isConfirmVisible;
@@ -205,9 +192,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               },
                               child: Text('Cancel'))),
                       SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                      Expanded(
-                          child: ElevatedButton(
-                              onPressed: change, child: Text('Save')))
+                      Expanded(child: ElevatedButton(onPressed: change, child: Text('Save')))
                     ],
                   ),
                 )
@@ -241,8 +226,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       if ((model?.status?.toLowerCase() ?? '') == 'success') {
         hideLoading();
         Navigator.of(context).pop();
-        showCustomSnackBar(
-            context, Text(model?.data?.result!.message ?? 'Success'));
+        showCustomSnackBar(context, Text(model?.data?.result!.message ?? 'Success'));
       } else {
         hideLoading();
         showCustomSnackBar(context, Text(model?.data?.result!.error ?? 'Error'),

@@ -1,4 +1,4 @@
-import 'package:delivery/CommonWidget/Snackbar.dart';
+import 'package:delivery/CommonWidget/CustomSnackBar.dart';
 import 'package:delivery/Models/my_bag.dart';
 import 'package:delivery/Network/Api_Provider.dart';
 import 'package:delivery/Utils/constants/endpoints.dart';
@@ -66,8 +66,7 @@ class BagProvider extends ChangeNotifier {
           notifyListeners();
         } else {
           // reSet();
-          showCustomSnackBar(
-              context, Text("Your bag is empty. Find task to fill it."));
+          showCustomSnackBar(context, Text("Your bag is empty. Find task to fill it."));
         }
         notifyListeners();
       }

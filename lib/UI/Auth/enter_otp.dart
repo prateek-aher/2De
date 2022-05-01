@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:delivery/CommonWidget/CommonWidget.dart';
-import 'package:delivery/CommonWidget/Snackbar.dart';
+import 'package:delivery/CommonWidget/CustomSnackBar.dart';
 import 'package:delivery/Providers/SendOtpProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -88,8 +88,7 @@ class _EnterOtpState extends State<EnterOtp> {
                   Text(
                     'Enter OTP',
                     style: TextStyle(
-                        fontSize:
-                            Theme.of(context).textTheme.headline3!.fontSize,
+                        fontSize: Theme.of(context).textTheme.headline3!.fontSize,
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
@@ -100,8 +99,7 @@ class _EnterOtpState extends State<EnterOtp> {
                   ),
                   10.h,
                   InkWell(
-                    highlightColor:
-                        Theme.of(context).primaryColor.withOpacity(0.1),
+                    highlightColor: Theme.of(context).primaryColor.withOpacity(0.1),
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -109,8 +107,7 @@ class _EnterOtpState extends State<EnterOtp> {
                       'Change Phone Number',
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
-                        fontSize:
-                            Theme.of(context).textTheme.subtitle1!.fontSize,
+                        fontSize: Theme.of(context).textTheme.subtitle1!.fontSize,
                       ),
                     ),
                   ),
@@ -129,31 +126,21 @@ class _EnterOtpState extends State<EnterOtp> {
                                   textAlign: TextAlign.center,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey[300]!),
+                                      borderSide: BorderSide(color: Colors.grey[300]!),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
                                   keyboardType: TextInputType.phone,
                                   toolbarOptions: ToolbarOptions(
-                                      cut: false,
-                                      paste: false,
-                                      copy: false,
-                                      selectAll: false),
+                                      cut: false, paste: false, copy: false, selectAll: false),
                                   onChanged: (_) {
                                     if (index < 3) {
-                                      if (controllers[index]
-                                          .text
-                                          .trim()
-                                          .isNotEmpty) {
+                                      if (controllers[index].text.trim().isNotEmpty) {
                                         nodes[index + 1].requestFocus();
                                       } else if (index > 0) {
                                         nodes[index - 1].requestFocus();
                                       }
-                                    } else if (controllers[index]
-                                        .text
-                                        .trim()
-                                        .isNotEmpty) {
+                                    } else if (controllers[index].text.trim().isNotEmpty) {
                                       FocusScope.of(context).unfocus();
                                     } else {
                                       nodes[index - 1].requestFocus();
@@ -204,8 +191,8 @@ class _EnterOtpState extends State<EnterOtp> {
                           width: MediaQuery.of(context).size.width * 0.4,
                           child: ElevatedButton(
                               style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Theme.of(context).primaryColor)),
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Theme.of(context).primaryColor)),
                               onPressed: () async {
                                 FocusScope.of(context).unfocus();
                                 otp = '';
@@ -214,20 +201,16 @@ class _EnterOtpState extends State<EnterOtp> {
                                 });
                                 print('OTP typed: $otp');
                                 if (otp.isNotEmpty && otp.length == 4) {
-                                  String requestJson = json.encode({
-                                    "phone_no": this.widget.number,
-                                    "otp": otp
-                                  });
+                                  String requestJson =
+                                      json.encode({"phone_no": this.widget.number, "otp": otp});
                                   await context
                                       .read<SendOtpProvider>()
                                       .verifyOtp(requestJson, context);
                                 } else if (otp.length < 4) {
-                                  showCustomSnackBar(context,
-                                      Text('One or more fields are empty'),
+                                  showCustomSnackBar(context, Text('One or more fields are empty'),
                                       backgroundColor: Colors.red);
                                 } else {
-                                  showCustomSnackBar(
-                                      context, Text('Invalid OTP'),
+                                  showCustomSnackBar(context, Text('Invalid OTP'),
                                       backgroundColor: Colors.red);
                                 }
                                 // }
@@ -235,22 +218,16 @@ class _EnterOtpState extends State<EnterOtp> {
                               child: Text(
                                 'Submit',
                                 style: TextStyle(
-                                    fontSize: Theme.of(context)
-                                        .textTheme
-                                        .subtitle1!
-                                        .fontSize),
+                                    fontSize: Theme.of(context).textTheme.subtitle1!.fontSize),
                               ))),
                       Visibility(
                           visible: durationInSeconds <= 0,
                           child: TextButton(
                               onPressed: () async {
-                                String requestJson = jsonEncode(
-                                    {"phone_no": "${widget.number}"});
-                                await context.read<SendOtpProvider>().testCall(
-                                    requestJson,
-                                    widget.number ?? '',
-                                    context,
-                                    true);
+                                String requestJson = jsonEncode({"phone_no": "${widget.number}"});
+                                await context
+                                    .read<SendOtpProvider>()
+                                    .testCall(requestJson, widget.number ?? '', context, true);
                                 setState(() {
                                   durationInSeconds = 90;
                                 });

@@ -1,6 +1,6 @@
 import 'package:delivery/Animation/avatar_glow.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
-import 'package:delivery/CommonWidget/Snackbar.dart';
+import 'package:delivery/CommonWidget/CustomSnackBar.dart';
 import 'package:delivery/CommonWidget/custom_appbar.dart';
 import 'package:delivery/Providers/BagProvider.dart';
 import 'package:delivery/Providers/FindTaskProvider.dart';

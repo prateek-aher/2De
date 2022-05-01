@@ -1,4 +1,4 @@
-import 'package:delivery/CommonWidget/Snackbar.dart';
+import 'package:delivery/CommonWidget/CustomSnackBar.dart';
 import 'package:delivery/Providers/Manager/tasklist_provider.dart';
 import 'package:delivery/Providers/Manager/team_list_provider.dart';
 import 'package:delivery/UI/Admin/pickup_task_details.dart';
