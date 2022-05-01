@@ -25,13 +25,6 @@ class FindTaskModel {
         error: json["error"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "status": status,
-        "message": message,
-        "error": error,
-        "data": data?.toJson(),
-      };
 }
 
 class Data {
@@ -44,10 +37,6 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         result: json["result"] == null ? null : Result.fromJson(json["result"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "result": result?.toJson(),
-      };
 }
 
 class Result {
@@ -63,14 +52,8 @@ class Result {
         task: json["task"] == null ? null : Task.fromJson(json["task"]),
         packages: json["packages"] == null
             ? []
-            : List<Package>.from(
-                json["packages"].map((x) => Package.fromJson(x))),
+            : List<Package>.from(json["packages"].map((x) => Package.fromJson(x))),
       );
-
-  Map<String, dynamic> toJson() => {
-        "task": task?.toJson(),
-        "packages": List<dynamic>.from(packages.map((x) => x.toJson())),
-      };
 }
 
 class Package {
@@ -78,26 +61,26 @@ class Package {
     this.deliveryId,
     this.orderId,
     this.type,
-    this.weight = 0,
+    this.weight = 0.0,
     this.state,
     this.isCod,
     this.codAmount,
+    this.barCode = '',
 
     // for frontend use
-    this.barCode = '',
     this.file,
   });
 
   int? deliveryId;
   int? orderId;
   String? type;
-  double weight;
+  double? weight;
   String? state;
   bool? isCod;
   int? codAmount;
+  String? barCode;
 
   //for frontend use
-  String barCode;
   File? file;
 
   factory Package.fromJson(Map<String, dynamic> json) => Package(
@@ -108,17 +91,8 @@ class Package {
         state: json["state"],
         isCod: json["is_cod"],
         codAmount: json["cod_amount"],
+        barCode: json["barcode"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "delivery_id": deliveryId,
-        "order_id": orderId,
-        "type": type,
-        "weight": weight,
-        "state": state,
-        "is_cod": isCod,
-        "cod_amount": codAmount,
-      };
 }
 
 class Task {
@@ -129,8 +103,10 @@ class Task {
     this.latitude,
     this.longitude,
     this.pincode,
-    this.id,
+    // this.id,
     this.address,
+    this.status,
+    this.dis,
   });
 
   int? taskId;
@@ -139,34 +115,24 @@ class Task {
   double? latitude;
   double? longitude;
   String? pincode;
-  dynamic id;
+  // dynamic id;
   Address? address;
+  String? status;
+  double? dis;
 
   factory Task.fromJson(Map<String, dynamic> json) => Task(
-        taskId: json["task_id"] == null ? null : json["task_id"],
+        taskId: json["task_id"],
         taskType: jsonToTaskType(json["task_type"]),
-        schedules: json["schedules"] == null
-            ? []
-            : List<int>.from(json["schedules"].map((x) => x)),
+        schedules:
+            json["schedules"] == null ? <int>[] : List<int>.from(json["schedules"].map((x) => x)),
         latitude: json["latitude"] == null ? null : json["latitude"].toDouble(),
-        longitude:
-            json["longitude"] == null ? null : json["longitude"].toDouble(),
+        longitude: json["longitude"] == null ? null : json["longitude"].toDouble(),
         pincode: json["pincode"] == null ? null : json["pincode"],
-        id: json["id"],
-        address:
-            json["address"] == null ? null : Address.fromJson(json["address"]),
+        // id: json["id"],
+        address: json["address"] == null ? null : Address.fromJson(json["address"]),
+        status: json["status"],
+        dis: json["dis"] == null ? null : json["dis"].toDouble(),
       );
-
-  Map<String, dynamic> toJson() => {
-        "task_id": taskId == null ? null : taskId,
-        "task_type": taskTypeToJson(taskType),
-        "schedules": List<dynamic>.from(schedules.map((x) => x)),
-        "latitude": latitude,
-        "longitude": longitude,
-        "pincode": pincode,
-        "id": id,
-        "address": address?.toJson(),
-      };
 }
 
 TaskType jsonToTaskType(json) {
@@ -242,19 +208,4 @@ class Address {
         landmark: json["landmark"],
         pincode: json["pincode"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "street": street,
-        "area": area,
-        "city": city,
-        "state": state,
-        "flat_no": flatNumber,
-        "country": country,
-        "business_name": businessName,
-        "firstname": firstName,
-        "lastname": lastName,
-        "phone_no": phoneNumber,
-        "landmark": landmark,
-        "pincode": pincode,
-      };
 }

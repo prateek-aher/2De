@@ -1,14 +1,4 @@
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
-
-import 'dart:convert';
-
 import 'FindTaskModel.dart';
-
-MyBagModel welcomeFromJson(String str) => MyBagModel.fromJson(json.decode(str));
-
-String welcomeToJson(MyBagModel data) => json.encode(data.toJson());
 
 class MyBagModel {
   MyBagModel({
@@ -29,13 +19,6 @@ class MyBagModel {
         error: json["error"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "status": status,
-        "message": message == null ? '' : message,
-        "error": error,
-        "data": data?.toJson(),
-      };
 }
 
 class Data {
@@ -53,11 +36,6 @@ class Data {
             ? []
             : List<BagItem>.from(json["result"].map((x) => BagItem.fromJson(x))),
       );
-
-  Map<String, dynamic> toJson() => {
-        "count": count,
-        "result": List<dynamic>.from(result.map((x) => x.toJson())),
-      };
 }
 
 class BagItem {
@@ -121,24 +99,4 @@ class BagItem {
         dropDate: json["drop_date"],
         dropSlot: json["drop_slot"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "delivery_id": deliveryId,
-        "project_id": projectId,
-        "payment_id": paymentId,
-        "team_id": teamId,
-        "pickup_address": pickupAddress?.toJson(),
-        "drop_address": dropAddress?.toJson(),
-        "product_type": productType,
-        "weight": weight,
-        "pickup_time": pickupTime?.toIso8601String(),
-        "drop_time": dropTime?.toIso8601String(),
-        "pickup_images": pickupImages == [] ? null : List<dynamic>.from(pickupImages.map((x) => x)),
-        "state": state,
-        "id": id,
-        "exData": exData?.toIso8601String(),
-        "exData1": exData1?.toIso8601String(),
-        "drop_date": dropDate,
-        "drop_slot": dropSlot,
-      };
 }

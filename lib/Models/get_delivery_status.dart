@@ -17,20 +17,12 @@ class DeliveryStatusModel {
   dynamic error;
   Data? data;
 
-  factory DeliveryStatusModel.fromJson(Map<String, dynamic> json) =>
-      DeliveryStatusModel(
+  factory DeliveryStatusModel.fromJson(Map<String, dynamic> json) => DeliveryStatusModel(
         status: json["status"],
         message: json["message"],
         error: json["error"],
         data: Data.fromJson(json["data"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "status": status,
-        "message": message,
-        "error": error,
-        "data": data?.toJson(),
-      };
 }
 
 class Data {
@@ -43,10 +35,6 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         result: Result.fromJson(json["result"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "result": result?.toJson(),
-      };
 }
 
 class Result {
@@ -65,10 +53,4 @@ class Result {
         pickupAddress: Address.fromJson(json["pickup_address"]),
         dropAddress: Address.fromJson(json["drop_address"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "state": state,
-        "pickup_address": pickupAddress?.toJson(),
-        "drop_address": dropAddress?.toJson(),
-      };
 }

@@ -101,11 +101,11 @@ class _PickupPackageState extends State<PickupPackage> {
                   Text(
                       [
                         address?.flatNumber,
-                        address?.street,
+                        // address?.street,
                         address?.area,
-                        address?.city,
-                        address?.state,
-                        address?.country,
+                        // address?.city,
+                        // address?.state,
+                        // address?.country,
                         currentTask?.task?.pincode ?? address?.pincode,
                       ].takeWhile((value) => value != null).join(', '),
                       // '${address?.flatNumber ?? ''}, ${address?.street??''}, ${address?.area ?? ''}, ${address?.city ?? ''}, ${address?.state ?? ''}, ${address?.country ?? ''}, ${address?.pincode ?? ''}',

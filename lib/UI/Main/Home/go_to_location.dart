@@ -134,11 +134,11 @@ class _GoToLocationState extends State<GoToLocation> {
                   Text(
                       [
                         address?.flatNumber,
-                        address?.street,
+                        // address?.street,
                         address?.area,
-                        address?.city,
-                        address?.state,
-                        address?.country,
+                        // address?.city,
+                        // address?.state,
+                        // address?.country,
                         address?.pincode,
                       ].takeWhile((value) => value != null).join(', '),
                       // '${address?.flatNumber ?? ''}, ${address?.street??''}, ${address?.area ?? ''}, ${address?.city ?? ''}, ${address?.state ?? ''}, ${address?.country ?? ''}, ${address?.pincode ?? ''}',

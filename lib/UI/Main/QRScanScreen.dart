@@ -29,11 +29,12 @@ class _QRScanScreenState extends State<QRScanScreen> {
     debugLabel: 'QR',
   );
   final _codeKey = GlobalKey<FormState>();
-  Barcode? qrResultCode;
   QRViewController? controller;
 
-  bool scannerResult = false;
+  bool isObtainedFromScanner = false;
   late final TaskType _taskType;
+
+  String? barCode;
 
   @override
   void initState() {
@@ -67,10 +68,10 @@ class _QRScanScreenState extends State<QRScanScreen> {
       setState(() {
         // qrResultCode = scanData;
         // TODO: Implement to accept not just any code
-        _qrTextController.text = scanData.code;
-        widget.package.barCode = _qrTextController.text;
+        barCode = scanData.code;
+        _qrTextController.text = barCode!;
         showScanner = false;
-        scannerResult = true;
+        isObtainedFromScanner = true;
       });
     });
   }
@@ -109,6 +110,8 @@ class _QRScanScreenState extends State<QRScanScreen> {
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
                         ),
                         12.h,
+
+                        // QR view
                         Stack(
                           children: [
                             SizedBox(
@@ -181,6 +184,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
                           ],
                         ),
                         24.h,
+
                         TextButton(
                             onPressed: () {
                               setState(() {
@@ -201,21 +205,21 @@ class _QRScanScreenState extends State<QRScanScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Visibility(
-                              visible: scannerResult,
+                              visible: isObtainedFromScanner,
                               child: Column(
                                 children: [
                                   Text("Package code",
                                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                                   12.h,
                                   Text(
-                                    widget.package.barCode,
+                                    '$barCode',
                                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 48),
                                   ),
                                 ],
                               ),
                             ),
                             Visibility(
-                              visible: !scannerResult,
+                              visible: !isObtainedFromScanner,
                               child: Form(
                                 key: _codeKey,
                                 child: TextFormField(
@@ -227,6 +231,8 @@ class _QRScanScreenState extends State<QRScanScreen> {
                                     },
                                     controller: _qrTextController,
                                     textCapitalization: TextCapitalization.characters,
+                                    textInputAction: TextInputAction.done,
+                                    keyboardType: TextInputType.streetAddress,
                                     decoration: InputDecoration(
                                         hintText: 'Enter code here',
                                         hintStyle:
@@ -238,7 +244,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
                                 style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(vertical: 16)),
                                 onPressed: () async {
-                                  if (scannerResult) {
+                                  if (isObtainedFromScanner) {
                                     bool isScanSuccessful =
                                         (await Navigator.of(context).push(MaterialPageRoute(
                                                 builder: (context) => TakePhotoScreen(
