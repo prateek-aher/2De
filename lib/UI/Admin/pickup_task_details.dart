@@ -353,10 +353,7 @@ class PickupItemBubble extends StatelessWidget {
               Flexible(
                 child: Text(
                   schedule.projectDetails?.name ?? '',
-                  style: TextStyle(
-                      // color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
               Text(
