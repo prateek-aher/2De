@@ -100,9 +100,9 @@ class _PickupPackageState extends State<PickupPackage> {
                   6.h,
                   Text(
                       [
-                        // address?.flatNumber,
+                        address?.flatNumber,
                         address?.street,
-                        // address?.area,
+                        address?.area,
                         address?.city,
                         // address?.state,
                         // address?.country,

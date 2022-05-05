@@ -113,10 +113,10 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
                               address?.flatNo,
                               address?.street,
                               address?.area,
-                              address?.landmark,
+                              // address?.landmark,
                               address?.city,
-                              address?.state,
-                              address?.country,
+                              // address?.state,
+                              // address?.country,
                               address?.pincode
                             ].takeWhile((value) => value != null).join(', '),
                             style: TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
@@ -143,7 +143,7 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
                   // 12.h,
 
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Flexible(
                         flex: 3,
@@ -220,8 +220,6 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
                             'Change',
                             style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
                           )),
-                      Spacer(),
-                      TextButton(onPressed: () {}, child: Text('View Status'))
                     ],
                   )
                 ],
