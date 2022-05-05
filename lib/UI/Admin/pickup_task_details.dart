@@ -90,14 +90,19 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
                     ],
                   ),
                   Consumer<TaskDetailsProvider>(builder: (context, provider, _) {
-                    return TextButton(
-                      onPressed: () async {
-                        await launch(
-                            'tel:+91${provider.taskDetails.data?.result?.task?.creatorPhone}');
-                      },
-                      child: Text(
-                        'Contact Seller',
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    return Tooltip(
+                      message: provider.taskDetails.data?.result?.task?.customerPhone,
+                      child: TextButton(
+                        onPressed: provider.taskDetails.data?.result?.task?.status == 'completed'
+                            ? null
+                            : () async {
+                                await launch(
+                                    'tel:+91${provider.taskDetails.data?.result?.task?.creatorPhone}');
+                              },
+                        child: Text(
+                          'Contact Seller',
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     );
                   }),
@@ -159,71 +164,79 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
                         }),
                       ),
                       5.w,
-                      TextButton(
-                          onPressed: () {
-                            showModalBottomSheet(
-                                constraints: BoxConstraints(
-                                    maxWidth: 0.9 * MediaQuery.of(context).size.width),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(18),
-                                        topRight: Radius.circular(18))),
-                                context: context,
-                                builder: (context) =>
-                                    Consumer<TeamListProvider>(builder: (context, listProvider, _) {
-                                      return ListView.separated(
-                                          padding: EdgeInsets.all(18),
-                                          shrinkWrap: true,
-                                          itemBuilder: (context, index) => InkWell(
-                                                onTap: () async {
-                                                  // update task list
-                                                  await context
-                                                      .read<TaskListProvider>()
-                                                      .taskReassign(
-                                                          taskId: widget.taskId.toString(),
-                                                          teamId: listProvider.listAll[index].teamId
-                                                              .toString());
+                      Consumer<TaskDetailsProvider>(builder: (context, taskDetail, _) {
+                        return TextButton(
+                            onPressed: taskDetail.taskDetails.data?.result?.task?.status ==
+                                    'completed'
+                                ? null
+                                : () {
+                                    showModalBottomSheet(
+                                        constraints: BoxConstraints(
+                                            maxWidth: 0.9 * MediaQuery.of(context).size.width),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(18),
+                                                topRight: Radius.circular(18))),
+                                        context: context,
+                                        builder: (context) => Consumer<TeamListProvider>(
+                                                builder: (context, listProvider, _) {
+                                              return ListView.separated(
+                                                  padding: EdgeInsets.all(18),
+                                                  shrinkWrap: true,
+                                                  itemBuilder: (context, index) => InkWell(
+                                                        onTap: () async {
+                                                          // update task list
+                                                          await context
+                                                              .read<TaskListProvider>()
+                                                              .taskReassign(
+                                                                  taskId: widget.taskId.toString(),
+                                                                  teamId: listProvider
+                                                                      .listAll[index].teamId
+                                                                      .toString());
 
-                                                  // update task details
-                                                  await context
-                                                      .read<TaskDetailsProvider>()
-                                                      .getTaskDetails(
-                                                          taskId: widget.taskId.toString());
-
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Row(
-                                                  children: [
-                                                    Radio(
-                                                      value: false,
-                                                      groupValue: context
+                                                          // update task details
+                                                          await context
                                                               .read<TaskDetailsProvider>()
-                                                              .taskDetails
-                                                              .data
-                                                              ?.result
-                                                              ?.task
-                                                              ?.teamId !=
-                                                          listProvider.listAll[index].teamId,
-                                                      onChanged: (_) {},
-                                                    ),
-                                                    5.w,
-                                                    Text(
-                                                      listProvider.listAll[index].name ?? '',
-                                                      style: TextStyle(
-                                                          fontWeight: FontWeight.w500,
-                                                          fontSize: 16),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                          separatorBuilder: (_, __) => 2.h,
-                                          itemCount: listProvider.listAllActive.length);
-                                    }));
-                          },
-                          child: Text(
-                            'Change',
-                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-                          )),
+                                                              .getTaskDetails(
+                                                                  taskId: widget.taskId.toString());
+
+                                                          Navigator.pop(context);
+                                                        },
+                                                        child: Row(
+                                                          children: [
+                                                            Radio(
+                                                              value: false,
+                                                              groupValue: context
+                                                                      .read<TaskDetailsProvider>()
+                                                                      .taskDetails
+                                                                      .data
+                                                                      ?.result
+                                                                      ?.task
+                                                                      ?.teamId !=
+                                                                  listProvider
+                                                                      .listAll[index].teamId,
+                                                              onChanged: (_) {},
+                                                            ),
+                                                            5.w,
+                                                            Text(
+                                                              listProvider.listAll[index].name ??
+                                                                  '',
+                                                              style: TextStyle(
+                                                                  fontWeight: FontWeight.w500,
+                                                                  fontSize: 16),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                  separatorBuilder: (_, __) => 2.h,
+                                                  itemCount: listProvider.listAllActive.length);
+                                            }));
+                                  },
+                            child: Text(
+                              'Change',
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                            ));
+                      }),
                     ],
                   )
                 ],
@@ -459,15 +472,17 @@ class PickupItemBubble extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ))
               ],
-              onChanged: (double? value) async {
-                bool success = await provider.changeWeight(context,
-                    deliveryId: schedule.deliveryId,
-                    weight: value,
-                    cost: schedule.projectDetails?.totals?.shipping.toInt());
-                if (success) {
-                  provider.getTaskDetails(taskId: taskId.toString());
-                }
-              },
+              onChanged: provider.taskDetails.data?.result?.task?.status == 'completed'
+                  ? null
+                  : (double? value) async {
+                      bool success = await provider.changeWeight(context,
+                          deliveryId: schedule.deliveryId,
+                          weight: value,
+                          cost: schedule.projectDetails?.totals?.shipping.toInt());
+                      if (success) {
+                        provider.getTaskDetails(taskId: taskId.toString());
+                      }
+                    },
               isExpanded: true,
             );
           }),
