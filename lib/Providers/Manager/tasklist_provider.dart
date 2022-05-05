@@ -11,8 +11,15 @@ class TaskListProvider extends ChangeNotifier {
   ApiProvider _apiProvider = ApiProvider();
   List<Pickup> _pickupList = <Pickup>[];
   List<Drop> _dropList = <Drop>[];
-  List<Pickup> get pickupList => _pickupList;
-  List<Drop> get dropList => _dropList;
+  List<Pickup> get pickupList {
+    _pickupList.sort((a, b) => a.status?.compareTo(b?.status ?? '') ?? -1);
+    return _pickupList;
+  }
+
+  List<Drop> get dropList {
+    _dropList.sort((a, b) => a.status?.compareTo(b?.status ?? '') ?? -1);
+    return _dropList;
+  }
 
   Future<Null> refreshTaskList() async {
     // showLoading();
