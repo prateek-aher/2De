@@ -110,8 +110,11 @@ class _DropTaskDetailsState extends State<DropTaskDetails> {
                     children: [
                       Flexible(
                         child: Consumer<TaskDetailsProvider>(builder: (context, taskDetail, _) {
+                          // the condition is for just in case there are 0 items
                           DropAddress? address =
-                              taskDetail.taskDetails.data?.result?.schedules.first.dropAddress;
+                              (taskDetail.taskDetails.data?.result?.schedules.isNotEmpty ?? false)
+                                  ? taskDetail.taskDetails.data?.result?.schedules.first.dropAddress
+                                  : null;
                           return Text(
                             [
                               address?.flatNo,

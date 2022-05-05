@@ -106,8 +106,12 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
                     children: [
                       Flexible(
                         child: Consumer<TaskDetailsProvider>(builder: (context, taskDetail, _) {
+                          // the condition is for just in case there are 0 items
                           PickupAddress? address =
-                              taskDetail.taskDetails.data?.result?.schedules.first.pickupAddress;
+                              (taskDetail.taskDetails.data?.result?.schedules.isNotEmpty ?? false)
+                                  ? taskDetail
+                                      .taskDetails.data?.result?.schedules.first.pickupAddress
+                                  : null;
                           return Text(
                             [
                               address?.flatNo,

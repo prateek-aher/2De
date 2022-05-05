@@ -331,7 +331,7 @@ class DropBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => DropTaskDetails(drop: drop)));
@@ -346,149 +346,155 @@ class DropBubble extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
                 color: drop.status == 'completed' ? Color(0xfff4f3f8) : Colors.transparent)),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Text(drop.customerName,
-                      style: TextStyle(
-                          color: drop.status == 'completed' ? Colors.grey.withOpacity(0.5) : null,
-                          overflow: TextOverflow.ellipsis,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14)),
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.access_time_rounded,
-                      color:
-                          drop.status == 'completed' ? Colors.grey.withOpacity(0.5) : Colors.black,
-                      size: 12,
-                    ),
-                    Text(
-                      ' ----',
-                      style: TextStyle(
-                          color: drop.status == 'completed' ? Colors.grey.withOpacity(0.5) : null,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            6.h,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  // TODO: Ask short address to be given here
-                  '',
-                  // (pickup.address?.landmark ?? '') + ', ' + (pickup.address?.area ?? ''),
-                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
-                ),
-                Spacer(),
-                Text(
-                  drop.status == 'completed' ? 'At HUB' : drop.status?.toUpperCase() ?? '---',
-                  style: TextStyle(
-                      color: drop.status == 'completed'
-                          ? Colors.green.withOpacity(0.5)
-                          : drop.status == 'unassigned'
-                              ? Colors.red
-                              : Colors.black,
-                      fontSize: 12,
-                      fontWeight: FontWeight.normal),
-                )
-              ],
-            ),
-            6.h,
-            divider(),
-            // 6.h,
-            Row(
-              children: [
-                Text(
-                  drop.team?.name ?? '----',
-                  style: TextStyle(
-                      color: drop.status == 'completed' ? Colors.grey.withOpacity(0.5) : null,
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal),
-                ),
-                5.w,
-                TextButton(
-                    onPressed: drop.status == 'completed'
-                        ? null
-                        : () async {
-                            if (context.read<TeamListProvider>().listAllActive.isNotEmpty) {
-                              await showModalBottomSheet(
-                                  constraints: BoxConstraints(
-                                      maxWidth: 0.9 * MediaQuery.of(context).size.width),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(18),
-                                          topRight: Radius.circular(18))),
-                                  context: context,
-                                  builder: (context) => Consumer<TeamListProvider>(
-                                          builder: (context, listProvider, _) {
-                                        return ListView.separated(
-                                            padding: EdgeInsets.all(18),
-                                            shrinkWrap: true,
-                                            itemBuilder: (context, index) => InkWell(
-                                                  onTap: () async {
-                                                    await context
-                                                        .read<TaskListProvider>()
-                                                        .taskReassign(
-                                                            taskId: drop.taskId.toString(),
-                                                            teamId: listProvider
-                                                                .listAll[index].teamId
-                                                                .toString());
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Row(
-                                                    children: [
-                                                      Radio(
-                                                        value: false,
-                                                        groupValue: drop.team?.teamId !=
-                                                            listProvider
-                                                                .listAllActive[index].teamId,
-                                                        onChanged: (_) {},
-                                                      ),
-                                                      5.w,
-                                                      Text(
-                                                        listProvider.listAllActive[index].name ??
-                                                            '',
-                                                        style: TextStyle(
-                                                            fontWeight: FontWeight.w500,
-                                                            fontSize: 16),
-                                                      ),
-                                                    ],
+        child: Ink(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text(drop.customerName,
+                        style: TextStyle(
+                            color: drop.status == 'completed' ? Colors.grey.withOpacity(0.5) : null,
+                            overflow: TextOverflow.ellipsis,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14)),
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.access_time_rounded,
+                        color: drop.status == 'completed'
+                            ? Colors.grey.withOpacity(0.5)
+                            : Colors.black,
+                        size: 12,
+                      ),
+                      Text(
+                        ' ----',
+                        style: TextStyle(
+                            color: drop.status == 'completed' ? Colors.grey.withOpacity(0.5) : null,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              6.h,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    // TODO: Ask short address to be given here
+                    '',
+                    // (pickup.address?.landmark ?? '') + ', ' + (pickup.address?.area ?? ''),
+                    style: TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
+                  ),
+                  Spacer(),
+                  Text(
+                    drop.status == 'completed' ? 'At HUB' : drop.status?.toUpperCase() ?? '---',
+                    style: TextStyle(
+                        color: drop.status == 'completed'
+                            ? Colors.green.withOpacity(0.5)
+                            : drop.status == 'unassigned'
+                                ? Colors.red
+                                : Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal),
+                  )
+                ],
+              ),
+              6.h,
+              divider(),
+              // 6.h,
+              Row(
+                children: [
+                  Text(
+                    drop.team?.name ?? '----',
+                    style: TextStyle(
+                        color: drop.status == 'completed' ? Colors.grey.withOpacity(0.5) : null,
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal),
+                  ),
+                  5.w,
+                  TextButton(
+                      onPressed: drop.status == 'completed'
+                          ? null
+                          : () async {
+                              if (context.read<TeamListProvider>().listAllActive.isNotEmpty) {
+                                await showModalBottomSheet(
+                                    constraints: BoxConstraints(
+                                        maxWidth: 0.9 * MediaQuery.of(context).size.width),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(18),
+                                            topRight: Radius.circular(18))),
+                                    context: context,
+                                    builder: (context) => Consumer<TeamListProvider>(
+                                            builder: (context, listProvider, _) {
+                                          return ListView.separated(
+                                              padding: EdgeInsets.all(18),
+                                              shrinkWrap: true,
+                                              itemBuilder: (context, index) => InkWell(
+                                                    onTap: () async {
+                                                      await context
+                                                          .read<TaskListProvider>()
+                                                          .taskReassign(
+                                                              taskId: drop.taskId.toString(),
+                                                              teamId: listProvider
+                                                                  .listAll[index].teamId
+                                                                  .toString());
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Row(
+                                                      children: [
+                                                        Radio(
+                                                          value: false,
+                                                          groupValue: drop.team?.teamId !=
+                                                              listProvider
+                                                                  .listAllActive[index].teamId,
+                                                          onChanged: (_) {},
+                                                        ),
+                                                        5.w,
+                                                        Text(
+                                                          listProvider.listAllActive[index].name ??
+                                                              '',
+                                                          style: TextStyle(
+                                                              fontWeight: FontWeight.w500,
+                                                              fontSize: 16),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                            separatorBuilder: (_, __) => 2.h,
-                                            itemCount: listProvider.listAllActive.length);
-                                      }));
-                            } else {
-                              await showCustomSnackBar(
-                                  context, Text('No delivery partners available'));
-                            }
-                          },
-                    child: Text(
-                      'Change',
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-                    )),
-                Spacer(),
-                Text(
-                  '${drop.schedules.length} items',
-                  style: TextStyle(
-                      color: drop.status == 'completed' ? Colors.grey.withOpacity(0.5) : null,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
-                )
-              ],
-            )
-          ],
+                                              separatorBuilder: (_, __) => 2.h,
+                                              itemCount: listProvider.listAllActive.length);
+                                        }));
+                              } else {
+                                await showCustomSnackBar(
+                                    context, Text('No delivery partners available'));
+                              }
+                            },
+                      child: Text(
+                        'Change',
+                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                      )),
+                  Spacer(),
+                  Text(
+                    '${drop.schedules.length} items',
+                    style: TextStyle(
+                        color: drop.status == 'completed' ? Colors.grey.withOpacity(0.5) : null,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
