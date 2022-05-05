@@ -60,16 +60,16 @@ class Schedule {
     this.dropAddress,
     this.productType = '',
     this.weight = 0.0,
-    this.pickupTime,
-    this.dropTime,
-    this.hasLeftForPickup,
-    this.pickupLeftForTime,
-    this.hasReachedPickup,
-    this.pickupReachedTime,
-    this.hasLeftForDrop,
-    this.dropLeftForTime,
-    this.hasReachedDrop,
-    this.dropReachedTime,
+    // this.pickupTime,
+    // this.dropTime,
+    // this.hasLeftForPickup,
+    // this.pickupLeftForTime,
+    // this.hasReachedPickup,
+    // this.pickupReachedTime,
+    // this.hasLeftForDrop,
+    // this.dropLeftForTime,
+    // this.hasReachedDrop,
+    // this.dropReachedTime,
     this.state = '',
     this.projectDetails,
   });
@@ -80,16 +80,16 @@ class Schedule {
   DropAddress? dropAddress;
   String? productType;
   double? weight;
-  DateTime? pickupTime;
-  DateTime? dropTime;
-  bool? hasLeftForPickup;
-  DateTime? pickupLeftForTime;
-  bool? hasReachedPickup;
-  DateTime? pickupReachedTime;
-  bool? hasLeftForDrop;
-  DateTime? dropLeftForTime;
-  bool? hasReachedDrop;
-  DateTime? dropReachedTime;
+  // DateTime? pickupTime;
+  // DateTime? dropTime;
+  // bool? hasLeftForPickup;
+  // DateTime? pickupLeftForTime;
+  // bool? hasReachedPickup;
+  // DateTime? pickupReachedTime;
+  // bool? hasLeftForDrop;
+  // DateTime? dropLeftForTime;
+  // bool? hasReachedDrop;
+  // DateTime? dropReachedTime;
   String state;
   ProjectDetails? projectDetails;
 
@@ -102,21 +102,20 @@ class Schedule {
             json["drop_address"] == null ? null : DropAddress.fromJson(json["drop_address"]),
         productType: json["product_type"] == null ? '' : json["product_type"],
         weight: json["weight"] == null ? null : json["weight"].toDouble(),
-        pickupTime: DateFormat.Hm().parse(json['pickup_time']),
-        dropTime: DateFormat.Hm().parse(json["drop_time"]),
-        hasLeftForPickup: json["has_left_for_pickup"] == null ? null : json["has_left_for_pickup"],
-        pickupLeftForTime: DateFormat.Hm().parse(json["pickup_left_for_time"]),
-        hasReachedPickup: json["has_reached_pickup"] == null ? null : json["has_reached_pickup"],
-        pickupReachedTime: DateFormat.Hm().parse(json["pickup_reached_time"]),
-        hasLeftForDrop: json["has_left_for_drop"] == null ? null : json["has_left_for_drop"],
-        dropLeftForTime: DateFormat.Hm().parse(json["drop_left_for_time"]),
-        hasReachedDrop: json["has_reached_drop"] == null ? null : json["has_reached_drop"],
-        dropReachedTime: DateFormat.Hm().parse(json["drop_reached_time"]),
+        // pickupTime: DateFormat.Hm().parse(json['pickup_time']),
+        // dropTime: DateFormat.Hm().parse(json["drop_time"]),
+        // hasLeftForPickup: json["has_left_for_pickup"] == null ? null : json["has_left_for_pickup"],
+        // pickupLeftForTime: DateFormat.Hm().parse(json["pickup_left_for_time"]),
+        // hasReachedPickup: json["has_reached_pickup"] == null ? null : json["has_reached_pickup"],
+        // pickupReachedTime: DateFormat.Hm().parse(json["pickup_reached_time"]),
+        // hasLeftForDrop: json["has_left_for_drop"] == null ? null : json["has_left_for_drop"],
+        // dropLeftForTime: DateFormat.Hm().parse(json["drop_left_for_time"]),
+        // hasReachedDrop: json["has_reached_drop"] == null ? null : json["has_reached_drop"],
+        // dropReachedTime: DateFormat.Hm().parse(json["drop_reached_time"]),
         state: json["state"] == null ? '' : json["state"],
         projectDetails: json["project_details"] == null
             ? null
             : ProjectDetails.fromJson(json["project_details"]),
-        // id: json["id"],
       );
 }
 
@@ -157,19 +156,6 @@ class DropAddress {
         pincode: json["pincode"] == null ? '' : json["pincode"].toString(),
         phoneNo: json["phone_no"] == null ? '' : json["phone_no"],
       );
-
-  // Map<String, dynamic> toJson() => {
-  //       "firstname": firstname == null ? null : firstname,
-  //       "lastname": lastname == null ? null : lastname,
-  //       "flat_no": flatNo == null ? null : flatNo,
-  //       "street": street == null ? null : street,
-  //       "area": area == null ? null : area,
-  //       "city": city == null ? null : city,
-  //       "landmark": landmark == null ? null : landmark,
-  //       "country": country == null ? null : country,
-  //       "pincode": pincode == null ? null : pincode,
-  //       "phone_no": phoneNo == null ? null : phoneNo,
-  //     };
 }
 
 class PickupAddress {
@@ -264,20 +250,6 @@ class ProjectDetails {
         totals: json["totals"] == null ? null : Totals.fromJson(json["totals"]),
         projectDetailsId: json["id"] == null ? '' : json["id"],
       );
-
-  // Map<String, dynamic> toJson() => {
-  //       "project_id": projectId == null ? null : projectId,
-  //       "name": name == null ? null : name,
-  //       "quantity": quantity == null ? null : quantity,
-  //       "weight": weight == null ? null : weight,
-  //       "address": address?.toJson(),
-  //       "firstname": firstname == null ? null : firstname,
-  //       "lastname": lastname == null ? null : lastname,
-  //       "phone_no": phoneNo == null ? null : phoneNo,
-  //       "_id": id == null ? null : id,
-  //       "totals": totals?.toJson(),
-  //       "id": projectDetailsId == null ? null : projectDetailsId,
-  //     };
 }
 
 class Address {
@@ -320,20 +292,6 @@ class Address {
         location: json["location"] == null ? '' : json["location"],
         landmark: json["landmark"] == null ? '' : json["landmark"],
       );
-
-  // Map<String, dynamic> toJson() => {
-  //       "flat_no": flatNo == null ? null : flatNo,
-  //       "street": street == null ? null : street,
-  //       "area": area == null ? null : area,
-  //       "city": city == null ? null : city,
-  //       "state": state == null ? null : state,
-  //       "country": country == null ? null : country,
-  //       "latitude": latitude == null ? null : latitude,
-  //       "longitude": longitude == null ? null : longitude,
-  //       "pincode": pincode == null ? null : pincode,
-  //       "location": location == null ? null : location,
-  //       "landmark": landmark == null ? null : landmark,
-  //     };
 }
 
 class Totals {
@@ -393,7 +351,8 @@ class Task {
         taskId: json["task_id"],
         teamId: json["team_id"],
         taskType: jsonToTaskType(json["task_type"]),
-        schedules: json["schedules"] ?? <int>[],
+        schedules:
+            json["schedules"] == null ? <int>[] : List<int>.from(json["schedules"].map((x) => x)),
         creatorName: json["creator_name"],
         customerName: json["customer_name"],
         customerPhone: json["customer_phone"],

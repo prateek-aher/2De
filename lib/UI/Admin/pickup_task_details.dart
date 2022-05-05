@@ -311,6 +311,7 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
                 children: List.generate(
                     details.taskDetails.data?.result?.schedules.length ?? 0,
                     (index) => PickupItemBubble(
+                        taskId: widget.taskId,
                         schedule: details.taskDetails.data!.result!.schedules[index],
                         itemNumber: index,
                         totalItems: details.taskDetails.data?.result?.schedules.length ?? 0)),
@@ -324,8 +325,14 @@ class _PickupTaskDetailsState extends State<PickupTaskDetails> {
 }
 
 class PickupItemBubble extends StatelessWidget {
-  PickupItemBubble({Key? key, this.itemNumber = 0, this.totalItems = 0, required this.schedule})
+  PickupItemBubble(
+      {Key? key,
+      this.itemNumber = 0,
+      this.totalItems = 0,
+      required this.schedule,
+      required this.taskId})
       : super(key: key);
+  final int taskId;
   final int itemNumber;
   final int totalItems;
   final Schedule schedule;
@@ -390,9 +397,9 @@ class PickupItemBubble extends StatelessWidget {
               schedule.dropAddress?.flatNo,
               schedule.dropAddress?.street,
               schedule.dropAddress?.area,
-              schedule.dropAddress?.landmark,
+              // schedule.dropAddress?.landmark,
               schedule.dropAddress?.city,
-              schedule.dropAddress?.country,
+              // schedule.dropAddress?.country,
               schedule.dropAddress?.pincode,
             ].takeWhile((value) => value != null).join(', '), // '${schedule.dropAddress?.flatNo}',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
@@ -404,12 +411,63 @@ class PickupItemBubble extends StatelessWidget {
             'Weight',
             style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.normal),
           ),
-          6.h,
-          Text(
-            '${schedule.weight} kg',
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          ),
-          6.h,
+          // 6.h,
+          Consumer<TaskDetailsProvider>(builder: (context, provider, _) {
+            return DropdownButton<double?>(
+              value: schedule.weight == null
+                  ? null
+                  : schedule.weight! <= 2.5
+                      ? 2.5
+                      : schedule.weight! <= 5
+                          ? 5
+                          : schedule.weight! <= 7.5
+                              ? 7.5
+                              : 10,
+              items: [
+                DropdownMenuItem<double?>(
+                    value: null,
+                    child: Text(
+                      'Not selected',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                DropdownMenuItem<double?>(
+                    value: 2.5,
+                    child: Text(
+                      '0kg - 2.5kg',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                DropdownMenuItem<double?>(
+                    value: 5,
+                    child: Text(
+                      '2.5kg - 5kg',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                DropdownMenuItem<double?>(
+                    value: 7.5,
+                    child: Text(
+                      '5kg - 7.5kg',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                DropdownMenuItem<double?>(
+                    value: 10.0,
+                    child: Text(
+                      '7.5kg - 10kg',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ))
+              ],
+              onChanged: (double? value) async {
+                bool success = await provider.changeWeight(context,
+                    deliveryId: schedule.deliveryId,
+                    weight: value,
+                    cost: schedule.projectDetails?.totals?.shipping.toInt());
+                if (success) {
+                  provider.getTaskDetails(taskId: taskId.toString());
+                }
+              },
+              isExpanded: true,
+            );
+          }),
+          // 6.h,
           divider(),
           12.h,
           Text(

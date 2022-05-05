@@ -344,10 +344,7 @@ class DropItemBubble extends StatelessWidget {
               Flexible(
                 child: Text(
                   schedule.projectDetails?.name.toUpperCase() ?? '',
-                  style: TextStyle(
-                      // color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
               Text(
