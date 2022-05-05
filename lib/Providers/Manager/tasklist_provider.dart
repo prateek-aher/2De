@@ -12,12 +12,12 @@ class TaskListProvider extends ChangeNotifier {
   List<Pickup> _pickupList = <Pickup>[];
   List<Drop> _dropList = <Drop>[];
   List<Pickup> get pickupList {
-    _pickupList.sort((a, b) => a.status?.compareTo(b?.status ?? '') ?? -1);
+    _pickupList.sort((a, b) => a.status?.compareTo(b.status ?? '') ?? -1);
     return _pickupList;
   }
 
   List<Drop> get dropList {
-    _dropList.sort((a, b) => a.status?.compareTo(b?.status ?? '') ?? -1);
+    _dropList.sort((a, b) => a.status?.compareTo(b.status ?? '') ?? -1);
     return _dropList;
   }
 

@@ -165,9 +165,10 @@ class PickupBubble extends StatelessWidget {
         // height: 100,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Color(0xfff4f3f8),
-          borderRadius: BorderRadius.circular(12),
-        ),
+            color: pickup.status == 'completed' ? Colors.transparent : Color(0xfff4f3f8),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+                color: pickup.status == 'completed' ? Color(0xfff4f3f8) : Colors.transparent)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -178,6 +179,7 @@ class PickupBubble extends StatelessWidget {
                 Flexible(
                   child: Text(pickup.creatorName,
                       style: TextStyle(
+                          color: pickup.status == 'completed' ? Colors.grey.withOpacity(0.5) : null,
                           overflow: TextOverflow.ellipsis,
                           fontWeight: FontWeight.bold,
                           fontSize: 14)),
@@ -186,12 +188,19 @@ class PickupBubble extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.access_time_rounded,
-                      color: Colors.black,
+                      color: pickup.status == 'completed'
+                          ? Colors.grey.withOpacity(0.5)
+                          : Colors.black,
                       size: 12,
                     ),
                     Text(
                       ' ----',
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: pickup.status == 'completed'
+                              ? Colors.grey.withOpacity(0.5)
+                              : Colors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 )
@@ -209,10 +218,10 @@ class PickupBubble extends StatelessWidget {
                 ),
                 Spacer(),
                 Text(
-                  pickup.status ?? '---',
+                  pickup.status == 'completed' ? 'At HUB' : pickup.status?.toUpperCase() ?? '---',
                   style: TextStyle(
                       color: pickup.status == 'completed'
-                          ? Colors.green
+                          ? Colors.green.withOpacity(0.5)
                           : pickup.status == 'unassigned'
                               ? Colors.red
                               : Colors.black,
@@ -228,56 +237,71 @@ class PickupBubble extends StatelessWidget {
               children: [
                 Text(
                   pickup.team?.name ?? '----',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
+                  style: TextStyle(
+                      color: pickup.status == 'completed'
+                          ? Colors.grey.withOpacity(0.5)
+                          : Colors.black,
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal),
                 ),
                 5.w,
                 TextButton(
-                    onPressed: () async {
-                      if (context.read<TeamListProvider>().listAllActive.isNotEmpty) {
-                        await showModalBottomSheet(
-                            constraints:
-                                BoxConstraints(maxWidth: 0.9 * MediaQuery.of(context).size.width),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(18), topRight: Radius.circular(18))),
-                            context: context,
-                            builder: (context) =>
-                                Consumer<TeamListProvider>(builder: (context, listProvider, _) {
-                                  return ListView.separated(
-                                      padding: EdgeInsets.all(18),
-                                      shrinkWrap: true,
-                                      itemBuilder: (context, index) => InkWell(
-                                            onTap: () async {
-                                              await context.read<TaskListProvider>().taskReassign(
-                                                  taskId: pickup.taskId.toString(),
-                                                  teamId: listProvider.listAll[index].teamId
-                                                      .toString());
-                                              Navigator.pop(context);
-                                            },
-                                            child: Row(
-                                              children: [
-                                                Radio(
-                                                  value: false,
-                                                  groupValue: pickup.team?.teamId !=
-                                                      listProvider.listAllActive[index].teamId,
-                                                  onChanged: (_) {},
+                    onPressed: pickup.status == 'completed'
+                        ? null
+                        : () async {
+                            if (context.read<TeamListProvider>().listAllActive.isNotEmpty) {
+                              await showModalBottomSheet(
+                                  constraints: BoxConstraints(
+                                      maxWidth: 0.9 * MediaQuery.of(context).size.width),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(18),
+                                          topRight: Radius.circular(18))),
+                                  context: context,
+                                  builder: (context) => Consumer<TeamListProvider>(
+                                          builder: (context, listProvider, _) {
+                                        return ListView.separated(
+                                            padding: EdgeInsets.all(18),
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) => InkWell(
+                                                  onTap: () async {
+                                                    await context
+                                                        .read<TaskListProvider>()
+                                                        .taskReassign(
+                                                            taskId: pickup.taskId.toString(),
+                                                            teamId: listProvider
+                                                                .listAll[index].teamId
+                                                                .toString());
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Radio(
+                                                        value: false,
+                                                        groupValue: pickup.team?.teamId !=
+                                                            listProvider
+                                                                .listAllActive[index].teamId,
+                                                        onChanged: (_) {},
+                                                      ),
+                                                      5.w,
+                                                      Text(
+                                                        listProvider.listAllActive[index].name ??
+                                                            '',
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: 16),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                                5.w,
-                                                Text(
-                                                  listProvider.listAllActive[index].name ?? '',
-                                                  style: TextStyle(
-                                                      fontWeight: FontWeight.w500, fontSize: 16),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                      separatorBuilder: (_, __) => 2.h,
-                                      itemCount: listProvider.listAllActive.length);
-                                }));
-                      } else {
-                        await showCustomSnackBar(context, Text('No delivery partners available'));
-                      }
-                    },
+                                            separatorBuilder: (_, __) => 2.h,
+                                            itemCount: listProvider.listAllActive.length);
+                                      }));
+                            } else {
+                              await showCustomSnackBar(
+                                  context, Text('No delivery partners available'));
+                            }
+                          },
                     child: Text(
                       'Change',
                       style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
@@ -285,7 +309,12 @@ class PickupBubble extends StatelessWidget {
                 Spacer(),
                 Text(
                   '${pickup.schedules.length} items',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: pickup.status == 'completed'
+                          ? Colors.grey.withOpacity(0.5)
+                          : Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold),
                 )
               ],
             )
@@ -313,9 +342,10 @@ class DropBubble extends StatelessWidget {
         // height: 100,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Color(0xfff4f3f8),
-          borderRadius: BorderRadius.circular(12),
-        ),
+            color: drop.status == 'completed' ? Colors.transparent : Color(0xfff4f3f8),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+                color: drop.status == 'completed' ? Color(0xfff4f3f8) : Colors.transparent)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -326,6 +356,7 @@ class DropBubble extends StatelessWidget {
                 Flexible(
                   child: Text(drop.customerName,
                       style: TextStyle(
+                          color: drop.status == 'completed' ? Colors.grey.withOpacity(0.5) : null,
                           overflow: TextOverflow.ellipsis,
                           fontWeight: FontWeight.bold,
                           fontSize: 14)),
@@ -334,12 +365,16 @@ class DropBubble extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.access_time_rounded,
-                      color: Colors.black,
+                      color:
+                          drop.status == 'completed' ? Colors.grey.withOpacity(0.5) : Colors.black,
                       size: 12,
                     ),
                     Text(
                       ' ----',
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: drop.status == 'completed' ? Colors.grey.withOpacity(0.5) : null,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 )
@@ -357,10 +392,10 @@ class DropBubble extends StatelessWidget {
                 ),
                 Spacer(),
                 Text(
-                  drop.status ?? '---',
+                  drop.status == 'completed' ? 'At HUB' : drop.status?.toUpperCase() ?? '---',
                   style: TextStyle(
                       color: drop.status == 'completed'
-                          ? Colors.green
+                          ? Colors.green.withOpacity(0.5)
                           : drop.status == 'unassigned'
                               ? Colors.red
                               : Colors.black,
@@ -376,56 +411,69 @@ class DropBubble extends StatelessWidget {
               children: [
                 Text(
                   drop.team?.name ?? '----',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
+                  style: TextStyle(
+                      color: drop.status == 'completed' ? Colors.grey.withOpacity(0.5) : null,
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal),
                 ),
                 5.w,
                 TextButton(
-                    onPressed: () async {
-                      if (context.read<TeamListProvider>().listAllActive.isNotEmpty) {
-                        await showModalBottomSheet(
-                            constraints:
-                                BoxConstraints(maxWidth: 0.9 * MediaQuery.of(context).size.width),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(18), topRight: Radius.circular(18))),
-                            context: context,
-                            builder: (context) =>
-                                Consumer<TeamListProvider>(builder: (context, listProvider, _) {
-                                  return ListView.separated(
-                                      padding: EdgeInsets.all(18),
-                                      shrinkWrap: true,
-                                      itemBuilder: (context, index) => InkWell(
-                                            onTap: () async {
-                                              await context.read<TaskListProvider>().taskReassign(
-                                                  taskId: drop.taskId.toString(),
-                                                  teamId: listProvider.listAll[index].teamId
-                                                      .toString());
-                                              Navigator.pop(context);
-                                            },
-                                            child: Row(
-                                              children: [
-                                                Radio(
-                                                  value: false,
-                                                  groupValue: drop.team?.teamId !=
-                                                      listProvider.listAllActive[index].teamId,
-                                                  onChanged: (_) {},
+                    onPressed: drop.status == 'completed'
+                        ? null
+                        : () async {
+                            if (context.read<TeamListProvider>().listAllActive.isNotEmpty) {
+                              await showModalBottomSheet(
+                                  constraints: BoxConstraints(
+                                      maxWidth: 0.9 * MediaQuery.of(context).size.width),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(18),
+                                          topRight: Radius.circular(18))),
+                                  context: context,
+                                  builder: (context) => Consumer<TeamListProvider>(
+                                          builder: (context, listProvider, _) {
+                                        return ListView.separated(
+                                            padding: EdgeInsets.all(18),
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) => InkWell(
+                                                  onTap: () async {
+                                                    await context
+                                                        .read<TaskListProvider>()
+                                                        .taskReassign(
+                                                            taskId: drop.taskId.toString(),
+                                                            teamId: listProvider
+                                                                .listAll[index].teamId
+                                                                .toString());
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Radio(
+                                                        value: false,
+                                                        groupValue: drop.team?.teamId !=
+                                                            listProvider
+                                                                .listAllActive[index].teamId,
+                                                        onChanged: (_) {},
+                                                      ),
+                                                      5.w,
+                                                      Text(
+                                                        listProvider.listAllActive[index].name ??
+                                                            '',
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: 16),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                                5.w,
-                                                Text(
-                                                  listProvider.listAllActive[index].name ?? '',
-                                                  style: TextStyle(
-                                                      fontWeight: FontWeight.w500, fontSize: 16),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                      separatorBuilder: (_, __) => 2.h,
-                                      itemCount: listProvider.listAllActive.length);
-                                }));
-                      } else {
-                        await showCustomSnackBar(context, Text('No delivery partners available'));
-                      }
-                    },
+                                            separatorBuilder: (_, __) => 2.h,
+                                            itemCount: listProvider.listAllActive.length);
+                                      }));
+                            } else {
+                              await showCustomSnackBar(
+                                  context, Text('No delivery partners available'));
+                            }
+                          },
                     child: Text(
                       'Change',
                       style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
@@ -433,7 +481,10 @@ class DropBubble extends StatelessWidget {
                 Spacer(),
                 Text(
                   '${drop.schedules.length} items',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: drop.status == 'completed' ? Colors.grey.withOpacity(0.5) : null,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold),
                 )
               ],
             )
