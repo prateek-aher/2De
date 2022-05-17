@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery/CommonWidget/CommonWidget.dart';
 import 'package:delivery/Providers/Manager/dashboard_provider.dart';
+import 'package:delivery/UI/Admin/delivery_list.dart';
 import 'package:delivery/UI/Admin/profile.dart';
 import 'package:delivery/UI/Admin/todays_tasks.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +114,10 @@ class _DashboardState extends State<Dashboard> {
                                       dashBoard.pickups < 10
                                           ? '0${dashBoard.pickups}'
                                           : dashBoard.pickups.toString(),
-                                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold));
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold));
                                 }),
                                 Text('Pick Up',
                                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal))
@@ -132,7 +136,10 @@ class _DashboardState extends State<Dashboard> {
                                       dashBoard.drops < 10
                                           ? '0${dashBoard.drops}'
                                           : dashBoard.drops.toString(),
-                                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold));
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold));
                                 }),
                                 Text('Drops',
                                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal))
@@ -151,7 +158,10 @@ class _DashboardState extends State<Dashboard> {
                                       (dashBoard.pickups + dashBoard.drops) < 10
                                           ? '0${dashBoard.pickups + dashBoard.drops}'
                                           : (dashBoard.pickups + dashBoard.drops).toString(),
-                                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold));
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold));
                                 }),
                                 Text('Total',
                                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal))
@@ -186,10 +196,13 @@ class _DashboardState extends State<Dashboard> {
                           children: [
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text('Bike Team',
-                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal)),
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
                                 10.h,
                                 Row(
                                   children: [
@@ -208,7 +221,9 @@ class _DashboardState extends State<Dashboard> {
                                             return Text(
                                                 '${dashBoard.bikeActive < 10 ? 0 : null}${dashBoard.bikeActive}',
                                                 style: TextStyle(
-                                                    fontSize: 28, fontWeight: FontWeight.bold));
+                                                    color: Colors.black54,
+                                                    fontSize: 28,
+                                                    fontWeight: FontWeight.bold));
                                           }),
                                           FittedBox(
                                             fit: BoxFit.fitWidth,
@@ -235,7 +250,9 @@ class _DashboardState extends State<Dashboard> {
                                               return Text(
                                                   '${dashBoard.bikeInactive < 10 ? 0 : null}${dashBoard.bikeInactive}',
                                                   style: TextStyle(
-                                                      fontSize: 28, fontWeight: FontWeight.bold));
+                                                      color: Colors.black54,
+                                                      fontSize: 28,
+                                                      fontWeight: FontWeight.bold));
                                             }),
                                             FittedBox(
                                               fit: BoxFit.fitWidth,
@@ -257,10 +274,13 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text('Car Team',
-                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal)),
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
                                 10.h,
                                 Row(
                                   children: [
@@ -279,7 +299,9 @@ class _DashboardState extends State<Dashboard> {
                                             return Text(
                                                 '${dashBoard.carActive < 10 ? 0 : null}${dashBoard.carActive}',
                                                 style: TextStyle(
-                                                    fontSize: 28, fontWeight: FontWeight.bold));
+                                                    color: Colors.black54,
+                                                    fontSize: 28,
+                                                    fontWeight: FontWeight.bold));
                                           }),
                                           FittedBox(
                                             fit: BoxFit.fitWidth,
@@ -305,7 +327,9 @@ class _DashboardState extends State<Dashboard> {
                                               return Text(
                                                   '${dashBoard.carInactive < 10 ? 0 : null}${dashBoard.carInactive}',
                                                   style: TextStyle(
-                                                      fontSize: 28, fontWeight: FontWeight.bold));
+                                                      color: Colors.black54,
+                                                      fontSize: 28,
+                                                      fontWeight: FontWeight.bold));
                                             }),
                                             FittedBox(
                                               fit: BoxFit.fitWidth,
@@ -325,9 +349,49 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ),
                     10.h,
-                    Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(onPressed: () {}, child: Text('View History')))
+                    divider(),
+                    10.h,
+                    InkWell(
+                      onTap: () {
+                        print('Delivered');
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) => DeliveryList()));
+                      },
+                      child: Container(
+                        height: 70,
+                        padding: EdgeInsets.all(18),
+                        decoration: BoxDecoration(
+                          color: Color(0xfff4f3f8),
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Text('Delivered(<10>)',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black54)),
+                            ),
+                            Container(
+                              color: Colors.grey[300],
+                              width: 2,
+                            ),
+                            Expanded(
+                              child: Text('Returned(<02>)',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black54)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

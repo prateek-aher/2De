@@ -14,6 +14,7 @@ const String TASK_COMPLETED = '/task/completed';
 
 // Admin
 const String TASK_LIST = '/task/list';
+const String DELIVERY_LIST = '/schedule/packages';
 const String DASHBOARD = '/schedule/dashboard';
 const String TASK_DETAILS = '/task/details';
 const String TEAM_LIST = '/team/list';
